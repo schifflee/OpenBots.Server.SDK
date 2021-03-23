@@ -1,0 +1,11 @@
+# IO.Swagger.Model.ResetPasswordBindingModel
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**UserId** | **string** |  | 
+**NewPassword** | **string** |  | 
+**Token** | **string** |  | 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
