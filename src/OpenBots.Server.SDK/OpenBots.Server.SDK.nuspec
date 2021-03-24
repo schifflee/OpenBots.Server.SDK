@@ -6,8 +6,8 @@
     <title>Client SDK for Server Commands APIs</title>
     <authors>OpenBots Inc</authors>
     <owners>OpenBots Inc</owners>
-    <licenseUrl>https://github.com/OpenBotsAI/OpenBots.Studio/blob/develop/LICENSE</licenseUrl>
-    <projectUrl>https://openbots.ai</projectUrl>
+    <licenseUrl>https://github.com/OpenBotsAI/OpenBots.Server.SDK/blob/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/OpenBotsAI/OpenBots.Server.SDK</projectUrl>
     <iconUrl>https://openbots.ai/wp-content/uploads/2020/11/Studio-Icon-256px.png</iconUrl>
     <repository type="git" url="https://github.com/OpenBotsAI/OpenBots.Server.SDK" branch="master" />
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
