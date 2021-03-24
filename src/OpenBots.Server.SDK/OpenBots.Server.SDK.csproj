@@ -14,8 +14,8 @@ OpenAPI spec version: v1
     <ProjectGuid>{9F13C5CA-EEE7-49D1-BEA1-2A0BBF6DF261}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenBots.Server.API</RootNamespace>
-    <AssemblyName>OpenBots.Server.API</AssemblyName>
+    <RootNamespace>OpenBots.Server.SDK</RootNamespace>
+    <AssemblyName>OpenBots.Server.SDK</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
