@@ -423,8 +423,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>MemoryStream</returns>
-        MemoryStream ExportAsset (string id, string apiVersion, string driveName = null);
+        /// <returns>System.IO.MemoryStream</returns>
+        System.IO.MemoryStream ExportAsset (string id, string apiVersion, string driveName = null);
 
         /// <summary>
         /// Export/download an Asset file
@@ -436,8 +436,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>ApiResponse of MemoryStream</returns>
-        ApiResponse<MemoryStream> ExportAssetWithHttpInfo (string id, string apiVersion, string driveName = null);
+        /// <returns>ApiResponse of System.IO.MemoryStream</returns>
+        ApiResponse<System.IO.MemoryStream> ExportAssetWithHttpInfo (string id, string apiVersion, string driveName = null);
         /// <summary>
         /// Provides an Asset&#x27;s details for a particular Asset id
         /// </summary>
@@ -767,7 +767,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of Asset</returns>
-        System.Threading.Tasks.Task<Asset> ApiVapiVersionAssetsIdUpdatePutAsync (string id, string apiVersion);
+        System.Threading.Tasks.Task<Asset> ApiVapiVersionAssetsIdUpdatePutAsync (string id, string apiVersion, string name, string type, Guid? fileId, System.IO.FileStream _file);
 
         /// <summary>
         /// Updates an Asset with file
@@ -779,7 +779,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (Asset)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Asset>> ApiVapiVersionAssetsIdUpdatePutAsyncWithHttpInfo (string id, string apiVersion);
+        System.Threading.Tasks.Task<ApiResponse<Asset>> ApiVapiVersionAssetsIdUpdatePutAsyncWithHttpInfo (string id, string apiVersion, string name, string type, Guid? fileId, System.IO.FileStream _file);
         /// <summary>
         /// Create a new Asset entity
         /// </summary>
@@ -863,8 +863,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>Task of MemoryStream</returns>
-        System.Threading.Tasks.Task<MemoryStream> ExportAssetAsync (string id, string apiVersion, string driveName = null);
+        /// <returns>Task of System.IO.MemoryStream</returns>
+        System.Threading.Tasks.Task<System.IO.MemoryStream> ExportAssetAsync (string id, string apiVersion, string driveName = null);
 
         /// <summary>
         /// Export/download an Asset file
@@ -876,8 +876,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>Task of ApiResponse (MemoryStream)</returns>
-        System.Threading.Tasks.Task<ApiResponse<MemoryStream>> ExportAssetAsyncWithHttpInfo (string id, string apiVersion, string driveName = null);
+        /// <returns>Task of ApiResponse (System.IO.MemoryStream)</returns>
+        System.Threading.Tasks.Task<ApiResponse<System.IO.MemoryStream>> ExportAssetAsyncWithHttpInfo (string id, string apiVersion, string driveName = null);
         /// <summary>
         /// Provides an Asset&#x27;s details for a particular Asset id
         /// </summary>
@@ -3064,9 +3064,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of Asset</returns>
-        public async System.Threading.Tasks.Task<Asset> ApiVapiVersionAssetsIdUpdatePutAsync (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<Asset> ApiVapiVersionAssetsIdUpdatePutAsync (string id, string apiVersion, string name, string type, Guid? fileId, System.IO.FileStream _file)
         {
-             ApiResponse<Asset> localVarResponse = await ApiVapiVersionAssetsIdUpdatePutAsyncWithHttpInfo(id, apiVersion);
+             ApiResponse<Asset> localVarResponse = await ApiVapiVersionAssetsIdUpdatePutAsyncWithHttpInfo(id, apiVersion, name, type, fileId, _file);
              return localVarResponse.Data;
 
         }
@@ -3078,7 +3078,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (Asset)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Asset>> ApiVapiVersionAssetsIdUpdatePutAsyncWithHttpInfo (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<ApiResponse<Asset>> ApiVapiVersionAssetsIdUpdatePutAsyncWithHttpInfo (string id, string apiVersion, string name, string type, Guid? fileId, System.IO.FileStream _file)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -3112,13 +3112,13 @@ namespace OpenBots.Server.SDK.Api
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
             if (id != null) localVarFormParams.Add("Id", this.Configuration.ApiClient.ParameterToString(id)); // form parameter
-            //if (name != null) localVarFormParams.Add("Name", this.Configuration.ApiClient.ParameterToString(name)); // form parameter
-            //if (type != null) localVarFormParams.Add("Type", this.Configuration.ApiClient.ParameterToString(type)); // form parameter
+            if (name != null) localVarFormParams.Add("Name", this.Configuration.ApiClient.ParameterToString(name)); // form parameter
+            if (type != null) localVarFormParams.Add("Type", this.Configuration.ApiClient.ParameterToString(type)); // form parameter
             //if (textValue != null) localVarFormParams.Add("TextValue", this.Configuration.ApiClient.ParameterToString(textValue)); // form parameter
             //if (numberValue != null) localVarFormParams.Add("NumberValue", this.Configuration.ApiClient.ParameterToString(numberValue)); // form parameter
             //if (jsonValue != null) localVarFormParams.Add("JsonValue", this.Configuration.ApiClient.ParameterToString(jsonValue)); // form parameter
-            //if (fileId != null) localVarFormParams.Add("FileId", this.Configuration.ApiClient.ParameterToString(fileId)); // form parameter
-            //if (_file != null) localVarFileParams.Add("File", this.Configuration.ApiClient.ParameterToFile("File", _file));
+            if (fileId != null) localVarFormParams.Add("FileId", this.Configuration.ApiClient.ParameterToString(fileId)); // form parameter
+            if (_file != null) localVarFileParams.Add("File", this.Configuration.ApiClient.ParameterToFile("File", _file));
             //if (driveName != null) localVarFormParams.Add("DriveName", this.Configuration.ApiClient.ParameterToString(driveName)); // form parameter
             // authentication (oauth2) required
             // bearer required
@@ -3639,10 +3639,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>MemoryStream</returns>
-        public MemoryStream ExportAsset (string id, string apiVersion, string driveName = null)
+        /// <returns>System.IO.MemoryStream</returns>
+        public System.IO.MemoryStream ExportAsset (string id, string apiVersion, string driveName = null)
         {
-             ApiResponse<MemoryStream> localVarResponse = ExportAssetWithHttpInfo(id, apiVersion, driveName);
+             ApiResponse<System.IO.MemoryStream> localVarResponse = ExportAssetWithHttpInfo(id, apiVersion, driveName);
              return localVarResponse.Data;
         }
 
@@ -3653,8 +3653,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>ApiResponse of MemoryStream</returns>
-        public ApiResponse< MemoryStream > ExportAssetWithHttpInfo (string id, string apiVersion, string driveName = null)
+        /// <returns>ApiResponse of System.IO.MemoryStream</returns>
+        public ApiResponse< System.IO.MemoryStream > ExportAssetWithHttpInfo (string id, string apiVersion, string driveName = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -3707,9 +3707,9 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<MemoryStream>(localVarStatusCode,
+            return new ApiResponse<System.IO.MemoryStream>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (MemoryStream) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(MemoryStream)));
+                (System.IO.MemoryStream) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(System.IO.MemoryStream)));
         }
 
         /// <summary>
@@ -3719,10 +3719,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>Task of MemoryStream</returns>
-        public async System.Threading.Tasks.Task<MemoryStream> ExportAssetAsync (string id, string apiVersion, string driveName = null)
+        /// <returns>Task of System.IO.MemoryStream</returns>
+        public async System.Threading.Tasks.Task<System.IO.MemoryStream> ExportAssetAsync (string id, string apiVersion, string driveName = null)
         {
-             ApiResponse<MemoryStream> localVarResponse = await ExportAssetAsyncWithHttpInfo(id, apiVersion, driveName);
+             ApiResponse<System.IO.MemoryStream> localVarResponse = await ExportAssetAsyncWithHttpInfo(id, apiVersion, driveName);
              return localVarResponse.Data;
 
         }
@@ -3734,8 +3734,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>Task of ApiResponse (MemoryStream)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<MemoryStream>> ExportAssetAsyncWithHttpInfo (string id, string apiVersion, string driveName = null)
+        /// <returns>Task of ApiResponse (System.IO.MemoryStream)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<System.IO.MemoryStream>> ExportAssetAsyncWithHttpInfo (string id, string apiVersion, string driveName = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -3788,9 +3788,9 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<MemoryStream>(localVarStatusCode,
+            return new ApiResponse<System.IO.MemoryStream>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (MemoryStream) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(MemoryStream)));
+                (System.IO.MemoryStream) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(System.IO.MemoryStream)));
         }
 
         /// <summary>

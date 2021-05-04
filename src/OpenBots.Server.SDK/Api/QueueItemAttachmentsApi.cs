@@ -14,6 +14,7 @@ using System.Linq;
 using RestSharp;
 using OpenBots.Server.SDK.Client;
 using OpenBots.Server.SDK.Model;
+using Newtonsoft.Json;
 
 namespace OpenBots.Server.SDK.Api
 {
@@ -114,7 +115,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>IActionResult</returns>
-        IActionResult ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGet (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        PaginatedList<QueueItemAttachment> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGet (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
 
         /// <summary>
         /// Provides all queue item attachments for a queue item
@@ -130,7 +131,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>ApiResponse of IActionResult</returns>
-        ApiResponse<IActionResult> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetWithHttpInfo (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        ApiResponse<PaginatedList<QueueItemAttachment>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetWithHttpInfo (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
         /// <summary>
         /// Delete specific queue item attachment from list of queue item attachments
         /// </summary>
@@ -223,7 +224,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>QueueItemAttachment</returns>
-        QueueItemAttachment ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPost (string queueItemId, string apiVersion, string driveName = null);
+        QueueItemAttachment ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPost (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList);
 
         /// <summary>
         /// Attach files to a queue item
@@ -236,7 +237,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>ApiResponse of QueueItemAttachment</returns>
-        ApiResponse<QueueItemAttachment> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostWithHttpInfo (string queueItemId, string apiVersion, string driveName = null);
+        ApiResponse<QueueItemAttachment> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostWithHttpInfo (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList);
         /// <summary>
         /// Provides all queue item attachments view for a queue item
         /// </summary>
@@ -279,8 +280,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="queueItemId"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>MemoryStream</returns>
-        MemoryStream ExportQueueItemAttachment (string id, string apiVersion, string queueItemId, string driveName = null);
+        /// <returns>System.IO.MemoryStream</returns>
+        System.IO.MemoryStream ExportQueueItemAttachment (string id, string apiVersion, string queueItemId, string driveName = null);
 
         /// <summary>
         /// Export/download a queue item attachment file
@@ -293,8 +294,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="queueItemId"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>ApiResponse of MemoryStream</returns>
-        ApiResponse<MemoryStream> ExportQueueItemAttachmentWithHttpInfo (string id, string apiVersion, string queueItemId, string driveName = null);
+        /// <returns>ApiResponse of System.IO.MemoryStream</returns>
+        ApiResponse<System.IO.MemoryStream> ExportQueueItemAttachmentWithHttpInfo (string id, string apiVersion, string queueItemId, string driveName = null);
         /// <summary>
         /// Get queue item attachment by id
         /// </summary>
@@ -413,7 +414,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetAsync (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        System.Threading.Tasks.Task<PaginatedList<QueueItemAttachment>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetAsync (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
 
         /// <summary>
         /// Provides all queue item attachments for a queue item
@@ -429,7 +430,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetAsyncWithHttpInfo (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        System.Threading.Tasks.Task<ApiResponse<PaginatedList<QueueItemAttachment>>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetAsyncWithHttpInfo (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
         /// <summary>
         /// Delete specific queue item attachment from list of queue item attachments
         /// </summary>
@@ -522,7 +523,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of QueueItemAttachment</returns>
-        System.Threading.Tasks.Task<QueueItemAttachment> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsync (string queueItemId, string apiVersion, string driveName = null);
+        System.Threading.Tasks.Task<QueueItemAttachment> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsync (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList);
 
         /// <summary>
         /// Attach files to a queue item
@@ -535,7 +536,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of ApiResponse (QueueItemAttachment)</returns>
-        System.Threading.Tasks.Task<ApiResponse<QueueItemAttachment>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsyncWithHttpInfo (string queueItemId, string apiVersion, string driveName = null);
+        System.Threading.Tasks.Task<ApiResponse<QueueItemAttachment>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsyncWithHttpInfo (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList);
         /// <summary>
         /// Provides all queue item attachments view for a queue item
         /// </summary>
@@ -578,8 +579,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="queueItemId"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>Task of MemoryStream</returns>
-        System.Threading.Tasks.Task<MemoryStream> ExportQueueItemAttachmentAsync (string id, string apiVersion, string queueItemId, string driveName = null);
+        /// <returns>Task of System.IO.MemoryStream</returns>
+        System.Threading.Tasks.Task<System.IO.MemoryStream> ExportQueueItemAttachmentAsync (string id, string apiVersion, string queueItemId, string driveName = null);
 
         /// <summary>
         /// Export/download a queue item attachment file
@@ -592,8 +593,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="queueItemId"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>Task of ApiResponse (MemoryStream)</returns>
-        System.Threading.Tasks.Task<ApiResponse<MemoryStream>> ExportQueueItemAttachmentAsyncWithHttpInfo (string id, string apiVersion, string queueItemId, string driveName = null);
+        /// <returns>Task of ApiResponse (System.IO.MemoryStream)</returns>
+        System.Threading.Tasks.Task<ApiResponse<System.IO.MemoryStream>> ExportQueueItemAttachmentAsyncWithHttpInfo (string id, string apiVersion, string queueItemId, string driveName = null);
         /// <summary>
         /// Get queue item attachment by id
         /// </summary>
@@ -1254,9 +1255,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>IActionResult</returns>
-        public IActionResult ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGet (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        public PaginatedList<QueueItemAttachment> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGet (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
-             ApiResponse<IActionResult> localVarResponse = ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetWithHttpInfo(queueItemId, apiVersion, filter, orderby, top, skip);
+             ApiResponse<PaginatedList<QueueItemAttachment>> localVarResponse = ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetWithHttpInfo(queueItemId, apiVersion, filter, orderby, top, skip);
              return localVarResponse.Data;
         }
 
@@ -1271,7 +1272,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>ApiResponse of IActionResult</returns>
-        public ApiResponse< IActionResult > ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetWithHttpInfo (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        public ApiResponse<PaginatedList<QueueItemAttachment>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetWithHttpInfo (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
             // verify the required parameter 'queueItemId' is set
             if (queueItemId == null)
@@ -1327,9 +1328,9 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<IActionResult>(localVarStatusCode,
+            return new ApiResponse<PaginatedList<QueueItemAttachment>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (IActionResult) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
+                JsonConvert.DeserializeObject<PaginatedList<QueueItemAttachment>>(localVarResponse.Content));
         }
 
         /// <summary>
@@ -1343,9 +1344,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetAsync (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        public async System.Threading.Tasks.Task<PaginatedList<QueueItemAttachment>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetAsync (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetAsyncWithHttpInfo(queueItemId, apiVersion, filter, orderby, top, skip);
+             ApiResponse<PaginatedList<QueueItemAttachment>> localVarResponse = await ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetAsyncWithHttpInfo(queueItemId, apiVersion, filter, orderby, top, skip);
              return localVarResponse.Data;
 
         }
@@ -1361,7 +1362,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetAsyncWithHttpInfo (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        public async System.Threading.Tasks.Task<ApiResponse<PaginatedList<QueueItemAttachment>>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGetAsyncWithHttpInfo (string queueItemId, string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
             // verify the required parameter 'queueItemId' is set
             if (queueItemId == null)
@@ -1417,9 +1418,9 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<IActionResult>(localVarStatusCode,
+            return new ApiResponse<PaginatedList<QueueItemAttachment>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (IActionResult) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
+                JsonConvert.DeserializeObject<PaginatedList<QueueItemAttachment>>(localVarResponse.Content));
         }
 
         /// <summary>
@@ -1985,9 +1986,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>QueueItemAttachment</returns>
-        public QueueItemAttachment ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPost (string queueItemId, string apiVersion, string driveName = null)
+        public QueueItemAttachment ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPost (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList)
         {
-             ApiResponse<QueueItemAttachment> localVarResponse = ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostWithHttpInfo(queueItemId, apiVersion, driveName);
+             ApiResponse<QueueItemAttachment> localVarResponse = ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostWithHttpInfo(queueItemId, apiVersion, attachmentsList);
              return localVarResponse.Data;
         }
 
@@ -1999,7 +2000,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>ApiResponse of QueueItemAttachment</returns>
-        public ApiResponse< QueueItemAttachment > ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostWithHttpInfo (string queueItemId, string apiVersion, string driveName = null)
+        public ApiResponse< QueueItemAttachment > ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostWithHttpInfo (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList)
         {
             // verify the required parameter 'queueItemId' is set
             if (queueItemId == null)
@@ -2032,8 +2033,10 @@ namespace OpenBots.Server.SDK.Api
 
             if (queueItemId != null) localVarPathParams.Add("queueItemId", this.Configuration.ApiClient.ParameterToString(queueItemId)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (driveName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "driveName", driveName)); // query parameter
-            //if (files != null) localVarFormParams.Add("files", this.Configuration.ApiClient.ParameterToString(files)); // form parameter
+            //if (driveName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "driveName", driveName)); // query parameter
+            if (attachmentsList != null)
+                foreach (var _file in attachmentsList)
+                    localVarFileParams.Add("files", this.Configuration.ApiClient.ParameterToFile(_file.Name, _file)); // form parameter
             // authentication (oauth2) required
             // bearer required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -2067,9 +2070,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of QueueItemAttachment</returns>
-        public async System.Threading.Tasks.Task<QueueItemAttachment> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsync (string queueItemId, string apiVersion, string driveName = null)
+        public async System.Threading.Tasks.Task<QueueItemAttachment> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsync (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList)
         {
-             ApiResponse<QueueItemAttachment> localVarResponse = await ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsyncWithHttpInfo(queueItemId, apiVersion, driveName);
+             ApiResponse<QueueItemAttachment> localVarResponse = await ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsyncWithHttpInfo(queueItemId, apiVersion, attachmentsList);
              return localVarResponse.Data;
 
         }
@@ -2082,7 +2085,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of ApiResponse (QueueItemAttachment)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<QueueItemAttachment>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsyncWithHttpInfo (string queueItemId, string apiVersion, string driveName = null)
+        public async System.Threading.Tasks.Task<ApiResponse<QueueItemAttachment>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsyncWithHttpInfo (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList)
         {
             // verify the required parameter 'queueItemId' is set
             if (queueItemId == null)
@@ -2115,8 +2118,12 @@ namespace OpenBots.Server.SDK.Api
 
             if (queueItemId != null) localVarPathParams.Add("queueItemId", this.Configuration.ApiClient.ParameterToString(queueItemId)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (driveName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "driveName", driveName)); // query parameter
-            //if (files != null) localVarFormParams.Add("files", this.Configuration.ApiClient.ParameterToString(files)); // form parameter
+            //if (driveName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "driveName", driveName)); // query parameter
+            if (attachmentsList != null)
+            {
+                foreach (var _file in attachmentsList)
+                    localVarFileParams.Add("files", this.Configuration.ApiClient.ParameterToFile(_file.Name, _file));
+            }
             // authentication (oauth2) required
             // bearer required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -2329,10 +2336,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="queueItemId"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>MemoryStream</returns>
-        public MemoryStream ExportQueueItemAttachment (string id, string apiVersion, string queueItemId, string driveName = null)
+        /// <returns>System.IO.MemoryStream</returns>
+        public System.IO.MemoryStream ExportQueueItemAttachment (string id, string apiVersion, string queueItemId, string driveName = null)
         {
-             ApiResponse<MemoryStream> localVarResponse = ExportQueueItemAttachmentWithHttpInfo(id, apiVersion, queueItemId, driveName);
+             ApiResponse<System.IO.MemoryStream> localVarResponse = ExportQueueItemAttachmentWithHttpInfo(id, apiVersion, queueItemId, driveName);
              return localVarResponse.Data;
         }
 
@@ -2344,8 +2351,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="queueItemId"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>ApiResponse of MemoryStream</returns>
-        public ApiResponse< MemoryStream > ExportQueueItemAttachmentWithHttpInfo (string id, string apiVersion, string queueItemId, string driveName = null)
+        /// <returns>ApiResponse of System.IO.MemoryStream</returns>
+        public ApiResponse< System.IO.MemoryStream > ExportQueueItemAttachmentWithHttpInfo (string id, string apiVersion, string queueItemId, string driveName = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2402,9 +2409,9 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<MemoryStream>(localVarStatusCode,
+            return new ApiResponse<System.IO.MemoryStream>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (MemoryStream) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(MemoryStream)));
+                (System.IO.MemoryStream) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(System.IO.MemoryStream)));
         }
 
         /// <summary>
@@ -2415,10 +2422,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="queueItemId"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>Task of MemoryStream</returns>
-        public async System.Threading.Tasks.Task<MemoryStream> ExportQueueItemAttachmentAsync (string id, string apiVersion, string queueItemId, string driveName = null)
+        /// <returns>Task of System.IO.MemoryStream</returns>
+        public async System.Threading.Tasks.Task<System.IO.MemoryStream> ExportQueueItemAttachmentAsync (string id, string apiVersion, string queueItemId, string driveName = null)
         {
-             ApiResponse<MemoryStream> localVarResponse = await ExportQueueItemAttachmentAsyncWithHttpInfo(id, apiVersion, queueItemId, driveName);
+             ApiResponse<System.IO.MemoryStream> localVarResponse = await ExportQueueItemAttachmentAsyncWithHttpInfo(id, apiVersion, queueItemId, driveName);
              return localVarResponse.Data;
 
         }
@@ -2431,8 +2438,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="queueItemId"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>Task of ApiResponse (MemoryStream)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<MemoryStream>> ExportQueueItemAttachmentAsyncWithHttpInfo (string id, string apiVersion, string queueItemId, string driveName = null)
+        /// <returns>Task of ApiResponse (System.IO.MemoryStream)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<System.IO.MemoryStream>> ExportQueueItemAttachmentAsyncWithHttpInfo (string id, string apiVersion, string queueItemId, string driveName = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2489,9 +2496,9 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<MemoryStream>(localVarStatusCode,
+            return new ApiResponse<System.IO.MemoryStream>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (MemoryStream) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(MemoryStream)));
+                (System.IO.MemoryStream) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(System.IO.MemoryStream)));
         }
 
         /// <summary>

@@ -228,7 +228,7 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>Automation</returns>
-        Automation ApiVapiVersionAutomationsPost (string apiVersion);
+        Automation ApiVapiVersionAutomationsPost (string apiVersion, string name, System.IO.FileStream _file, string automationEngine);
 
         /// <summary>
         /// Create a new Automation entity and file
@@ -239,7 +239,7 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of Automation</returns>
-        ApiResponse<Automation> ApiVapiVersionAutomationsPostWithHttpInfo (string apiVersion);
+        ApiResponse<Automation> ApiVapiVersionAutomationsPostWithHttpInfo (string apiVersion, string name, System.IO.FileStream _file, string automationEngine);
         /// <summary>
         /// Provides a view model list of all Automations and corresponding Automation version information
         /// </summary>
@@ -2142,9 +2142,9 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>Automation</returns>
-        public Automation ApiVapiVersionAutomationsPost (string apiVersion)
+        public Automation ApiVapiVersionAutomationsPost (string apiVersion, string name, System.IO.FileStream _file, string automationEngine)
         {
-             ApiResponse<Automation> localVarResponse = ApiVapiVersionAutomationsPostWithHttpInfo(apiVersion);
+             ApiResponse<Automation> localVarResponse = ApiVapiVersionAutomationsPostWithHttpInfo(apiVersion, name, _file, automationEngine);
              return localVarResponse.Data;
         }
 
@@ -2154,7 +2154,7 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of Automation</returns>
-        public ApiResponse< Automation > ApiVapiVersionAutomationsPostWithHttpInfo (string apiVersion)
+        public ApiResponse< Automation > ApiVapiVersionAutomationsPostWithHttpInfo (string apiVersion, string name, System.IO.FileStream _file, string automationEngine)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
@@ -2186,15 +2186,15 @@ namespace OpenBots.Server.SDK.Api
             //if (versionNumber != null) localVarFormParams.Add("VersionNumber", this.Configuration.ApiClient.ParameterToString(versionNumber)); // form parameter
             //if (versionId != null) localVarFormParams.Add("VersionId", this.Configuration.ApiClient.ParameterToString(versionId)); // form parameter
             //if (status != null) localVarFormParams.Add("Status", this.Configuration.ApiClient.ParameterToString(status)); // form parameter
-            //if (_file != null) localVarFileParams.Add("File", this.Configuration.ApiClient.ParameterToFile("File", _file));
+            if (_file != null) localVarFileParams.Add("File", this.Configuration.ApiClient.ParameterToFile("File", _file));
             //if (fileId != null) localVarFormParams.Add("FileId", this.Configuration.ApiClient.ParameterToString(fileId)); // form parameter
             //if (originalPackageName != null) localVarFormParams.Add("OriginalPackageName", this.Configuration.ApiClient.ParameterToString(originalPackageName)); // form parameter
             //if (publishedBy != null) localVarFormParams.Add("PublishedBy", this.Configuration.ApiClient.ParameterToString(publishedBy)); // form parameter
             //if (publishedOnUTC != null) localVarFormParams.Add("PublishedOnUTC", this.Configuration.ApiClient.ParameterToString(publishedOnUTC)); // form parameter
-            //if (automationEngine != null) localVarFormParams.Add("AutomationEngine", this.Configuration.ApiClient.ParameterToString(automationEngine)); // form parameter
+            if (automationEngine != null) localVarFormParams.Add("AutomationEngine", this.Configuration.ApiClient.ParameterToString(automationEngine)); // form parameter
             //if (driveName != null) localVarFormParams.Add("DriveName", this.Configuration.ApiClient.ParameterToString(driveName)); // form parameter
             //if (automtationParameters != null) localVarFormParams.Add("AutomtationParameters", this.Configuration.ApiClient.ParameterToString(automtationParameters)); // form parameter
-            //if (name != null) localVarFormParams.Add("Name", this.Configuration.ApiClient.ParameterToString(name)); // form parameter
+            if (name != null) localVarFormParams.Add("Name", this.Configuration.ApiClient.ParameterToString(name)); // form parameter
             //if (id != null) localVarFormParams.Add("Id", this.Configuration.ApiClient.ParameterToString(id)); // form parameter
             //if (isDeleted != null) localVarFormParams.Add("IsDeleted", this.Configuration.ApiClient.ParameterToString(isDeleted)); // form parameter
             //if (createdBy != null) localVarFormParams.Add("CreatedBy", this.Configuration.ApiClient.ParameterToString(createdBy)); // form parameter
