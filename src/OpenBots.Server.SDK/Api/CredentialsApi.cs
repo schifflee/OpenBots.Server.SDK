@@ -20,7 +20,7 @@ namespace OpenBots.Server.SDK.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-        public interface ICredentialsApi : IApiAccessor
+    public interface ICredentialsApi : IApiAccessor
     {
         #region Synchronous Operations
         /// <summary>
@@ -33,7 +33,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns>int?</returns>
-        int? ApiVapiVersionCredentialsCountGet (string apiVersion, string filter = null);
+        int? ApiVapiVersionCredentialsCountGet(string apiVersion, string filter = null);
 
         /// <summary>
         /// Provides a count of credentials
@@ -45,7 +45,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns>ApiResponse of int?</returns>
-        ApiResponse<int?> ApiVapiVersionCredentialsCountGetWithHttpInfo (string apiVersion, string filter = null);
+        ApiResponse<int?> ApiVapiVersionCredentialsCountGetWithHttpInfo(string apiVersion, string filter = null);
         /// <summary>
         /// Provides a list of all credentials
         /// </summary>
@@ -59,8 +59,30 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>CredentialPaginatedList</returns>
-        CredentialPaginatedList ApiVapiVersionCredentialsGet (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        CredentialPaginatedList ApiVapiVersionCredentialsGet(string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        /// <summary>
+        /// Provides a Credential&#x27;s details for a particular Credential name
+        /// </summary>
+        /// <remarks>
+        /// If the requesting user is an Agent with an existing Credential, then that value will be returned
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="credentialName">Credential name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>Credential</returns>
+        Credential ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGet(string credentialName, string apiVersion);
 
+        /// <summary>
+        /// Provides a Credential&#x27;s details for a particular Credential name
+        /// </summary>
+        /// <remarks>
+        /// If the requesting user is an Agent with an existing Credential, then that value will be returned
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="credentialName">Credential name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>ApiResponse of Credential</returns>
+        ApiResponse<Credential> ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGetWithHttpInfo(string credentialName, string apiVersion);
         /// <summary>
         /// Provides a list of all credentials
         /// </summary>
@@ -74,7 +96,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>ApiResponse of CredentialPaginatedList</returns>
-        ApiResponse<CredentialPaginatedList> ApiVapiVersionCredentialsGetWithHttpInfo (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        ApiResponse<CredentialPaginatedList> ApiVapiVersionCredentialsGetWithHttpInfo(string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
         /// <summary>
         /// Lookup list of all active directory credentials
         /// </summary>
@@ -84,7 +106,7 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>List&lt;CredentialsLookup&gt;</returns>
-        List<CredentialsLookup> ApiVapiVersionCredentialsGetLookupGet (string apiVersion);
+        List<CredentialsLookup> ApiVapiVersionCredentialsGetLookupGet(string apiVersion);
 
         /// <summary>
         /// Lookup list of all active directory credentials
@@ -95,7 +117,7 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of List&lt;CredentialsLookup&gt;</returns>
-        ApiResponse<List<CredentialsLookup>> ApiVapiVersionCredentialsGetLookupGetWithHttpInfo (string apiVersion);
+        ApiResponse<List<CredentialsLookup>> ApiVapiVersionCredentialsGetLookupGetWithHttpInfo(string apiVersion);
         /// <summary>
         /// Deletes a credential with a specified id
         /// </summary>
@@ -106,7 +128,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>IActionResult</returns>
-        IActionResult ApiVapiVersionCredentialsIdDelete (string id, string apiVersion);
+        IActionResult ApiVapiVersionCredentialsIdDelete(string id, string apiVersion);
 
         /// <summary>
         /// Deletes a credential with a specified id
@@ -118,7 +140,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of IActionResult</returns>
-        ApiResponse<IActionResult> ApiVapiVersionCredentialsIdDeleteWithHttpInfo (string id, string apiVersion);
+        ApiResponse<IActionResult> ApiVapiVersionCredentialsIdDeleteWithHttpInfo(string id, string apiVersion);
         /// <summary>
         /// Updates partial details of credential
         /// </summary>
@@ -130,7 +152,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the credential to be updated (optional)</param>
         /// <returns>IActionResult</returns>
-        IActionResult ApiVapiVersionCredentialsIdPatch (string id, string apiVersion, List<Operation> body = null);
+        IActionResult ApiVapiVersionCredentialsIdPatch(string id, string apiVersion, List<Operation> body = null);
 
         /// <summary>
         /// Updates partial details of credential
@@ -143,7 +165,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the credential to be updated (optional)</param>
         /// <returns>ApiResponse of IActionResult</returns>
-        ApiResponse<IActionResult> ApiVapiVersionCredentialsIdPatchWithHttpInfo (string id, string apiVersion, List<Operation> body = null);
+        ApiResponse<IActionResult> ApiVapiVersionCredentialsIdPatchWithHttpInfo(string id, string apiVersion, List<Operation> body = null);
         /// <summary>
         /// Updates a credential
         /// </summary>
@@ -155,7 +177,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Credential details to be updated (optional)</param>
         /// <returns>IActionResult</returns>
-        IActionResult ApiVapiVersionCredentialsIdPut (string id, string apiVersion, Credential body = null);
+        IActionResult ApiVapiVersionCredentialsIdPut(string id, string apiVersion, Credential body = null);
 
         /// <summary>
         /// Updates a credential
@@ -168,7 +190,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Credential details to be updated (optional)</param>
         /// <returns>ApiResponse of IActionResult</returns>
-        ApiResponse<IActionResult> ApiVapiVersionCredentialsIdPutWithHttpInfo (string id, string apiVersion, Credential body = null);
+        ApiResponse<IActionResult> ApiVapiVersionCredentialsIdPutWithHttpInfo(string id, string apiVersion, Credential body = null);
         /// <summary>
         /// Provides a credential&#x27;s password string for a particular credential id
         /// </summary>
@@ -179,7 +201,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>string</returns>
-        string ApiVapiVersionCredentialsPasswordIdGet (string id, string apiVersion);
+        string ApiVapiVersionCredentialsPasswordIdGet(string id, string apiVersion);
 
         /// <summary>
         /// Provides a credential&#x27;s password string for a particular credential id
@@ -191,7 +213,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> ApiVapiVersionCredentialsPasswordIdGetWithHttpInfo (string id, string apiVersion);
+        ApiResponse<string> ApiVapiVersionCredentialsPasswordIdGetWithHttpInfo(string id, string apiVersion);
         /// <summary>
         /// Adds a new credential to the existing credentials
         /// </summary>
@@ -202,7 +224,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Credential</returns>
-        Credential ApiVapiVersionCredentialsPost (string apiVersion, Credential body = null);
+        Credential ApiVapiVersionCredentialsPost(string apiVersion, Credential body = null);
 
         /// <summary>
         /// Adds a new credential to the existing credentials
@@ -214,7 +236,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Credential</returns>
-        ApiResponse<Credential> ApiVapiVersionCredentialsPostWithHttpInfo (string apiVersion, Credential body = null);
+        ApiResponse<Credential> ApiVapiVersionCredentialsPostWithHttpInfo(string apiVersion, Credential body = null);
         /// <summary>
         /// Provides a credential&#x27;s view details for a particular credential id
         /// </summary>
@@ -225,7 +247,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>CredentialViewModel</returns>
-        CredentialViewModel ApiVapiVersionCredentialsViewIdGet (string id, string apiVersion);
+        CredentialViewModel ApiVapiVersionCredentialsViewIdGet(string id, string apiVersion);
 
         /// <summary>
         /// Provides a credential&#x27;s view details for a particular credential id
@@ -237,7 +259,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of CredentialViewModel</returns>
-        ApiResponse<CredentialViewModel> ApiVapiVersionCredentialsViewIdGetWithHttpInfo (string id, string apiVersion);
+        ApiResponse<CredentialViewModel> ApiVapiVersionCredentialsViewIdGetWithHttpInfo(string id, string apiVersion);
         /// <summary>
         /// Provides a credential&#x27;s details for a particular credential id
         /// </summary>
@@ -248,7 +270,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Credential</returns>
-        Credential GetCredential (string id, string apiVersion);
+        Credential GetCredential(string id, string apiVersion);
 
         /// <summary>
         /// Provides a credential&#x27;s details for a particular credential id
@@ -260,7 +282,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of Credential</returns>
-        ApiResponse<Credential> GetCredentialWithHttpInfo (string id, string apiVersion);
+        ApiResponse<Credential> GetCredentialWithHttpInfo(string id, string apiVersion);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -273,7 +295,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns>Task of int?</returns>
-        System.Threading.Tasks.Task<int?> ApiVapiVersionCredentialsCountGetAsync (string apiVersion, string filter = null);
+        System.Threading.Tasks.Task<int?> ApiVapiVersionCredentialsCountGetAsync(string apiVersion, string filter = null);
 
         /// <summary>
         /// Provides a count of credentials
@@ -285,7 +307,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns>Task of ApiResponse (int?)</returns>
-        System.Threading.Tasks.Task<ApiResponse<int?>> ApiVapiVersionCredentialsCountGetAsyncWithHttpInfo (string apiVersion, string filter = null);
+        System.Threading.Tasks.Task<ApiResponse<int?>> ApiVapiVersionCredentialsCountGetAsyncWithHttpInfo(string apiVersion, string filter = null);
         /// <summary>
         /// Provides a list of all credentials
         /// </summary>
@@ -299,7 +321,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of CredentialPaginatedList</returns>
-        System.Threading.Tasks.Task<CredentialPaginatedList> ApiVapiVersionCredentialsGetAsync (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        System.Threading.Tasks.Task<CredentialPaginatedList> ApiVapiVersionCredentialsGetAsync(string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
 
         /// <summary>
         /// Provides a list of all credentials
@@ -314,7 +336,30 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of ApiResponse (CredentialPaginatedList)</returns>
-        System.Threading.Tasks.Task<ApiResponse<CredentialPaginatedList>> ApiVapiVersionCredentialsGetAsyncWithHttpInfo (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        System.Threading.Tasks.Task<ApiResponse<CredentialPaginatedList>> ApiVapiVersionCredentialsGetAsyncWithHttpInfo(string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        /// <summary>
+        /// Provides a Credential&#x27;s details for a particular Credential name
+        /// </summary>
+        /// <remarks>
+        /// If the requesting user is an Agent with an existing Credential, then that value will be returned
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="credentialName">Credential name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>Task of Credential</returns>
+        System.Threading.Tasks.Task<Credential> ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGetAsync(string credentialName, string apiVersion);
+
+        /// <summary>
+        /// Provides a Credential&#x27;s details for a particular Credential name
+        /// </summary>
+        /// <remarks>
+        /// If the requesting user is an Agent with an existing Credential, then that value will be returned
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="credentialName">Credential name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>Task of ApiResponse (Credential)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Credential>> ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGetAsyncWithHttpInfo(string credentialName, string apiVersion);
         /// <summary>
         /// Lookup list of all active directory credentials
         /// </summary>
@@ -324,7 +369,7 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>Task of List&lt;CredentialsLookup&gt;</returns>
-        System.Threading.Tasks.Task<List<CredentialsLookup>> ApiVapiVersionCredentialsGetLookupGetAsync (string apiVersion);
+        System.Threading.Tasks.Task<List<CredentialsLookup>> ApiVapiVersionCredentialsGetLookupGetAsync(string apiVersion);
 
         /// <summary>
         /// Lookup list of all active directory credentials
@@ -335,7 +380,7 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (List&lt;CredentialsLookup&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<List<CredentialsLookup>>> ApiVapiVersionCredentialsGetLookupGetAsyncWithHttpInfo (string apiVersion);
+        System.Threading.Tasks.Task<ApiResponse<List<CredentialsLookup>>> ApiVapiVersionCredentialsGetLookupGetAsyncWithHttpInfo(string apiVersion);
         /// <summary>
         /// Deletes a credential with a specified id
         /// </summary>
@@ -346,7 +391,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionCredentialsIdDeleteAsync (string id, string apiVersion);
+        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionCredentialsIdDeleteAsync(string id, string apiVersion);
 
         /// <summary>
         /// Deletes a credential with a specified id
@@ -358,7 +403,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionCredentialsIdDeleteAsyncWithHttpInfo (string id, string apiVersion);
+        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionCredentialsIdDeleteAsyncWithHttpInfo(string id, string apiVersion);
         /// <summary>
         /// Updates partial details of credential
         /// </summary>
@@ -370,7 +415,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the credential to be updated (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionCredentialsIdPatchAsync (string id, string apiVersion, List<Operation> body = null);
+        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionCredentialsIdPatchAsync(string id, string apiVersion, List<Operation> body = null);
 
         /// <summary>
         /// Updates partial details of credential
@@ -383,7 +428,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the credential to be updated (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionCredentialsIdPatchAsyncWithHttpInfo (string id, string apiVersion, List<Operation> body = null);
+        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionCredentialsIdPatchAsyncWithHttpInfo(string id, string apiVersion, List<Operation> body = null);
         /// <summary>
         /// Updates a credential
         /// </summary>
@@ -395,7 +440,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Credential details to be updated (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionCredentialsIdPutAsync (string id, string apiVersion, Credential body = null);
+        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionCredentialsIdPutAsync(string id, string apiVersion, Credential body = null);
 
         /// <summary>
         /// Updates a credential
@@ -408,7 +453,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Credential details to be updated (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionCredentialsIdPutAsyncWithHttpInfo (string id, string apiVersion, Credential body = null);
+        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionCredentialsIdPutAsyncWithHttpInfo(string id, string apiVersion, Credential body = null);
         /// <summary>
         /// Provides a credential&#x27;s password string for a particular credential id
         /// </summary>
@@ -419,7 +464,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> ApiVapiVersionCredentialsPasswordIdGetAsync (string id, string apiVersion);
+        System.Threading.Tasks.Task<string> ApiVapiVersionCredentialsPasswordIdGetAsync(string id, string apiVersion);
 
         /// <summary>
         /// Provides a credential&#x27;s password string for a particular credential id
@@ -431,7 +476,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> ApiVapiVersionCredentialsPasswordIdGetAsyncWithHttpInfo (string id, string apiVersion);
+        System.Threading.Tasks.Task<ApiResponse<string>> ApiVapiVersionCredentialsPasswordIdGetAsyncWithHttpInfo(string id, string apiVersion);
         /// <summary>
         /// Adds a new credential to the existing credentials
         /// </summary>
@@ -442,7 +487,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of Credential</returns>
-        System.Threading.Tasks.Task<Credential> ApiVapiVersionCredentialsPostAsync (string apiVersion, Credential body = null);
+        System.Threading.Tasks.Task<Credential> ApiVapiVersionCredentialsPostAsync(string apiVersion, Credential body = null);
 
         /// <summary>
         /// Adds a new credential to the existing credentials
@@ -454,7 +499,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse (Credential)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Credential>> ApiVapiVersionCredentialsPostAsyncWithHttpInfo (string apiVersion, Credential body = null);
+        System.Threading.Tasks.Task<ApiResponse<Credential>> ApiVapiVersionCredentialsPostAsyncWithHttpInfo(string apiVersion, Credential body = null);
         /// <summary>
         /// Provides a credential&#x27;s view details for a particular credential id
         /// </summary>
@@ -465,7 +510,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of CredentialViewModel</returns>
-        System.Threading.Tasks.Task<CredentialViewModel> ApiVapiVersionCredentialsViewIdGetAsync (string id, string apiVersion);
+        System.Threading.Tasks.Task<CredentialViewModel> ApiVapiVersionCredentialsViewIdGetAsync(string id, string apiVersion);
 
         /// <summary>
         /// Provides a credential&#x27;s view details for a particular credential id
@@ -477,7 +522,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (CredentialViewModel)</returns>
-        System.Threading.Tasks.Task<ApiResponse<CredentialViewModel>> ApiVapiVersionCredentialsViewIdGetAsyncWithHttpInfo (string id, string apiVersion);
+        System.Threading.Tasks.Task<ApiResponse<CredentialViewModel>> ApiVapiVersionCredentialsViewIdGetAsyncWithHttpInfo(string id, string apiVersion);
         /// <summary>
         /// Provides a credential&#x27;s details for a particular credential id
         /// </summary>
@@ -488,7 +533,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of Credential</returns>
-        System.Threading.Tasks.Task<Credential> GetCredentialAsync (string id, string apiVersion);
+        System.Threading.Tasks.Task<Credential> GetCredentialAsync(string id, string apiVersion);
 
         /// <summary>
         /// Provides a credential&#x27;s details for a particular credential id
@@ -500,14 +545,14 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (Credential)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Credential>> GetCredentialAsyncWithHttpInfo (string id, string apiVersion);
+        System.Threading.Tasks.Task<ApiResponse<Credential>> GetCredentialAsyncWithHttpInfo(string id, string apiVersion);
         #endregion Asynchronous Operations
     }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-        public partial class CredentialsApi : ICredentialsApi
+    public partial class CredentialsApi : ICredentialsApi
     {
         private OpenBots.Server.SDK.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
@@ -572,7 +617,7 @@ namespace OpenBots.Server.SDK.Api
         /// Gets or sets the configuration object
         /// </summary>
         /// <value>An instance of the Configuration</value>
-        public OpenBots.Server.SDK.Client.Configuration Configuration {get; set;}
+        public OpenBots.Server.SDK.Client.Configuration Configuration { get; set; }
 
         /// <summary>
         /// Provides a factory method hook for the creation of exceptions.
@@ -619,10 +664,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns>int?</returns>
-        public int? ApiVapiVersionCredentialsCountGet (string apiVersion, string filter = null)
+        public int? ApiVapiVersionCredentialsCountGet(string apiVersion, string filter = null)
         {
-             ApiResponse<int?> localVarResponse = ApiVapiVersionCredentialsCountGetWithHttpInfo(apiVersion, filter);
-             return localVarResponse.Data;
+            ApiResponse<int?> localVarResponse = ApiVapiVersionCredentialsCountGetWithHttpInfo(apiVersion, filter);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -632,7 +677,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns>ApiResponse of int?</returns>
-        public ApiResponse< int? > ApiVapiVersionCredentialsCountGetWithHttpInfo (string apiVersion, string filter = null)
+        public ApiResponse<int?> ApiVapiVersionCredentialsCountGetWithHttpInfo(string apiVersion, string filter = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
@@ -669,11 +714,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -683,7 +728,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<int?>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (int?) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(int?)));
+                (int?)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(int?)));
         }
 
         /// <summary>
@@ -693,10 +738,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns>Task of int?</returns>
-        public async System.Threading.Tasks.Task<int?> ApiVapiVersionCredentialsCountGetAsync (string apiVersion, string filter = null)
+        public async System.Threading.Tasks.Task<int?> ApiVapiVersionCredentialsCountGetAsync(string apiVersion, string filter = null)
         {
-             ApiResponse<int?> localVarResponse = await ApiVapiVersionCredentialsCountGetAsyncWithHttpInfo(apiVersion, filter);
-             return localVarResponse.Data;
+            ApiResponse<int?> localVarResponse = await ApiVapiVersionCredentialsCountGetAsyncWithHttpInfo(apiVersion, filter);
+            return localVarResponse.Data;
 
         }
 
@@ -707,7 +752,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns>Task of ApiResponse (int?)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<int?>> ApiVapiVersionCredentialsCountGetAsyncWithHttpInfo (string apiVersion, string filter = null)
+        public async System.Threading.Tasks.Task<ApiResponse<int?>> ApiVapiVersionCredentialsCountGetAsyncWithHttpInfo(string apiVersion, string filter = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
@@ -744,11 +789,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -758,7 +803,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<int?>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (int?) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(int?)));
+                (int?)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(int?)));
         }
 
         /// <summary>
@@ -771,10 +816,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>CredentialPaginatedList</returns>
-        public CredentialPaginatedList ApiVapiVersionCredentialsGet (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        public CredentialPaginatedList ApiVapiVersionCredentialsGet(string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
-             ApiResponse<CredentialPaginatedList> localVarResponse = ApiVapiVersionCredentialsGetWithHttpInfo(apiVersion, filter, orderby, top, skip);
-             return localVarResponse.Data;
+            ApiResponse<CredentialPaginatedList> localVarResponse = ApiVapiVersionCredentialsGetWithHttpInfo(apiVersion, filter, orderby, top, skip);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -787,7 +832,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>ApiResponse of CredentialPaginatedList</returns>
-        public ApiResponse< CredentialPaginatedList > ApiVapiVersionCredentialsGetWithHttpInfo (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        public ApiResponse<CredentialPaginatedList> ApiVapiVersionCredentialsGetWithHttpInfo(string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
@@ -827,11 +872,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -841,7 +886,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<CredentialPaginatedList>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (CredentialPaginatedList) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(CredentialPaginatedList)));
+                (CredentialPaginatedList)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(CredentialPaginatedList)));
         }
 
         /// <summary>
@@ -854,10 +899,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of CredentialPaginatedList</returns>
-        public async System.Threading.Tasks.Task<CredentialPaginatedList> ApiVapiVersionCredentialsGetAsync (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        public async System.Threading.Tasks.Task<CredentialPaginatedList> ApiVapiVersionCredentialsGetAsync(string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
-             ApiResponse<CredentialPaginatedList> localVarResponse = await ApiVapiVersionCredentialsGetAsyncWithHttpInfo(apiVersion, filter, orderby, top, skip);
-             return localVarResponse.Data;
+            ApiResponse<CredentialPaginatedList> localVarResponse = await ApiVapiVersionCredentialsGetAsyncWithHttpInfo(apiVersion, filter, orderby, top, skip);
+            return localVarResponse.Data;
 
         }
 
@@ -871,7 +916,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of ApiResponse (CredentialPaginatedList)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<CredentialPaginatedList>> ApiVapiVersionCredentialsGetAsyncWithHttpInfo (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        public async System.Threading.Tasks.Task<ApiResponse<CredentialPaginatedList>> ApiVapiVersionCredentialsGetAsyncWithHttpInfo(string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
@@ -911,11 +956,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -925,7 +970,162 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<CredentialPaginatedList>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (CredentialPaginatedList) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(CredentialPaginatedList)));
+                (CredentialPaginatedList)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(CredentialPaginatedList)));
+        }
+
+        /// <summary>
+        /// Provides a Credential&#x27;s details for a particular Credential name If the requesting user is an Agent with an existing Credential, then that value will be returned
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="credentialName">Credential name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>Credential</returns>
+        public Credential ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGet(string credentialName, string apiVersion)
+        {
+            ApiResponse<Credential> localVarResponse = ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGetWithHttpInfo(credentialName, apiVersion);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Provides a Credential&#x27;s details for a particular Credential name If the requesting user is an Agent with an existing Credential, then that value will be returned
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="credentialName">Credential name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>ApiResponse of Credential</returns>
+        public ApiResponse<Credential> ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGetWithHttpInfo(string credentialName, string apiVersion)
+        {
+            // verify the required parameter 'credentialName' is set
+            if (credentialName == null)
+                throw new ApiException(400, "Missing required parameter 'credentialName' when calling CredentialsApi->ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGet");
+            // verify the required parameter 'apiVersion' is set
+            if (apiVersion == null)
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling CredentialsApi->ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGet");
+
+            var localVarPath = "/api/v{apiVersion}/Credentials/GetCredentialByName/{credentialName}";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (credentialName != null) localVarPathParams.Add("credentialName", this.Configuration.ApiClient.ParameterToString(credentialName)); // path parameter
+            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGet", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Credential>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (Credential)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Credential)));
+        }
+
+        /// <summary>
+        /// Provides a Credential&#x27;s details for a particular Credential name If the requesting user is an Agent with an existing Credential, then that value will be returned
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="credentialName">Credential name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>Task of Credential</returns>
+        public async System.Threading.Tasks.Task<Credential> ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGetAsync(string credentialName, string apiVersion)
+        {
+            ApiResponse<Credential> localVarResponse = await ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGetAsyncWithHttpInfo(credentialName, apiVersion);
+            return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// Provides a Credential&#x27;s details for a particular Credential name If the requesting user is an Agent with an existing Credential, then that value will be returned
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="credentialName">Credential name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>Task of ApiResponse (Credential)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Credential>> ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGetAsyncWithHttpInfo(string credentialName, string apiVersion)
+        {
+            // verify the required parameter 'credentialName' is set
+            if (credentialName == null)
+                throw new ApiException(400, "Missing required parameter 'credentialName' when calling CredentialsApi->ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGet");
+            // verify the required parameter 'apiVersion' is set
+            if (apiVersion == null)
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling CredentialsApi->ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGet");
+
+            var localVarPath = "/api/v{apiVersion}/Credentials/GetCredentialByName/{credentialName}";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (credentialName != null) localVarPathParams.Add("credentialName", this.Configuration.ApiClient.ParameterToString(credentialName)); // path parameter
+            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGet", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Credential>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (Credential)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Credential)));
         }
 
         /// <summary>
@@ -934,10 +1134,10 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>List&lt;CredentialsLookup&gt;</returns>
-        public List<CredentialsLookup> ApiVapiVersionCredentialsGetLookupGet (string apiVersion)
+        public List<CredentialsLookup> ApiVapiVersionCredentialsGetLookupGet(string apiVersion)
         {
-             ApiResponse<List<CredentialsLookup>> localVarResponse = ApiVapiVersionCredentialsGetLookupGetWithHttpInfo(apiVersion);
-             return localVarResponse.Data;
+            ApiResponse<List<CredentialsLookup>> localVarResponse = ApiVapiVersionCredentialsGetLookupGetWithHttpInfo(apiVersion);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -946,7 +1146,7 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of List&lt;CredentialsLookup&gt;</returns>
-        public ApiResponse< List<CredentialsLookup> > ApiVapiVersionCredentialsGetLookupGetWithHttpInfo (string apiVersion)
+        public ApiResponse<List<CredentialsLookup>> ApiVapiVersionCredentialsGetLookupGetWithHttpInfo(string apiVersion)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
@@ -982,11 +1182,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -996,7 +1196,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<List<CredentialsLookup>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (List<CredentialsLookup>) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<CredentialsLookup>)));
+                (List<CredentialsLookup>)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<CredentialsLookup>)));
         }
 
         /// <summary>
@@ -1005,10 +1205,10 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>Task of List&lt;CredentialsLookup&gt;</returns>
-        public async System.Threading.Tasks.Task<List<CredentialsLookup>> ApiVapiVersionCredentialsGetLookupGetAsync (string apiVersion)
+        public async System.Threading.Tasks.Task<List<CredentialsLookup>> ApiVapiVersionCredentialsGetLookupGetAsync(string apiVersion)
         {
-             ApiResponse<List<CredentialsLookup>> localVarResponse = await ApiVapiVersionCredentialsGetLookupGetAsyncWithHttpInfo(apiVersion);
-             return localVarResponse.Data;
+            ApiResponse<List<CredentialsLookup>> localVarResponse = await ApiVapiVersionCredentialsGetLookupGetAsyncWithHttpInfo(apiVersion);
+            return localVarResponse.Data;
 
         }
 
@@ -1018,7 +1218,7 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (List&lt;CredentialsLookup&gt;)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<List<CredentialsLookup>>> ApiVapiVersionCredentialsGetLookupGetAsyncWithHttpInfo (string apiVersion)
+        public async System.Threading.Tasks.Task<ApiResponse<List<CredentialsLookup>>> ApiVapiVersionCredentialsGetLookupGetAsyncWithHttpInfo(string apiVersion)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
@@ -1054,11 +1254,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -1068,7 +1268,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<List<CredentialsLookup>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (List<CredentialsLookup>) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<CredentialsLookup>)));
+                (List<CredentialsLookup>)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<CredentialsLookup>)));
         }
 
         /// <summary>
@@ -1078,10 +1278,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>IActionResult</returns>
-        public IActionResult ApiVapiVersionCredentialsIdDelete (string id, string apiVersion)
+        public IActionResult ApiVapiVersionCredentialsIdDelete(string id, string apiVersion)
         {
-             ApiResponse<IActionResult> localVarResponse = ApiVapiVersionCredentialsIdDeleteWithHttpInfo(id, apiVersion);
-             return localVarResponse.Data;
+            ApiResponse<IActionResult> localVarResponse = ApiVapiVersionCredentialsIdDeleteWithHttpInfo(id, apiVersion);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -1091,7 +1291,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of IActionResult</returns>
-        public ApiResponse< IActionResult > ApiVapiVersionCredentialsIdDeleteWithHttpInfo (string id, string apiVersion)
+        public ApiResponse<IActionResult> ApiVapiVersionCredentialsIdDeleteWithHttpInfo(string id, string apiVersion)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1131,11 +1331,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -1145,7 +1345,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<IActionResult>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (IActionResult) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
+                (IActionResult)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
         }
 
         /// <summary>
@@ -1155,10 +1355,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionCredentialsIdDeleteAsync (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionCredentialsIdDeleteAsync(string id, string apiVersion)
         {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionCredentialsIdDeleteAsyncWithHttpInfo(id, apiVersion);
-             return localVarResponse.Data;
+            ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionCredentialsIdDeleteAsyncWithHttpInfo(id, apiVersion);
+            return localVarResponse.Data;
 
         }
 
@@ -1169,7 +1369,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionCredentialsIdDeleteAsyncWithHttpInfo (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionCredentialsIdDeleteAsyncWithHttpInfo(string id, string apiVersion)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1209,11 +1409,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -1223,7 +1423,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<IActionResult>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (IActionResult) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
+                (IActionResult)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
         }
 
         /// <summary>
@@ -1234,10 +1434,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the credential to be updated (optional)</param>
         /// <returns>IActionResult</returns>
-        public IActionResult ApiVapiVersionCredentialsIdPatch (string id, string apiVersion, List<Operation> body = null)
+        public IActionResult ApiVapiVersionCredentialsIdPatch(string id, string apiVersion, List<Operation> body = null)
         {
-             ApiResponse<IActionResult> localVarResponse = ApiVapiVersionCredentialsIdPatchWithHttpInfo(id, apiVersion, body);
-             return localVarResponse.Data;
+            ApiResponse<IActionResult> localVarResponse = ApiVapiVersionCredentialsIdPatchWithHttpInfo(id, apiVersion, body);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -1248,7 +1448,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the credential to be updated (optional)</param>
         /// <returns>ApiResponse of IActionResult</returns>
-        public ApiResponse< IActionResult > ApiVapiVersionCredentialsIdPatchWithHttpInfo (string id, string apiVersion, List<Operation> body = null)
+        public ApiResponse<IActionResult> ApiVapiVersionCredentialsIdPatchWithHttpInfo(string id, string apiVersion, List<Operation> body = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1267,9 +1467,9 @@ namespace OpenBots.Server.SDK.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
+                "application/json-patch+json",
+                "application/json",
+                "text/json",
                 "application/_*+json"
             };
             String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
@@ -1300,11 +1500,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.PATCH, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -1314,7 +1514,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<IActionResult>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (IActionResult) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
+                (IActionResult)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
         }
 
         /// <summary>
@@ -1325,10 +1525,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the credential to be updated (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionCredentialsIdPatchAsync (string id, string apiVersion, List<Operation> body = null)
+        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionCredentialsIdPatchAsync(string id, string apiVersion, List<Operation> body = null)
         {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionCredentialsIdPatchAsyncWithHttpInfo(id, apiVersion, body);
-             return localVarResponse.Data;
+            ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionCredentialsIdPatchAsyncWithHttpInfo(id, apiVersion, body);
+            return localVarResponse.Data;
 
         }
 
@@ -1340,7 +1540,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the credential to be updated (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionCredentialsIdPatchAsyncWithHttpInfo (string id, string apiVersion, List<Operation> body = null)
+        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionCredentialsIdPatchAsyncWithHttpInfo(string id, string apiVersion, List<Operation> body = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1359,9 +1559,9 @@ namespace OpenBots.Server.SDK.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
+                "application/json-patch+json",
+                "application/json",
+                "text/json",
                 "application/_*+json"
             };
             String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
@@ -1392,11 +1592,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.PATCH, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -1406,7 +1606,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<IActionResult>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (IActionResult) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
+                (IActionResult)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
         }
 
         /// <summary>
@@ -1417,10 +1617,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Credential details to be updated (optional)</param>
         /// <returns>IActionResult</returns>
-        public IActionResult ApiVapiVersionCredentialsIdPut (string id, string apiVersion, Credential body = null)
+        public IActionResult ApiVapiVersionCredentialsIdPut(string id, string apiVersion, Credential body = null)
         {
-             ApiResponse<IActionResult> localVarResponse = ApiVapiVersionCredentialsIdPutWithHttpInfo(id, apiVersion, body);
-             return localVarResponse.Data;
+            ApiResponse<IActionResult> localVarResponse = ApiVapiVersionCredentialsIdPutWithHttpInfo(id, apiVersion, body);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -1431,7 +1631,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Credential details to be updated (optional)</param>
         /// <returns>ApiResponse of IActionResult</returns>
-        public ApiResponse< IActionResult > ApiVapiVersionCredentialsIdPutWithHttpInfo (string id, string apiVersion, Credential body = null)
+        public ApiResponse<IActionResult> ApiVapiVersionCredentialsIdPutWithHttpInfo(string id, string apiVersion, Credential body = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1450,9 +1650,9 @@ namespace OpenBots.Server.SDK.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
+                "application/json-patch+json",
+                "application/json",
+                "text/json",
                 "application/_*+json"
             };
             String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
@@ -1483,11 +1683,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -1497,7 +1697,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<IActionResult>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (IActionResult) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
+                (IActionResult)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
         }
 
         /// <summary>
@@ -1508,10 +1708,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Credential details to be updated (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionCredentialsIdPutAsync (string id, string apiVersion, Credential body = null)
+        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionCredentialsIdPutAsync(string id, string apiVersion, Credential body = null)
         {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionCredentialsIdPutAsyncWithHttpInfo(id, apiVersion, body);
-             return localVarResponse.Data;
+            ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionCredentialsIdPutAsyncWithHttpInfo(id, apiVersion, body);
+            return localVarResponse.Data;
 
         }
 
@@ -1523,7 +1723,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Credential details to be updated (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionCredentialsIdPutAsyncWithHttpInfo (string id, string apiVersion, Credential body = null)
+        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionCredentialsIdPutAsyncWithHttpInfo(string id, string apiVersion, Credential body = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1542,9 +1742,9 @@ namespace OpenBots.Server.SDK.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
+                "application/json-patch+json",
+                "application/json",
+                "text/json",
                 "application/_*+json"
             };
             String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
@@ -1575,11 +1775,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -1589,7 +1789,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<IActionResult>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (IActionResult) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
+                (IActionResult)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
         }
 
         /// <summary>
@@ -1599,10 +1799,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>string</returns>
-        public string ApiVapiVersionCredentialsPasswordIdGet (string id, string apiVersion)
+        public string ApiVapiVersionCredentialsPasswordIdGet(string id, string apiVersion)
         {
-             ApiResponse<string> localVarResponse = ApiVapiVersionCredentialsPasswordIdGetWithHttpInfo(id, apiVersion);
-             return localVarResponse.Data;
+            ApiResponse<string> localVarResponse = ApiVapiVersionCredentialsPasswordIdGetWithHttpInfo(id, apiVersion);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -1612,7 +1812,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of string</returns>
-        public ApiResponse< string > ApiVapiVersionCredentialsPasswordIdGetWithHttpInfo (string id, string apiVersion)
+        public ApiResponse<string> ApiVapiVersionCredentialsPasswordIdGetWithHttpInfo(string id, string apiVersion)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1652,11 +1852,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -1666,7 +1866,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
+                (string)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
         }
 
         /// <summary>
@@ -1676,10 +1876,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> ApiVapiVersionCredentialsPasswordIdGetAsync (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<string> ApiVapiVersionCredentialsPasswordIdGetAsync(string id, string apiVersion)
         {
-             ApiResponse<string> localVarResponse = await ApiVapiVersionCredentialsPasswordIdGetAsyncWithHttpInfo(id, apiVersion);
-             return localVarResponse.Data;
+            ApiResponse<string> localVarResponse = await ApiVapiVersionCredentialsPasswordIdGetAsyncWithHttpInfo(id, apiVersion);
+            return localVarResponse.Data;
 
         }
 
@@ -1690,7 +1890,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<string>> ApiVapiVersionCredentialsPasswordIdGetAsyncWithHttpInfo (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<ApiResponse<string>> ApiVapiVersionCredentialsPasswordIdGetAsyncWithHttpInfo(string id, string apiVersion)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1730,11 +1930,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -1744,7 +1944,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
+                (string)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
         }
 
         /// <summary>
@@ -1754,10 +1954,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Credential</returns>
-        public Credential ApiVapiVersionCredentialsPost (string apiVersion, Credential body = null)
+        public Credential ApiVapiVersionCredentialsPost(string apiVersion, Credential body = null)
         {
-             ApiResponse<Credential> localVarResponse = ApiVapiVersionCredentialsPostWithHttpInfo(apiVersion, body);
-             return localVarResponse.Data;
+            ApiResponse<Credential> localVarResponse = ApiVapiVersionCredentialsPostWithHttpInfo(apiVersion, body);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -1767,7 +1967,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Credential</returns>
-        public ApiResponse< Credential > ApiVapiVersionCredentialsPostWithHttpInfo (string apiVersion, Credential body = null)
+        public ApiResponse<Credential> ApiVapiVersionCredentialsPostWithHttpInfo(string apiVersion, Credential body = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
@@ -1783,9 +1983,9 @@ namespace OpenBots.Server.SDK.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
+                "application/json-patch+json",
+                "application/json",
+                "text/json",
                 "application/_*+json"
             };
             String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
@@ -1815,11 +2015,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -1829,7 +2029,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<Credential>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Credential) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Credential)));
+                (Credential)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Credential)));
         }
 
         /// <summary>
@@ -1839,10 +2039,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of Credential</returns>
-        public async System.Threading.Tasks.Task<Credential> ApiVapiVersionCredentialsPostAsync (string apiVersion, Credential body = null)
+        public async System.Threading.Tasks.Task<Credential> ApiVapiVersionCredentialsPostAsync(string apiVersion, Credential body = null)
         {
-             ApiResponse<Credential> localVarResponse = await ApiVapiVersionCredentialsPostAsyncWithHttpInfo(apiVersion, body);
-             return localVarResponse.Data;
+            ApiResponse<Credential> localVarResponse = await ApiVapiVersionCredentialsPostAsyncWithHttpInfo(apiVersion, body);
+            return localVarResponse.Data;
 
         }
 
@@ -1853,7 +2053,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse (Credential)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Credential>> ApiVapiVersionCredentialsPostAsyncWithHttpInfo (string apiVersion, Credential body = null)
+        public async System.Threading.Tasks.Task<ApiResponse<Credential>> ApiVapiVersionCredentialsPostAsyncWithHttpInfo(string apiVersion, Credential body = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
@@ -1869,9 +2069,9 @@ namespace OpenBots.Server.SDK.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
+                "application/json-patch+json",
+                "application/json",
+                "text/json",
                 "application/_*+json"
             };
             String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
@@ -1901,11 +2101,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -1915,7 +2115,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<Credential>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Credential) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Credential)));
+                (Credential)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Credential)));
         }
 
         /// <summary>
@@ -1925,10 +2125,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>CredentialViewModel</returns>
-        public CredentialViewModel ApiVapiVersionCredentialsViewIdGet (string id, string apiVersion)
+        public CredentialViewModel ApiVapiVersionCredentialsViewIdGet(string id, string apiVersion)
         {
-             ApiResponse<CredentialViewModel> localVarResponse = ApiVapiVersionCredentialsViewIdGetWithHttpInfo(id, apiVersion);
-             return localVarResponse.Data;
+            ApiResponse<CredentialViewModel> localVarResponse = ApiVapiVersionCredentialsViewIdGetWithHttpInfo(id, apiVersion);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -1938,7 +2138,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of CredentialViewModel</returns>
-        public ApiResponse< CredentialViewModel > ApiVapiVersionCredentialsViewIdGetWithHttpInfo (string id, string apiVersion)
+        public ApiResponse<CredentialViewModel> ApiVapiVersionCredentialsViewIdGetWithHttpInfo(string id, string apiVersion)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1978,11 +2178,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -1992,7 +2192,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<CredentialViewModel>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (CredentialViewModel) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(CredentialViewModel)));
+                (CredentialViewModel)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(CredentialViewModel)));
         }
 
         /// <summary>
@@ -2002,10 +2202,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of CredentialViewModel</returns>
-        public async System.Threading.Tasks.Task<CredentialViewModel> ApiVapiVersionCredentialsViewIdGetAsync (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<CredentialViewModel> ApiVapiVersionCredentialsViewIdGetAsync(string id, string apiVersion)
         {
-             ApiResponse<CredentialViewModel> localVarResponse = await ApiVapiVersionCredentialsViewIdGetAsyncWithHttpInfo(id, apiVersion);
-             return localVarResponse.Data;
+            ApiResponse<CredentialViewModel> localVarResponse = await ApiVapiVersionCredentialsViewIdGetAsyncWithHttpInfo(id, apiVersion);
+            return localVarResponse.Data;
 
         }
 
@@ -2016,7 +2216,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (CredentialViewModel)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<CredentialViewModel>> ApiVapiVersionCredentialsViewIdGetAsyncWithHttpInfo (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<ApiResponse<CredentialViewModel>> ApiVapiVersionCredentialsViewIdGetAsyncWithHttpInfo(string id, string apiVersion)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2056,11 +2256,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -2070,7 +2270,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<CredentialViewModel>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (CredentialViewModel) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(CredentialViewModel)));
+                (CredentialViewModel)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(CredentialViewModel)));
         }
 
         /// <summary>
@@ -2080,10 +2280,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Credential</returns>
-        public Credential GetCredential (string id, string apiVersion)
+        public Credential GetCredential(string id, string apiVersion)
         {
-             ApiResponse<Credential> localVarResponse = GetCredentialWithHttpInfo(id, apiVersion);
-             return localVarResponse.Data;
+            ApiResponse<Credential> localVarResponse = GetCredentialWithHttpInfo(id, apiVersion);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -2093,7 +2293,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of Credential</returns>
-        public ApiResponse< Credential > GetCredentialWithHttpInfo (string id, string apiVersion)
+        public ApiResponse<Credential> GetCredentialWithHttpInfo(string id, string apiVersion)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2133,11 +2333,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -2147,7 +2347,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<Credential>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Credential) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Credential)));
+                (Credential)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Credential)));
         }
 
         /// <summary>
@@ -2157,10 +2357,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of Credential</returns>
-        public async System.Threading.Tasks.Task<Credential> GetCredentialAsync (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<Credential> GetCredentialAsync(string id, string apiVersion)
         {
-             ApiResponse<Credential> localVarResponse = await GetCredentialAsyncWithHttpInfo(id, apiVersion);
-             return localVarResponse.Data;
+            ApiResponse<Credential> localVarResponse = await GetCredentialAsyncWithHttpInfo(id, apiVersion);
+            return localVarResponse.Data;
 
         }
 
@@ -2171,7 +2371,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (Credential)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Credential>> GetCredentialAsyncWithHttpInfo (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<ApiResponse<Credential>> GetCredentialAsyncWithHttpInfo(string id, string apiVersion)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2211,11 +2411,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -2225,7 +2425,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<Credential>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Credential) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Credential)));
+                (Credential)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Credential)));
         }
 
     }
