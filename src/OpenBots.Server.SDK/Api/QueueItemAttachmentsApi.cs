@@ -523,7 +523,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of QueueItemAttachment</returns>
-        System.Threading.Tasks.Task<QueueItemAttachment> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsync (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList);
+        System.Threading.Tasks.Task<List<QueueItemAttachment>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsync (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList);
 
         /// <summary>
         /// Attach files to a queue item
@@ -536,7 +536,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of ApiResponse (QueueItemAttachment)</returns>
-        System.Threading.Tasks.Task<ApiResponse<QueueItemAttachment>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsyncWithHttpInfo (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList);
+        System.Threading.Tasks.Task<ApiResponse<List<QueueItemAttachment>>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsyncWithHttpInfo (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList);
         /// <summary>
         /// Provides all queue item attachments view for a queue item
         /// </summary>
@@ -2070,9 +2070,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of QueueItemAttachment</returns>
-        public async System.Threading.Tasks.Task<QueueItemAttachment> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsync (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList)
+        public async System.Threading.Tasks.Task<List<QueueItemAttachment>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsync (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList)
         {
-             ApiResponse<QueueItemAttachment> localVarResponse = await ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsyncWithHttpInfo(queueItemId, apiVersion, attachmentsList);
+             ApiResponse<List<QueueItemAttachment>> localVarResponse = await ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsyncWithHttpInfo(queueItemId, apiVersion, attachmentsList);
              return localVarResponse.Data;
 
         }
@@ -2085,7 +2085,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of ApiResponse (QueueItemAttachment)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<QueueItemAttachment>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsyncWithHttpInfo (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList)
+        public async System.Threading.Tasks.Task<ApiResponse<List<QueueItemAttachment>>> ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPostAsyncWithHttpInfo (string queueItemId, string apiVersion, List<System.IO.FileStream> attachmentsList)
         {
             // verify the required parameter 'queueItemId' is set
             if (queueItemId == null)
@@ -2122,7 +2122,7 @@ namespace OpenBots.Server.SDK.Api
             if (attachmentsList != null)
             {
                 foreach (var _file in attachmentsList)
-                    localVarFileParams.Add("files", this.Configuration.ApiClient.ParameterToFile(_file.Name, _file));
+                    if (_file != null) localVarFileParams.Add(_file.Name, this.Configuration.ApiClient.ParameterToFile("files", _file));
             }
             // authentication (oauth2) required
             // bearer required
@@ -2144,9 +2144,9 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<QueueItemAttachment>(localVarStatusCode,
+            return new ApiResponse<List<QueueItemAttachment>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (QueueItemAttachment) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(QueueItemAttachment)));
+                JsonConvert.DeserializeObject<List<QueueItemAttachment>>(localVarResponse.Content));
         }
 
         /// <summary>
@@ -2496,9 +2496,13 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
+            byte[] byteArray = localVarResponse.RawBytes;
+            System.IO.MemoryStream stream = new System.IO.MemoryStream();
+            stream.Write(byteArray, 0, byteArray.Length);
+
             return new ApiResponse<System.IO.MemoryStream>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (System.IO.MemoryStream) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(System.IO.MemoryStream)));
+                stream);
         }
 
         /// <summary>

@@ -1245,7 +1245,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
+                localVarResponse.Content);
         }
 
         /// <summary>
@@ -2421,7 +2421,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
+                localVarResponse.Content);
         }
 
         /// <summary>

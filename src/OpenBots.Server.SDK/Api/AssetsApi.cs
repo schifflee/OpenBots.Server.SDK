@@ -14,6 +14,7 @@ using System.Linq;
 using RestSharp;
 using OpenBots.Server.SDK.Client;
 using OpenBots.Server.SDK.Model;
+using Newtonsoft.Json;
 
 namespace OpenBots.Server.SDK.Api
 {
@@ -3109,16 +3110,20 @@ namespace OpenBots.Server.SDK.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
+            string textValue = null;
+            string numberValue = null;
+            string jsonValue = null;
+
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
             if (id != null) localVarFormParams.Add("Id", this.Configuration.ApiClient.ParameterToString(id)); // form parameter
             if (name != null) localVarFormParams.Add("Name", this.Configuration.ApiClient.ParameterToString(name)); // form parameter
             if (type != null) localVarFormParams.Add("Type", this.Configuration.ApiClient.ParameterToString(type)); // form parameter
-            //if (textValue != null) localVarFormParams.Add("TextValue", this.Configuration.ApiClient.ParameterToString(textValue)); // form parameter
-            //if (numberValue != null) localVarFormParams.Add("NumberValue", this.Configuration.ApiClient.ParameterToString(numberValue)); // form parameter
-            //if (jsonValue != null) localVarFormParams.Add("JsonValue", this.Configuration.ApiClient.ParameterToString(jsonValue)); // form parameter
+            if (textValue != null) localVarFormParams.Add("TextValue", null); // form parameter
+            if (numberValue != null) localVarFormParams.Add("NumberValue", "0"); // form parameter
+            if (jsonValue != null) localVarFormParams.Add("JsonValue", null); // form parameter
             if (fileId != null) localVarFormParams.Add("FileId", this.Configuration.ApiClient.ParameterToString(fileId)); // form parameter
-            if (_file != null) localVarFileParams.Add("File", this.Configuration.ApiClient.ParameterToFile("File", _file));
+            if (_file != null) localVarFileParams.Add(_file.Name, this.Configuration.ApiClient.ParameterToFile("File", _file));
             //if (driveName != null) localVarFormParams.Add("DriveName", this.Configuration.ApiClient.ParameterToString(driveName)); // form parameter
             // authentication (oauth2) required
             // bearer required
@@ -3142,7 +3147,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<Asset>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Asset) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Asset)));
+                JsonConvert.DeserializeObject<Asset>(localVarResponse.Content));
         }
 
         /// <summary>
@@ -3788,9 +3793,13 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
+            byte[] byteArray = localVarResponse.RawBytes;
+            System.IO.MemoryStream stream = new System.IO.MemoryStream();
+            stream.Write(byteArray, 0, byteArray.Length);
+
             return new ApiResponse<System.IO.MemoryStream>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (System.IO.MemoryStream) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(System.IO.MemoryStream)));
+                stream);
         }
 
         /// <summary>

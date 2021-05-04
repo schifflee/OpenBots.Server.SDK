@@ -14,6 +14,7 @@ using System.Linq;
 using RestSharp;
 using OpenBots.Server.SDK.Client;
 using OpenBots.Server.SDK.Model;
+using Newtonsoft.Json;
 
 namespace OpenBots.Server.SDK.Api
 {
@@ -2186,7 +2187,7 @@ namespace OpenBots.Server.SDK.Api
             //if (versionNumber != null) localVarFormParams.Add("VersionNumber", this.Configuration.ApiClient.ParameterToString(versionNumber)); // form parameter
             //if (versionId != null) localVarFormParams.Add("VersionId", this.Configuration.ApiClient.ParameterToString(versionId)); // form parameter
             //if (status != null) localVarFormParams.Add("Status", this.Configuration.ApiClient.ParameterToString(status)); // form parameter
-            if (_file != null) localVarFileParams.Add("File", this.Configuration.ApiClient.ParameterToFile("File", _file));
+            if (_file != null) localVarFileParams.Add(_file.Name, this.Configuration.ApiClient.ParameterToFile("File", _file));
             //if (fileId != null) localVarFormParams.Add("FileId", this.Configuration.ApiClient.ParameterToString(fileId)); // form parameter
             //if (originalPackageName != null) localVarFormParams.Add("OriginalPackageName", this.Configuration.ApiClient.ParameterToString(originalPackageName)); // form parameter
             //if (publishedBy != null) localVarFormParams.Add("PublishedBy", this.Configuration.ApiClient.ParameterToString(publishedBy)); // form parameter
@@ -2226,7 +2227,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<Automation>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Automation) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Automation)));
+                JsonConvert.DeserializeObject<Automation>(localVarResponse.Content));
         }
 
         /// <summary>
