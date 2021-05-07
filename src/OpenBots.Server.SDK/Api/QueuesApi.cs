@@ -232,7 +232,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of QueuePaginatedList</returns>
-        System.Threading.Tasks.Task<QueuePaginatedList> ApiVapiVersionQueuesGetAsync (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        System.Threading.Tasks.Task<QueuePaginatedList> ApiVapiVersionQueuesGetAsync (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null);
 
         /// <summary>
         /// Provides a list of all queues
@@ -247,7 +247,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of ApiResponse (QueuePaginatedList)</returns>
-        System.Threading.Tasks.Task<ApiResponse<QueuePaginatedList>> ApiVapiVersionQueuesGetAsyncWithHttpInfo (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        System.Threading.Tasks.Task<ApiResponse<QueuePaginatedList>> ApiVapiVersionQueuesGetAsyncWithHttpInfo (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null);
         /// <summary>
         /// Deletes a queue with a specified id from the queues
         /// </summary>
@@ -718,9 +718,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of QueuePaginatedList</returns>
-        public async System.Threading.Tasks.Task<QueuePaginatedList> ApiVapiVersionQueuesGetAsync (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        public async System.Threading.Tasks.Task<QueuePaginatedList> ApiVapiVersionQueuesGetAsync (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
-             ApiResponse<QueuePaginatedList> localVarResponse = await ApiVapiVersionQueuesGetAsyncWithHttpInfo(apiVersion, filter, orderby, top, skip);
+             ApiResponse<QueuePaginatedList> localVarResponse = await ApiVapiVersionQueuesGetAsyncWithHttpInfo(apiVersion, organizationId,  filter, orderby, top, skip);
              return localVarResponse.Data;
 
         }
@@ -735,13 +735,15 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of ApiResponse (QueuePaginatedList)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<QueuePaginatedList>> ApiVapiVersionQueuesGetAsyncWithHttpInfo (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        public async System.Threading.Tasks.Task<ApiResponse<QueuePaginatedList>> ApiVapiVersionQueuesGetAsyncWithHttpInfo (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueuesApi->ApiVapiVersionQueuesGet");
 
             var localVarPath = "/api/v{apiVersion}/Queues";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Queues";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -763,6 +765,7 @@ namespace OpenBots.Server.SDK.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (filter != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "$filter", filter)); // query parameter
             if (orderby != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "$orderby", orderby)); // query parameter
             if (top != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "$top", top)); // query parameter

@@ -520,7 +520,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="accountName"> (optional)</param>
         /// <returns>Task of EmailViewModel</returns>
-        System.Threading.Tasks.Task<EmailViewModel> ApiVapiVersionEmailsSendPostAsync (string apiVersion, string emailMessageJson, List<System.IO.FileStream> attachmentsList, string accountName = null);
+        System.Threading.Tasks.Task<EmailViewModel> ApiVapiVersionEmailsSendPostAsync (string apiVersion, string organizationId, string emailMessageJson, List<System.IO.FileStream> attachmentsList, string accountName = null);
 
         /// <summary>
         /// Sends a new email
@@ -532,7 +532,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="accountName"> (optional)</param>
         /// <returns>Task of ApiResponse (EmailViewModel)</returns>
-        System.Threading.Tasks.Task<ApiResponse<EmailViewModel>> ApiVapiVersionEmailsSendPostAsyncWithHttpInfo (string apiVersion, string emailMessageJson, List<System.IO.FileStream> attachmentsList, string accountName = null);
+        System.Threading.Tasks.Task<ApiResponse<EmailViewModel>> ApiVapiVersionEmailsSendPostAsyncWithHttpInfo (string apiVersion, string organizationId, string emailMessageJson, List<System.IO.FileStream> attachmentsList, string accountName = null);
         /// <summary>
         /// Get email by id
         /// </summary>
@@ -2263,9 +2263,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="accountName"> (optional)</param>
         /// <returns>Task of EmailViewModel</returns>
-        public async System.Threading.Tasks.Task<EmailViewModel> ApiVapiVersionEmailsSendPostAsync (string apiVersion, string emailMessageJson, List<System.IO.FileStream> attachmentsList, string accountName = null)
+        public async System.Threading.Tasks.Task<EmailViewModel> ApiVapiVersionEmailsSendPostAsync (string apiVersion, string organizationId, string emailMessageJson, List<System.IO.FileStream> attachmentsList, string accountName = null)
         {
-             ApiResponse<EmailViewModel> localVarResponse = await ApiVapiVersionEmailsSendPostAsyncWithHttpInfo(apiVersion, emailMessageJson, attachmentsList, accountName);
+             ApiResponse<EmailViewModel> localVarResponse = await ApiVapiVersionEmailsSendPostAsyncWithHttpInfo(apiVersion, organizationId, emailMessageJson, attachmentsList, accountName);
              return localVarResponse.Data;
 
         }
@@ -2277,13 +2277,15 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="accountName"> (optional)</param>
         /// <returns>Task of ApiResponse (EmailViewModel)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<EmailViewModel>> ApiVapiVersionEmailsSendPostAsyncWithHttpInfo (string apiVersion, string emailMessageJson, List<System.IO.FileStream> attachmentsList, string accountName = null)
+        public async System.Threading.Tasks.Task<ApiResponse<EmailViewModel>> ApiVapiVersionEmailsSendPostAsyncWithHttpInfo (string apiVersion, string organizationId, string emailMessageJson, List<System.IO.FileStream> attachmentsList, string accountName = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling EmailsApi->ApiVapiVersionEmailsSendPost");
 
             var localVarPath = "/api/v{apiVersion}/Emails/send";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Emails/send";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -2306,6 +2308,7 @@ namespace OpenBots.Server.SDK.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (accountName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "accountName", accountName)); // query parameter
             if (emailMessageJson != null) localVarFormParams.Add("EmailMessageJson", this.Configuration.ApiClient.ParameterToString(emailMessageJson)); // form parameter
             if (attachmentsList != null)

@@ -394,7 +394,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="transactionKey">Transaction key id to be verified (optional)</param>
         /// <param name="resultJSON"> (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueueItemsCommitPutAsync (string apiVersion, string transactionKey = null, string resultJSON = null);
+        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueueItemsCommitPutAsync (string apiVersion, string organizationId, string transactionKey = null, string resultJSON = null);
 
         /// <summary>
         /// Commit queue item
@@ -407,7 +407,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="transactionKey">Transaction key id to be verified (optional)</param>
         /// <param name="resultJSON"> (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueueItemsCommitPutAsyncWithHttpInfo (string apiVersion, string transactionKey = null, string resultJSON = null);
+        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueueItemsCommitPutAsyncWithHttpInfo (string apiVersion, string organizationId, string transactionKey = null, string resultJSON = null);
         /// <summary>
         /// Gets count of queue items in database
         /// </summary>
@@ -442,7 +442,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="agentId"> (optional)</param>
         /// <param name="queueId"> (optional)</param>
         /// <returns>Task of QueueItemViewModel</returns>
-        System.Threading.Tasks.Task<QueueItemViewModel> ApiVapiVersionQueueItemsDequeueGetAsync (string apiVersion, string agentId = null, string queueId = null);
+        System.Threading.Tasks.Task<QueueItemViewModel> ApiVapiVersionQueueItemsDequeueGetAsync (string apiVersion, string organizationId, string agentId = null, string queueId = null);
 
         /// <summary>
         /// Dequeue queue item
@@ -455,7 +455,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="agentId"> (optional)</param>
         /// <param name="queueId"> (optional)</param>
         /// <returns>Task of ApiResponse (QueueItemViewModel)</returns>
-        System.Threading.Tasks.Task<ApiResponse<QueueItemViewModel>> ApiVapiVersionQueueItemsDequeueGetAsyncWithHttpInfo (string apiVersion, string agentId = null, string queueId = null);
+        System.Threading.Tasks.Task<ApiResponse<QueueItemViewModel>> ApiVapiVersionQueueItemsDequeueGetAsyncWithHttpInfo (string apiVersion, string organizationId, string agentId = null, string queueId = null);
         /// <summary>
         /// Enqueue queue item
         /// </summary>
@@ -466,7 +466,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the queue item to be added (optional)</param>
         /// <returns>Task of QueueItemViewModel</returns>
-        System.Threading.Tasks.Task<QueueItemViewModel> ApiVapiVersionQueueItemsEnqueuePostAsync (string apiVersion, QueueItem body = null);
+        System.Threading.Tasks.Task<QueueItemViewModel> ApiVapiVersionQueueItemsEnqueuePostAsync (string apiVersion, string organizationId, QueueItem body = null);
 
         /// <summary>
         /// Enqueue queue item
@@ -478,7 +478,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the queue item to be added (optional)</param>
         /// <returns>Task of ApiResponse (QueueItemViewModel)</returns>
-        System.Threading.Tasks.Task<ApiResponse<QueueItemViewModel>> ApiVapiVersionQueueItemsEnqueuePostAsyncWithHttpInfo (string apiVersion, QueueItem body = null);
+        System.Threading.Tasks.Task<ApiResponse<QueueItemViewModel>> ApiVapiVersionQueueItemsEnqueuePostAsyncWithHttpInfo (string apiVersion, string organizationId, QueueItem body = null);
         /// <summary>
         /// Extend queue item
         /// </summary>
@@ -489,7 +489,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="transactionKey">Transaction key id to be verified (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueueItemsExtendPutAsync (string apiVersion, string transactionKey = null);
+        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueueItemsExtendPutAsync (string apiVersion, string organizationId, string transactionKey = null);
 
         /// <summary>
         /// Extend queue item
@@ -501,7 +501,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="transactionKey">Transaction key id to be verified (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueueItemsExtendPutAsyncWithHttpInfo (string apiVersion, string transactionKey = null);
+        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueueItemsExtendPutAsyncWithHttpInfo (string apiVersion, string organizationId, string transactionKey = null);
         /// <summary>
         /// Provides a list of all queue items
         /// </summary>
@@ -515,7 +515,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of QueueItemPaginatedList</returns>
-        System.Threading.Tasks.Task<QueueItemPaginatedList> ApiVapiVersionQueueItemsGetAsync (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        System.Threading.Tasks.Task<QueueItemPaginatedList> ApiVapiVersionQueueItemsGetAsync (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null);
 
         /// <summary>
         /// Provides a list of all queue items
@@ -530,7 +530,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of ApiResponse (QueueItemPaginatedList)</returns>
-        System.Threading.Tasks.Task<ApiResponse<QueueItemPaginatedList>> ApiVapiVersionQueueItemsGetAsyncWithHttpInfo (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        System.Threading.Tasks.Task<ApiResponse<QueueItemPaginatedList>> ApiVapiVersionQueueItemsGetAsyncWithHttpInfo (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null);
         /// <summary>
         /// Deletes a queue item with a specified id from the queue items
         /// </summary>
@@ -650,7 +650,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="errorMessage">Error message that has occurred while processing queue item (optional)</param>
         /// <param name="isFatal">Limit to how many retries a queue item can have (optional, default to false)</param>
         /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueueItemsRollbackPutAsync (string apiVersion, string transactionKey = null, string errorCode = null, string errorMessage = null, bool? isFatal = null);
+        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueueItemsRollbackPutAsync (string apiVersion, string organizationId, string transactionKey = null, string errorCode = null, string errorMessage = null, bool? isFatal = null);
 
         /// <summary>
         /// Rollback queue item
@@ -665,7 +665,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="errorMessage">Error message that has occurred while processing queue item (optional)</param>
         /// <param name="isFatal">Limit to how many retries a queue item can have (optional, default to false)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueueItemsRollbackPutAsyncWithHttpInfo (string apiVersion, string transactionKey = null, string errorCode = null, string errorMessage = null, bool? isFatal = null);
+        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueueItemsRollbackPutAsyncWithHttpInfo (string apiVersion, string organizationId, string transactionKey = null, string errorCode = null, string errorMessage = null, bool? isFatal = null);
         /// <summary>
         /// Provides a view model list of all queue items and corresponding file ids
         /// </summary>
@@ -728,7 +728,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">queue item id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of QueueItemPaginatedList</returns>
-        System.Threading.Tasks.Task<QueueItemPaginatedList> GetQueueItemAsync (string id, string apiVersion);
+        System.Threading.Tasks.Task<QueueItemPaginatedList> GetQueueItemAsync (string id, string apiVersion, string organizationId);
 
         /// <summary>
         /// Provides queue item details for a particular queue item id
@@ -740,7 +740,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">queue item id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (QueueItemPaginatedList)</returns>
-        System.Threading.Tasks.Task<ApiResponse<QueueItemPaginatedList>> GetQueueItemAsyncWithHttpInfo (string id, string apiVersion);
+        System.Threading.Tasks.Task<ApiResponse<QueueItemPaginatedList>> GetQueueItemAsyncWithHttpInfo (string id, string apiVersion, string organizationId);
         #endregion Asynchronous Operations
     }
 
@@ -937,9 +937,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="transactionKey">Transaction key id to be verified (optional)</param>
         /// <param name="resultJSON"> (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueueItemsCommitPutAsync (string apiVersion, string transactionKey = null, string resultJSON = null)
+        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueueItemsCommitPutAsync (string apiVersion, string organizationId, string transactionKey = null, string resultJSON = null)
         {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionQueueItemsCommitPutAsyncWithHttpInfo(apiVersion, transactionKey, resultJSON);
+             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionQueueItemsCommitPutAsyncWithHttpInfo(apiVersion, organizationId, transactionKey, resultJSON);
              return localVarResponse.Data;
 
         }
@@ -952,13 +952,15 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="transactionKey">Transaction key id to be verified (optional)</param>
         /// <param name="resultJSON"> (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueueItemsCommitPutAsyncWithHttpInfo (string apiVersion, string transactionKey = null, string resultJSON = null)
+        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueueItemsCommitPutAsyncWithHttpInfo (string apiVersion, string organizationId, string transactionKey = null, string resultJSON = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueueItemsApi->ApiVapiVersionQueueItemsCommitPut");
 
             var localVarPath = "/api/v{apiVersion}/QueueItems/Commit";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/QueueItems/Commit";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -980,6 +982,7 @@ namespace OpenBots.Server.SDK.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameters
             if (transactionKey != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "transactionKey", transactionKey)); // query parameter
             if (resultJSON != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "resultJSON", resultJSON)); // query parameter
             // authentication (oauth2) required
@@ -1239,9 +1242,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="agentId"> (optional)</param>
         /// <param name="queueId"> (optional)</param>
         /// <returns>Task of QueueItemViewModel</returns>
-        public async System.Threading.Tasks.Task<QueueItemViewModel> ApiVapiVersionQueueItemsDequeueGetAsync (string apiVersion, string agentId = null, string queueId = null)
+        public async System.Threading.Tasks.Task<QueueItemViewModel> ApiVapiVersionQueueItemsDequeueGetAsync (string apiVersion, string organizationId, string agentId = null, string queueId = null)
         {
-             ApiResponse<QueueItemViewModel> localVarResponse = await ApiVapiVersionQueueItemsDequeueGetAsyncWithHttpInfo(apiVersion, agentId, queueId);
+             ApiResponse<QueueItemViewModel> localVarResponse = await ApiVapiVersionQueueItemsDequeueGetAsyncWithHttpInfo(apiVersion, organizationId, agentId, queueId);
              return localVarResponse.Data;
 
         }
@@ -1254,13 +1257,15 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="agentId"> (optional)</param>
         /// <param name="queueId"> (optional)</param>
         /// <returns>Task of ApiResponse (QueueItemViewModel)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<QueueItemViewModel>> ApiVapiVersionQueueItemsDequeueGetAsyncWithHttpInfo (string apiVersion, string agentId = null, string queueId = null)
+        public async System.Threading.Tasks.Task<ApiResponse<QueueItemViewModel>> ApiVapiVersionQueueItemsDequeueGetAsyncWithHttpInfo (string apiVersion, string organizationId, string agentId = null, string queueId = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueueItemsApi->ApiVapiVersionQueueItemsDequeueGet");
 
             var localVarPath = "/api/v{apiVersion}/QueueItems/Dequeue";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/QueueItems/Dequeue";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1282,6 +1287,7 @@ namespace OpenBots.Server.SDK.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameters
             if (agentId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "agentId", agentId)); // query parameter
             if (queueId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "queueId", queueId)); // query parameter
             // authentication (oauth2) required
@@ -1401,9 +1407,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the queue item to be added (optional)</param>
         /// <returns>Task of QueueItemViewModel</returns>
-        public async System.Threading.Tasks.Task<QueueItemViewModel> ApiVapiVersionQueueItemsEnqueuePostAsync (string apiVersion, QueueItem body = null)
+        public async System.Threading.Tasks.Task<QueueItemViewModel> ApiVapiVersionQueueItemsEnqueuePostAsync (string apiVersion, string organizationId, QueueItem body = null)
         {
-             ApiResponse<QueueItemViewModel> localVarResponse = await ApiVapiVersionQueueItemsEnqueuePostAsyncWithHttpInfo(apiVersion, body);
+             ApiResponse<QueueItemViewModel> localVarResponse = await ApiVapiVersionQueueItemsEnqueuePostAsyncWithHttpInfo(apiVersion, organizationId, body);
              return localVarResponse.Data;
 
         }
@@ -1415,13 +1421,15 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the queue item to be added (optional)</param>
         /// <returns>Task of ApiResponse (QueueItemViewModel)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<QueueItemViewModel>> ApiVapiVersionQueueItemsEnqueuePostAsyncWithHttpInfo (string apiVersion, QueueItem body = null)
+        public async System.Threading.Tasks.Task<ApiResponse<QueueItemViewModel>> ApiVapiVersionQueueItemsEnqueuePostAsyncWithHttpInfo (string apiVersion, string organizationId, QueueItem body = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueueItemsApi->ApiVapiVersionQueueItemsEnqueuePost");
 
             var localVarPath = "/api/v{apiVersion}/QueueItems/Enqueue";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/QueueItems/Enqueue";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1447,6 +1455,7 @@ namespace OpenBots.Server.SDK.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameters
             if (body != null && body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
@@ -1561,9 +1570,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="transactionKey">Transaction key id to be verified (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueueItemsExtendPutAsync (string apiVersion, string transactionKey = null)
+        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueueItemsExtendPutAsync (string apiVersion, string organizationId, string transactionKey = null)
         {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionQueueItemsExtendPutAsyncWithHttpInfo(apiVersion, transactionKey);
+             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionQueueItemsExtendPutAsyncWithHttpInfo(apiVersion, organizationId, transactionKey);
              return localVarResponse.Data;
 
         }
@@ -1575,13 +1584,15 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="transactionKey">Transaction key id to be verified (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueueItemsExtendPutAsyncWithHttpInfo (string apiVersion, string transactionKey = null)
+        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueueItemsExtendPutAsyncWithHttpInfo (string apiVersion, string organizationId, string transactionKey = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueueItemsApi->ApiVapiVersionQueueItemsExtendPut");
 
             var localVarPath = "/api/v{apiVersion}/QueueItems/Extend";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/QueueItems/Extend";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1603,6 +1614,7 @@ namespace OpenBots.Server.SDK.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameters
             if (transactionKey != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "transactionKey", transactionKey)); // query parameter
             // authentication (oauth2) required
             // bearer required
@@ -1722,9 +1734,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of QueueItemPaginatedList</returns>
-        public async System.Threading.Tasks.Task<QueueItemPaginatedList> ApiVapiVersionQueueItemsGetAsync (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        public async System.Threading.Tasks.Task<QueueItemPaginatedList> ApiVapiVersionQueueItemsGetAsync (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
-             ApiResponse<QueueItemPaginatedList> localVarResponse = await ApiVapiVersionQueueItemsGetAsyncWithHttpInfo(apiVersion, filter, orderby, top, skip);
+             ApiResponse<QueueItemPaginatedList> localVarResponse = await ApiVapiVersionQueueItemsGetAsyncWithHttpInfo(apiVersion, organizationId, filter, orderby, top, skip);
              return localVarResponse.Data;
 
         }
@@ -1739,13 +1751,15 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>Task of ApiResponse (QueueItemPaginatedList)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<QueueItemPaginatedList>> ApiVapiVersionQueueItemsGetAsyncWithHttpInfo (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        public async System.Threading.Tasks.Task<ApiResponse<QueueItemPaginatedList>> ApiVapiVersionQueueItemsGetAsyncWithHttpInfo (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueueItemsApi->ApiVapiVersionQueueItemsGet");
 
             var localVarPath = "/api/v{apiVersion}/QueueItems";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/QueueItems";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1767,6 +1781,7 @@ namespace OpenBots.Server.SDK.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameters
             if (filter != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "$filter", filter)); // query parameter
             if (orderby != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "$orderby", orderby)); // query parameter
             if (top != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "$top", top)); // query parameter
@@ -2601,9 +2616,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="errorMessage">Error message that has occurred while processing queue item (optional)</param>
         /// <param name="isFatal">Limit to how many retries a queue item can have (optional, default to false)</param>
         /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueueItemsRollbackPutAsync (string apiVersion, string transactionKey = null, string errorCode = null, string errorMessage = null, bool? isFatal = null)
+        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueueItemsRollbackPutAsync (string apiVersion, string organizationId, string transactionKey = null, string errorCode = null, string errorMessage = null, bool? isFatal = null)
         {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionQueueItemsRollbackPutAsyncWithHttpInfo(apiVersion, transactionKey, errorCode, errorMessage, isFatal);
+             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionQueueItemsRollbackPutAsyncWithHttpInfo(apiVersion, organizationId, transactionKey, errorCode, errorMessage, isFatal);
              return localVarResponse.Data;
 
         }
@@ -2618,13 +2633,15 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="errorMessage">Error message that has occurred while processing queue item (optional)</param>
         /// <param name="isFatal">Limit to how many retries a queue item can have (optional, default to false)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueueItemsRollbackPutAsyncWithHttpInfo (string apiVersion, string transactionKey = null, string errorCode = null, string errorMessage = null, bool? isFatal = null)
+        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueueItemsRollbackPutAsyncWithHttpInfo (string apiVersion, string organizationId, string transactionKey = null, string errorCode = null, string errorMessage = null, bool? isFatal = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueueItemsApi->ApiVapiVersionQueueItemsRollbackPut");
 
             var localVarPath = "/api/v{apiVersion}/QueueItems/Rollback";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/QueueItems/Rollback";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -3081,9 +3098,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">queue item id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of QueueItemPaginatedList</returns>
-        public async System.Threading.Tasks.Task<QueueItemPaginatedList> GetQueueItemAsync (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<QueueItemPaginatedList> GetQueueItemAsync (string id, string apiVersion, string organizationId)
         {
-             ApiResponse<QueueItemPaginatedList> localVarResponse = await GetQueueItemAsyncWithHttpInfo(id, apiVersion);
+             ApiResponse<QueueItemPaginatedList> localVarResponse = await GetQueueItemAsyncWithHttpInfo(id, apiVersion, organizationId);
              return localVarResponse.Data;
 
         }
@@ -3095,7 +3112,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">queue item id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (QueueItemPaginatedList)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<QueueItemPaginatedList>> GetQueueItemAsyncWithHttpInfo (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<ApiResponse<QueueItemPaginatedList>> GetQueueItemAsyncWithHttpInfo (string id, string apiVersion, string organizationId)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -3105,6 +3122,8 @@ namespace OpenBots.Server.SDK.Api
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueueItemsApi->GetQueueItem");
 
             var localVarPath = "/api/v{apiVersion}/QueueItems/{id}";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/QueueItems/{id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -3127,6 +3146,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId));  // path parameter
             // authentication (oauth2) required
             // bearer required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))

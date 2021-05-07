@@ -14,6 +14,11 @@ using System.Linq;
 using RestSharp;
 using OpenBots.Server.SDK.Client;
 using OpenBots.Server.SDK.Model;
+using Newtonsoft.Json;
+using RestSharp.Serialization.Json;
+using Newtonsoft.Json.Linq;
+using IdentityModel.Client;
+using System.Net.Http;
 
 namespace OpenBots.Server.SDK.Api
 {
@@ -24,101 +29,38 @@ namespace OpenBots.Server.SDK.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// Change / Reset with new password
+        /// Used to get current user&#x27;s IP Address
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ApiVapiVersionAuthChangePasswordPut (string apiVersion, ChangePasswordBindingModel body = null);
+        /// <returns>string</returns>
+        string ApiVapiVersionAuthPingGet(string apiVersion);
 
         /// <summary>
-        /// Change / Reset with new password
+        /// Used to get current user&#x27;s IP Address
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> ApiVapiVersionAuthChangePasswordPutWithHttpInfo (string apiVersion, ChangePasswordBindingModel body = null);
+        /// <returns>ApiResponse of string</returns>
+        ApiResponse<string> ApiVapiVersionAuthPingGetWithHttpInfo(string apiVersion);
         /// <summary>
-        /// Confirm email address
+        /// Get user info for Studio to utilize Server commands
         /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="emailAddress"> (optional)</param>
-        /// <param name="token"> (optional)</param>
+        /// <param name="agentId"></param>
+        /// <param name="serverType"></param>
+        /// <param name="organizationName"></param>
+        /// <param name="environment"></param>
+        /// <param name="serverUrl"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
         /// <returns></returns>
-        void ApiVapiVersionAuthConfirmEmailAddressGet (string apiVersion, string emailAddress = null, string token = null);
-
-        /// <summary>
-        /// Confirm email address
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="emailAddress"> (optional)</param>
-        /// <param name="token"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> ApiVapiVersionAuthConfirmEmailAddressGetWithHttpInfo (string apiVersion, string emailAddress = null, string token = null);
-        /// <summary>
-        /// Confirm new user
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns></returns>
-        void ApiVapiVersionAuthConfirmEmailGet (string apiVersion, string userId = null, string code = null);
-
-        /// <summary>
-        /// Confirm new user
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> ApiVapiVersionAuthConfirmEmailGetWithHttpInfo (string apiVersion, string userId = null, string code = null);
-        /// <summary>
-        /// Forgot password using email address
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ApiVapiVersionAuthForgotPasswordPost (string apiVersion, ForgotPasswordBindingModel body = null);
-
-        /// <summary>
-        /// Forgot password using email address
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> ApiVapiVersionAuthForgotPasswordPostWithHttpInfo (string apiVersion, ForgotPasswordBindingModel body = null);
+        UserInfo GetUserInfo(string apiVersion, string agentId, string serverType, string organizationName, string environment, string serverUrl, string username, string password);
         /// <summary>
         /// Get user info for logged in authenticated user
         /// </summary>
@@ -140,142 +82,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> ApiVapiVersionAuthGetUserInfoGetWithHttpInfo (string apiVersion);
-        /// <summary>
-        /// Used to get current user&#x27;s IP Address
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <returns>string</returns>
-        string ApiVapiVersionAuthPingGet (string apiVersion);
-
-        /// <summary>
-        /// Used to get current user&#x27;s IP Address
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> ApiVapiVersionAuthPingGetWithHttpInfo (string apiVersion);
-        /// <summary>
-        /// Refresh expired access and old refresh token
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ApiVapiVersionAuthRefreshPost (string apiVersion, RefreshModel body = null);
-
-        /// <summary>
-        /// Refresh expired access and old refresh token
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> ApiVapiVersionAuthRefreshPostWithHttpInfo (string apiVersion, RefreshModel body = null);
-        /// <summary>
-        /// Register new user
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Signup model (optional)</param>
-        /// <returns></returns>
-        void ApiVapiVersionAuthRegisterPost (string apiVersion, SignUpViewModel body = null);
-
-        /// <summary>
-        /// Register new user
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Signup model (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> ApiVapiVersionAuthRegisterPostWithHttpInfo (string apiVersion, SignUpViewModel body = null);
-        /// <summary>
-        /// Resend confirmation email to registered email address
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="emailAddress">Email address needed for confirmation (optional)</param>
-        /// <returns></returns>
-        void ApiVapiVersionAuthResendEmailConfirmationPut (string apiVersion, string emailAddress = null);
-
-        /// <summary>
-        /// Resend confirmation email to registered email address
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="emailAddress">Email address needed for confirmation (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> ApiVapiVersionAuthResendEmailConfirmationPutWithHttpInfo (string apiVersion, string emailAddress = null);
-        /// <summary>
-        /// Reset password
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ApiVapiVersionAuthSetPasswordPut (string apiVersion, ResetPasswordBindingModel body = null);
-
-        /// <summary>
-        /// Reset password
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> ApiVapiVersionAuthSetPasswordPutWithHttpInfo (string apiVersion, ResetPasswordBindingModel body = null);
-        /// <summary>
-        /// Set new password
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        void ApiVapiVersionAuthSetUserPasswordPut (string apiVersion, SetPasswordBindingModel body = null);
-
-        /// <summary>
-        /// Set new password
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> ApiVapiVersionAuthSetUserPasswordPutWithHttpInfo (string apiVersion, SetPasswordBindingModel body = null);
+        
         /// <summary>
         /// Login with username and password
         /// </summary>
@@ -299,129 +106,29 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> ApiVapiVersionAuthTokenPostWithHttpInfo (string apiVersion, Login body = null);
-        /// <summary>
-        /// Verify user token before resetting the password
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns></returns>
-        void ApiVapiVersionAuthVerifyUserTokenGet (string apiVersion, string userId = null, string code = null);
-
-        /// <summary>
-        /// Verify user token before resetting the password
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> ApiVapiVersionAuthVerifyUserTokenGetWithHttpInfo (string apiVersion, string userId = null, string code = null);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
-        /// Change / Reset with new password
+        /// Used to get current user&#x27;s IP Address
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task ApiVapiVersionAuthChangePasswordPutAsync (string apiVersion, ChangePasswordBindingModel body = null);
+        /// <returns>Task of string</returns>
+        System.Threading.Tasks.Task<string> ApiVapiVersionAuthPingGetAsync(string apiVersion);
 
         /// <summary>
-        /// Change / Reset with new password
+        /// Used to get current user&#x27;s IP Address
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthChangePasswordPutAsyncWithHttpInfo (string apiVersion, ChangePasswordBindingModel body = null);
-        /// <summary>
-        /// Confirm email address
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="emailAddress"> (optional)</param>
-        /// <param name="token"> (optional)</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task ApiVapiVersionAuthConfirmEmailAddressGetAsync (string apiVersion, string emailAddress = null, string token = null);
-
-        /// <summary>
-        /// Confirm email address
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="emailAddress"> (optional)</param>
-        /// <param name="token"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthConfirmEmailAddressGetAsyncWithHttpInfo (string apiVersion, string emailAddress = null, string token = null);
-        /// <summary>
-        /// Confirm new user
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task ApiVapiVersionAuthConfirmEmailGetAsync (string apiVersion, string userId = null, string code = null);
-
-        /// <summary>
-        /// Confirm new user
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthConfirmEmailGetAsyncWithHttpInfo (string apiVersion, string userId = null, string code = null);
-        /// <summary>
-        /// Forgot password using email address
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task ApiVapiVersionAuthForgotPasswordPostAsync (string apiVersion, ForgotPasswordBindingModel body = null);
-
-        /// <summary>
-        /// Forgot password using email address
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthForgotPasswordPostAsyncWithHttpInfo (string apiVersion, ForgotPasswordBindingModel body = null);
+        /// <returns>Task of ApiResponse (string)</returns>
+        System.Threading.Tasks.Task<ApiResponse<string>> ApiVapiVersionAuthPingGetAsyncWithHttpInfo(string apiVersion);
         /// <summary>
         /// Get user info for logged in authenticated user
         /// </summary>
@@ -443,143 +150,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo (string apiVersion);
-        /// <summary>
-        /// Used to get current user&#x27;s IP Address
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> ApiVapiVersionAuthPingGetAsync (string apiVersion);
-
-        /// <summary>
-        /// Used to get current user&#x27;s IP Address
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> ApiVapiVersionAuthPingGetAsyncWithHttpInfo (string apiVersion);
-        /// <summary>
-        /// Refresh expired access and old refresh token
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task ApiVapiVersionAuthRefreshPostAsync (string apiVersion, RefreshModel body = null);
-
-        /// <summary>
-        /// Refresh expired access and old refresh token
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthRefreshPostAsyncWithHttpInfo (string apiVersion, RefreshModel body = null);
-        /// <summary>
-        /// Register new user
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Signup model (optional)</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task ApiVapiVersionAuthRegisterPostAsync (string apiVersion, SignUpViewModel body = null);
-
-        /// <summary>
-        /// Register new user
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Signup model (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthRegisterPostAsyncWithHttpInfo (string apiVersion, SignUpViewModel body = null);
-        /// <summary>
-        /// Resend confirmation email to registered email address
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="emailAddress">Email address needed for confirmation (optional)</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task ApiVapiVersionAuthResendEmailConfirmationPutAsync (string apiVersion, string emailAddress = null);
-
-        /// <summary>
-        /// Resend confirmation email to registered email address
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="emailAddress">Email address needed for confirmation (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthResendEmailConfirmationPutAsyncWithHttpInfo (string apiVersion, string emailAddress = null);
-        /// <summary>
-        /// Reset password
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task ApiVapiVersionAuthSetPasswordPutAsync (string apiVersion, ResetPasswordBindingModel body = null);
-
-        /// <summary>
-        /// Reset password
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthSetPasswordPutAsyncWithHttpInfo (string apiVersion, ResetPasswordBindingModel body = null);
-        /// <summary>
-        /// Set new password
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task ApiVapiVersionAuthSetUserPasswordPutAsync (string apiVersion, SetPasswordBindingModel body = null);
-
-        /// <summary>
-        /// Set new password
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthSetUserPasswordPutAsyncWithHttpInfo (string apiVersion, SetPasswordBindingModel body = null);
-        /// <summary>
+        
         /// Login with username and password
         /// </summary>
         /// <remarks>
@@ -602,31 +173,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthTokenPostAsyncWithHttpInfo (string apiVersion, Login body = null);
-        /// <summary>
-        /// Verify user token before resetting the password
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task ApiVapiVersionAuthVerifyUserTokenGetAsync (string apiVersion, string userId = null, string code = null);
-
-        /// <summary>
-        /// Verify user token before resetting the password
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthVerifyUserTokenGetAsyncWithHttpInfo (string apiVersion, string userId = null, string code = null);
+        
         #endregion Asynchronous Operations
     }
 
@@ -739,188 +286,30 @@ namespace OpenBots.Server.SDK.Api
         }
 
         /// <summary>
-        /// Change / Reset with new password 
+        /// Used to get current user&#x27;s IP Address 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ApiVapiVersionAuthChangePasswordPut (string apiVersion, ChangePasswordBindingModel body = null)
+        /// <returns>string</returns>
+        public string ApiVapiVersionAuthPingGet(string apiVersion)
         {
-             ApiVapiVersionAuthChangePasswordPutWithHttpInfo(apiVersion, body);
+            ApiResponse<string> localVarResponse = ApiVapiVersionAuthPingGetWithHttpInfo(apiVersion);
+            return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Change / Reset with new password 
+        /// Used to get current user&#x27;s IP Address 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> ApiVapiVersionAuthChangePasswordPutWithHttpInfo (string apiVersion, ChangePasswordBindingModel body = null)
+        /// <returns>ApiResponse of string</returns>
+        public ApiResponse<string> ApiVapiVersionAuthPingGetWithHttpInfo(string apiVersion)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthChangePasswordPut");
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthPingGet");
 
-            var localVarPath = "/api/v{apiVersion}/Auth/ChangePassword";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = body; // byte array
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthChangePasswordPut", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-        /// <summary>
-        /// Change / Reset with new password 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task ApiVapiVersionAuthChangePasswordPutAsync (string apiVersion, ChangePasswordBindingModel body = null)
-        {
-             await ApiVapiVersionAuthChangePasswordPutAsyncWithHttpInfo(apiVersion, body);
-
-        }
-
-        /// <summary>
-        /// Change / Reset with new password 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthChangePasswordPutAsyncWithHttpInfo (string apiVersion, ChangePasswordBindingModel body = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthChangePasswordPut");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/ChangePassword";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = body; // byte array
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthChangePasswordPut", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-        /// <summary>
-        /// Confirm email address 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="emailAddress"> (optional)</param>
-        /// <param name="token"> (optional)</param>
-        /// <returns></returns>
-        public void ApiVapiVersionAuthConfirmEmailAddressGet (string apiVersion, string emailAddress = null, string token = null)
-        {
-             ApiVapiVersionAuthConfirmEmailAddressGetWithHttpInfo(apiVersion, emailAddress, token);
-        }
-
-        /// <summary>
-        /// Confirm email address 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="emailAddress"> (optional)</param>
-        /// <param name="token"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> ApiVapiVersionAuthConfirmEmailAddressGetWithHttpInfo (string apiVersion, string emailAddress = null, string token = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthConfirmEmailAddressGet");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/ConfirmEmailAddress";
+            var localVarPath = "/api/v{apiVersion}/Auth/Ping";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -935,62 +324,60 @@ namespace OpenBots.Server.SDK.Api
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
+                "text/plain",
+                "application/json",
+                "text/json"
             };
             String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (emailAddress != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "emailAddress", emailAddress)); // query parameter
-            if (token != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "token", token)); // query parameter
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthConfirmEmailAddressGet", localVarResponse);
+                Exception exception = ExceptionFactory("ApiVapiVersionAuthPingGet", localVarResponse);
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<Object>(localVarStatusCode,
+            return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
+                (string)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
         }
 
         /// <summary>
-        /// Confirm email address 
+        /// Used to get current user&#x27;s IP Address 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
-        /// <param name="emailAddress"> (optional)</param>
-        /// <param name="token"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task ApiVapiVersionAuthConfirmEmailAddressGetAsync (string apiVersion, string emailAddress = null, string token = null)
+        /// <returns>Task of string</returns>
+        public async System.Threading.Tasks.Task<string> ApiVapiVersionAuthPingGetAsync(string apiVersion)
         {
-             await ApiVapiVersionAuthConfirmEmailAddressGetAsyncWithHttpInfo(apiVersion, emailAddress, token);
+            ApiResponse<string> localVarResponse = await ApiVapiVersionAuthPingGetAsyncWithHttpInfo(apiVersion);
+            return localVarResponse.Data;
 
         }
 
         /// <summary>
-        /// Confirm email address 
+        /// Used to get current user&#x27;s IP Address 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
-        /// <param name="emailAddress"> (optional)</param>
-        /// <param name="token"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthConfirmEmailAddressGetAsyncWithHttpInfo (string apiVersion, string emailAddress = null, string token = null)
+        /// <returns>Task of ApiResponse (string)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<string>> ApiVapiVersionAuthPingGetAsyncWithHttpInfo(string apiVersion)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthConfirmEmailAddressGet");
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthPingGet");
 
-            var localVarPath = "/api/v{apiVersion}/Auth/ConfirmEmailAddress";
+            var localVarPath = "/api/v{apiVersion}/Auth/Ping";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1005,325 +392,181 @@ namespace OpenBots.Server.SDK.Api
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
+                "text/plain",
+                "application/json",
+                "text/json"
             };
             String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (emailAddress != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "emailAddress", emailAddress)); // query parameter
-            if (token != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "token", token)); // query parameter
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthConfirmEmailAddressGet", localVarResponse);
+                Exception exception = ExceptionFactory("ApiVapiVersionAuthPingGet", localVarResponse);
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<Object>(localVarStatusCode,
+            return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
+                (string)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
         }
 
-        /// <summary>
-        /// Confirm new user 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns></returns>
-        public void ApiVapiVersionAuthConfirmEmailGet (string apiVersion, string userId = null, string code = null)
+        public UserInfo GetUserInfo(string apiVersion, string agentId, string serverType, string organizationName, string environment, string serverUrl, string username, string password)
         {
-             ApiVapiVersionAuthConfirmEmailGetWithHttpInfo(apiVersion, userId, code);
+            if (string.IsNullOrEmpty(agentId))
+                throw new Exception("Agent is not connected");
+
+            string organizationId = string.Empty;
+            string loginUrl;
+
+            if (serverType == "Cloud")
+            {
+                string serviceRegistrationUrl = "https://dev-api.members.openbots.io/api/v1/ServiceRegistration";
+                var serviceRegistration = GetServiceRegistration(apiVersion, serviceRegistrationUrl, environment);
+                if (serviceRegistration.IsCurrentlyUnderMaintenance)
+                    throw new Exception("Server is currently undergoing maintenance and cannot be accessed at this time");
+
+                serverUrl = serviceRegistration.OpenAPIUri.AbsoluteUri;
+                //loginUrl = serviceRegistration.ServiceBaseUri.AbsoluteUri;
+                loginUrl = "https://dev.login.openbots.io/connect/token";
+            }
+            else // serverType == "Local"
+                loginUrl = serverUrl;
+
+            if (string.IsNullOrEmpty(serverUrl))
+                throw new Exception("Server URL not found");
+
+            if (username == null || password == null)
+                throw new Exception("Agent credentials not found in registry");
+
+            string token = GetAuthToken(apiVersion, serverType, username, password, loginUrl);
+
+            ServerInfo serverInfo = GetServerInfo(apiVersion, serverUrl);
+
+            if (serverType == "Cloud")
+                organizationId = GetOrganizationId(apiVersion, organizationName, serverUrl, serverInfo.OrganizationListings);
+
+            var userInfo = new UserInfo()
+            {
+                OrganizationId = organizationId,
+                ServerType = serverType,
+                Token = token,
+                ServerUrl = serverUrl,
+                LoginUrl = loginUrl
+            };
+
+            return userInfo;
         }
 
-        /// <summary>
-        /// Confirm new user 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> ApiVapiVersionAuthConfirmEmailGetWithHttpInfo (string apiVersion, string userId = null, string code = null)
+        public static ServiceRegistration GetServiceRegistration(string apiVersion, string serviceUrl, string environment)
         {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthConfirmEmailGet");
+            var client = new RestClient(serviceUrl);
+            var request = new RestRequest($"api/v{apiVersion}/ServiceRegistration", Method.GET);
+            request.AddParameter("$filter", $"environment eq '{environment}'");
+            request.RequestFormat = DataFormat.Json;
 
-            var localVarPath = "/api/v{apiVersion}/Auth/ConfirmEmail";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
+            var response = client.Execute(request);
 
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+            if (!response.IsSuccessful)
+                throw new HttpRequestException($"Status Code: {response.StatusCode} - Error Message: {response.ErrorMessage}");
 
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (userId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "userId", userId)); // query parameter
-            if (code != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "code", code)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthConfirmEmailGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
+            var deserializer = new JsonDeserializer();
+            var output = deserializer.Deserialize<Dictionary<string, string>>(response);
+            var items = output["items"];
+            return JsonConvert.DeserializeObject<List<ServiceRegistration>>(items).FirstOrDefault();
         }
 
-        /// <summary>
-        /// Confirm new user 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task ApiVapiVersionAuthConfirmEmailGetAsync (string apiVersion, string userId = null, string code = null)
+        public static string GetOrganizationId(string apiVersion, string organizationName, string serverUrl, List<OrganizationListing> orgList)
         {
-             await ApiVapiVersionAuthConfirmEmailGetAsyncWithHttpInfo(apiVersion, userId, code);
+            var apiInstance = new OrganizationsApi(serverUrl);
+            try
+            {
+                bool IsUserInOrg = false;
+                foreach (var org in orgList)
+                {
+                    if (org.Name == organizationName)
+                        IsUserInOrg = true;
+                }
 
+                if (!IsUserInOrg)
+                    throw new Exception($"Organization {organizationName} does not match user's existing organizations");
+
+                string filter = $"$filter=Name eq '{organizationName}'";
+                var result = apiInstance.ApiVapiVersionOrganizationsGetAsyncWithHttpInfo(apiVersion, filter).Result.Data.Items.FirstOrDefault();
+                if (result == null)
+                    throw new Exception($"Organization {organizationName} could not be found");
+
+                return result.Id.ToString();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Exception when calling AuthApi.ApiVapiVersionAuthTokenPostWithHttpInfo: " + ex.Message);
+            }
         }
 
-        /// <summary>
-        /// Confirm new user 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthConfirmEmailGetAsyncWithHttpInfo (string apiVersion, string userId = null, string code = null)
+        public static string GetAuthToken(string apiVersion, string serverType, string username, string password, string loginUrl)
         {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthConfirmEmailGet");
+            string token;
 
-            var localVarPath = "/api/v{apiVersion}/Auth/ConfirmEmail";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (userId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "userId", userId)); // query parameter
-            if (code != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "code", code)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
+            if (serverType == "Local") // get token from open source Server
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthConfirmEmailGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
+                var apiInstance = new AuthApi(loginUrl);
+                var login = new Login(username, password);
 
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
+                try
+                {
+                    var result = apiInstance.ApiVapiVersionAuthTokenPostWithHttpInfo(apiVersion, login).Data.ToString();
+                    JObject jsonObj = JObject.Parse(result.Replace("[]", "null"));
+                    Dictionary<string, string> resultDict = jsonObj.ToObject<Dictionary<string, string>>();
+                    token = resultDict["token"].ToString();
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidOperationException("Exception when calling AuthApi.ApiVapiVersionAuthTokenPostWithHttpInfo: " + ex.Message);
+                }
+            }
+            else // get token from cloud Server
+            {
+                var httpClient = new HttpClient();
+                var identityServerResponse = httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
+                {
+                    Address = loginUrl,
+                    ClientId = "client",
+                    UserName = username,
+                    Password = password
+                }).Result;
+
+                if (identityServerResponse.IsError) throw new Exception(identityServerResponse.Error);
+
+                token = identityServerResponse.AccessToken;
+            }
+            return token;
         }
 
-        /// <summary>
-        /// Forgot password using email address 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ApiVapiVersionAuthForgotPasswordPost (string apiVersion, ForgotPasswordBindingModel body = null)
+        public static ServerInfo GetServerInfo(string apiVersion, string serverUrl)
         {
-             ApiVapiVersionAuthForgotPasswordPostWithHttpInfo(apiVersion, body);
-        }
+            var apiInstance = new AuthApi(serverUrl);
 
-        /// <summary>
-        /// Forgot password using email address 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> ApiVapiVersionAuthForgotPasswordPostWithHttpInfo (string apiVersion, ForgotPasswordBindingModel body = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthForgotPasswordPost");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/ForgotPassword";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
+            try
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
+                var result = apiInstance.ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo(apiVersion).Result.Data;
+                string resultString = JsonConvert.SerializeObject(result);
+                var serverInfo = JsonConvert.DeserializeObject<ServerInfo>(resultString);
+                return serverInfo;
             }
-            else
+            catch (Exception ex)
             {
-                localVarPostBody = body; // byte array
+                throw new InvalidOperationException("Exception when calling AuthApi.ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo: " + ex.Message);
             }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthForgotPasswordPost", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                localVarResponse.Content);
-        }
-
-        /// <summary>
-        /// Forgot password using email address 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task ApiVapiVersionAuthForgotPasswordPostAsync (string apiVersion, ForgotPasswordBindingModel body = null)
-        {
-             await ApiVapiVersionAuthForgotPasswordPostAsyncWithHttpInfo(apiVersion, body);
-
-        }
-
-        /// <summary>
-        /// Forgot password using email address 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthForgotPasswordPostAsyncWithHttpInfo (string apiVersion, ForgotPasswordBindingModel body = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthForgotPasswordPost");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/ForgotPassword";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = body; // byte array
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthForgotPasswordPost", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
         }
 
         /// <summary>
@@ -1454,900 +697,6 @@ namespace OpenBots.Server.SDK.Api
         }
 
         /// <summary>
-        /// Used to get current user&#x27;s IP Address 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <returns>string</returns>
-        public string ApiVapiVersionAuthPingGet (string apiVersion)
-        {
-             ApiResponse<string> localVarResponse = ApiVapiVersionAuthPingGetWithHttpInfo(apiVersion);
-             return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Used to get current user&#x27;s IP Address 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <returns>ApiResponse of string</returns>
-        public ApiResponse< string > ApiVapiVersionAuthPingGetWithHttpInfo (string apiVersion)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthPingGet");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/Ping";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "text/plain",
-                "application/json",
-                "text/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthPingGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<string>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
-        }
-
-        /// <summary>
-        /// Used to get current user&#x27;s IP Address 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> ApiVapiVersionAuthPingGetAsync (string apiVersion)
-        {
-             ApiResponse<string> localVarResponse = await ApiVapiVersionAuthPingGetAsyncWithHttpInfo(apiVersion);
-             return localVarResponse.Data;
-
-        }
-
-        /// <summary>
-        /// Used to get current user&#x27;s IP Address 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<string>> ApiVapiVersionAuthPingGetAsyncWithHttpInfo (string apiVersion)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthPingGet");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/Ping";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "text/plain",
-                "application/json",
-                "text/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthPingGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<string>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
-        }
-
-        /// <summary>
-        /// Refresh expired access and old refresh token 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ApiVapiVersionAuthRefreshPost (string apiVersion, RefreshModel body = null)
-        {
-             ApiVapiVersionAuthRefreshPostWithHttpInfo(apiVersion, body);
-        }
-
-        /// <summary>
-        /// Refresh expired access and old refresh token 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> ApiVapiVersionAuthRefreshPostWithHttpInfo (string apiVersion, RefreshModel body = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthRefreshPost");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/Refresh";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = body; // byte array
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthRefreshPost", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-        /// <summary>
-        /// Refresh expired access and old refresh token 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task ApiVapiVersionAuthRefreshPostAsync (string apiVersion, RefreshModel body = null)
-        {
-             await ApiVapiVersionAuthRefreshPostAsyncWithHttpInfo(apiVersion, body);
-
-        }
-
-        /// <summary>
-        /// Refresh expired access and old refresh token 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthRefreshPostAsyncWithHttpInfo (string apiVersion, RefreshModel body = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthRefreshPost");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/Refresh";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = body; // byte array
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthRefreshPost", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-        /// <summary>
-        /// Register new user 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Signup model (optional)</param>
-        /// <returns></returns>
-        public void ApiVapiVersionAuthRegisterPost (string apiVersion, SignUpViewModel body = null)
-        {
-             ApiVapiVersionAuthRegisterPostWithHttpInfo(apiVersion, body);
-        }
-
-        /// <summary>
-        /// Register new user 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Signup model (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> ApiVapiVersionAuthRegisterPostWithHttpInfo (string apiVersion, SignUpViewModel body = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthRegisterPost");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/Register";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "text/plain",
-                "application/json",
-                "text/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = body; // byte array
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthRegisterPost", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-        /// <summary>
-        /// Register new user 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Signup model (optional)</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task ApiVapiVersionAuthRegisterPostAsync (string apiVersion, SignUpViewModel body = null)
-        {
-             await ApiVapiVersionAuthRegisterPostAsyncWithHttpInfo(apiVersion, body);
-
-        }
-
-        /// <summary>
-        /// Register new user 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Signup model (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthRegisterPostAsyncWithHttpInfo (string apiVersion, SignUpViewModel body = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthRegisterPost");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/Register";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "text/plain",
-                "application/json",
-                "text/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = body; // byte array
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthRegisterPost", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-        /// <summary>
-        /// Resend confirmation email to registered email address 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="emailAddress">Email address needed for confirmation (optional)</param>
-        /// <returns></returns>
-        public void ApiVapiVersionAuthResendEmailConfirmationPut (string apiVersion, string emailAddress = null)
-        {
-             ApiVapiVersionAuthResendEmailConfirmationPutWithHttpInfo(apiVersion, emailAddress);
-        }
-
-        /// <summary>
-        /// Resend confirmation email to registered email address 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="emailAddress">Email address needed for confirmation (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> ApiVapiVersionAuthResendEmailConfirmationPutWithHttpInfo (string apiVersion, string emailAddress = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthResendEmailConfirmationPut");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/ResendEmailConfirmation";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (emailAddress != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "emailAddress", emailAddress)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthResendEmailConfirmationPut", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-        /// <summary>
-        /// Resend confirmation email to registered email address 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="emailAddress">Email address needed for confirmation (optional)</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task ApiVapiVersionAuthResendEmailConfirmationPutAsync (string apiVersion, string emailAddress = null)
-        {
-             await ApiVapiVersionAuthResendEmailConfirmationPutAsyncWithHttpInfo(apiVersion, emailAddress);
-
-        }
-
-        /// <summary>
-        /// Resend confirmation email to registered email address 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="emailAddress">Email address needed for confirmation (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthResendEmailConfirmationPutAsyncWithHttpInfo (string apiVersion, string emailAddress = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthResendEmailConfirmationPut");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/ResendEmailConfirmation";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (emailAddress != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "emailAddress", emailAddress)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthResendEmailConfirmationPut", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-        /// <summary>
-        /// Reset password 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ApiVapiVersionAuthSetPasswordPut (string apiVersion, ResetPasswordBindingModel body = null)
-        {
-             ApiVapiVersionAuthSetPasswordPutWithHttpInfo(apiVersion, body);
-        }
-
-        /// <summary>
-        /// Reset password 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> ApiVapiVersionAuthSetPasswordPutWithHttpInfo (string apiVersion, ResetPasswordBindingModel body = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthSetPasswordPut");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/SetPassword";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = body; // byte array
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthSetPasswordPut", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-        /// <summary>
-        /// Reset password 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task ApiVapiVersionAuthSetPasswordPutAsync (string apiVersion, ResetPasswordBindingModel body = null)
-        {
-             await ApiVapiVersionAuthSetPasswordPutAsyncWithHttpInfo(apiVersion, body);
-
-        }
-
-        /// <summary>
-        /// Reset password 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthSetPasswordPutAsyncWithHttpInfo (string apiVersion, ResetPasswordBindingModel body = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthSetPasswordPut");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/SetPassword";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = body; // byte array
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthSetPasswordPut", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-        /// <summary>
-        /// Set new password 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns></returns>
-        public void ApiVapiVersionAuthSetUserPasswordPut (string apiVersion, SetPasswordBindingModel body = null)
-        {
-             ApiVapiVersionAuthSetUserPasswordPutWithHttpInfo(apiVersion, body);
-        }
-
-        /// <summary>
-        /// Set new password 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> ApiVapiVersionAuthSetUserPasswordPutWithHttpInfo (string apiVersion, SetPasswordBindingModel body = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthSetUserPasswordPut");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/SetUserPassword";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = body; // byte array
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthSetUserPasswordPut", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-        /// <summary>
-        /// Set new password 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task ApiVapiVersionAuthSetUserPasswordPutAsync (string apiVersion, SetPasswordBindingModel body = null)
-        {
-             await ApiVapiVersionAuthSetUserPasswordPutAsyncWithHttpInfo(apiVersion, body);
-
-        }
-
-        /// <summary>
-        /// Set new password 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthSetUserPasswordPutAsyncWithHttpInfo (string apiVersion, SetPasswordBindingModel body = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthSetUserPasswordPut");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/SetUserPassword";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = body; // byte array
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthSetUserPasswordPut", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-        /// <summary>
         /// Login with username and password 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
@@ -2444,7 +793,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthTokenPostAsyncWithHttpInfo (string apiVersion, Login body = null)
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthTokenPostAsyncWithHttpInfo(string apiVersion, Login body = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
@@ -2460,9 +809,9 @@ namespace OpenBots.Server.SDK.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
+                "application/json-patch+json",
+                "application/json",
+                "text/json",
                 "application/_*+json"
             };
             String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
@@ -2485,11 +834,11 @@ namespace OpenBots.Server.SDK.Api
             }
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -2501,145 +850,5 @@ namespace OpenBots.Server.SDK.Api
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
-
-        /// <summary>
-        /// Verify user token before resetting the password 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns></returns>
-        public void ApiVapiVersionAuthVerifyUserTokenGet (string apiVersion, string userId = null, string code = null)
-        {
-             ApiVapiVersionAuthVerifyUserTokenGetWithHttpInfo(apiVersion, userId, code);
-        }
-
-        /// <summary>
-        /// Verify user token before resetting the password 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> ApiVapiVersionAuthVerifyUserTokenGetWithHttpInfo (string apiVersion, string userId = null, string code = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthVerifyUserTokenGet");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/VerifyUserToken";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (userId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "userId", userId)); // query parameter
-            if (code != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "code", code)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthVerifyUserTokenGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-        /// <summary>
-        /// Verify user token before resetting the password 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task ApiVapiVersionAuthVerifyUserTokenGetAsync (string apiVersion, string userId = null, string code = null)
-        {
-             await ApiVapiVersionAuthVerifyUserTokenGetAsyncWithHttpInfo(apiVersion, userId, code);
-
-        }
-
-        /// <summary>
-        /// Verify user token before resetting the password 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="userId"> (optional)</param>
-        /// <param name="code"> (optional)</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthVerifyUserTokenGetAsyncWithHttpInfo (string apiVersion, string userId = null, string code = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AuthApi->ApiVapiVersionAuthVerifyUserTokenGet");
-
-            var localVarPath = "/api/v{apiVersion}/Auth/VerifyUserToken";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (userId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "userId", userId)); // query parameter
-            if (code != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "code", code)); // query parameter
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthVerifyUserTokenGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-    }
+     }
 }

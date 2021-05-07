@@ -548,7 +548,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="assetType">Asset type (optional)</param>
         /// <returns>Task of Asset</returns>
-        System.Threading.Tasks.Task<Asset> ApiVapiVersionAssetsGetAssetByNameAssetNameGetAsync (string assetName, string apiVersion, string assetType = null);
+        System.Threading.Tasks.Task<Asset> ApiVapiVersionAssetsGetAssetByNameAssetNameGetAsync (string assetName, string apiVersion, string organizationId, string assetType = null);
 
         /// <summary>
         /// Provides an Asset&#x27;s details for a particular Asset name
@@ -561,7 +561,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="assetType">Asset type (optional)</param>
         /// <returns>Task of ApiResponse (Asset)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Asset>> ApiVapiVersionAssetsGetAssetByNameAssetNameGetAsyncWithHttpInfo (string assetName, string apiVersion, string assetType = null);
+        System.Threading.Tasks.Task<ApiResponse<Asset>> ApiVapiVersionAssetsGetAssetByNameAssetNameGetAsyncWithHttpInfo (string assetName, string apiVersion, string organizationId, string assetType = null);
         /// <summary>
         /// Add the number value of Asset
         /// </summary>
@@ -573,7 +573,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="value">Value of the Asset to be updated (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdAddPutAsync (string id, string apiVersion, int? value = null);
+        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdAddPutAsync (string id, string apiVersion, string organizationId, int? value = null);
 
         /// <summary>
         /// Add the number value of Asset
@@ -586,7 +586,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="value">Value of the Asset to be updated (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdAddPutAsyncWithHttpInfo (string id, string apiVersion, int? value = null);
+        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdAddPutAsyncWithHttpInfo (string id, string apiVersion, string organizationId, int? value = null);
         /// <summary>
         /// Append the text value of Asset
         /// </summary>
@@ -598,7 +598,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="value">Value of the Asset to be updated (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdAppendPutAsync (string id, string apiVersion, string value = null);
+        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdAppendPutAsync (string id, string apiVersion, string organizationId, string value = null);
 
         /// <summary>
         /// Append the text value of Asset
@@ -611,7 +611,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="value">Value of the Asset to be updated (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdAppendPutAsyncWithHttpInfo (string id, string apiVersion, string value = null);
+        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdAppendPutAsyncWithHttpInfo (string id, string apiVersion, string organizationId, string value = null);
         /// <summary>
         /// Decrement the number value of Asset
         /// </summary>
@@ -622,7 +622,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset identifier</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdDecrementPutAsync (string id, string apiVersion);
+        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdDecrementPutAsync (string id, string apiVersion, string organizationId);
 
         /// <summary>
         /// Decrement the number value of Asset
@@ -634,7 +634,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset identifier</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdDecrementPutAsyncWithHttpInfo (string id, string apiVersion);
+        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdDecrementPutAsyncWithHttpInfo (string id, string apiVersion, string organizationId);
         /// <summary>
         /// Deletes an Asset with a specified id
         /// </summary>
@@ -670,7 +670,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset identifier</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdIncrementPutAsync (string id, string apiVersion);
+        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdIncrementPutAsync (string id, string apiVersion, string organizationId);
 
         /// <summary>
         /// Increment the number value of an Asset
@@ -682,7 +682,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset identifier</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdIncrementPutAsyncWithHttpInfo (string id, string apiVersion);
+        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdIncrementPutAsyncWithHttpInfo (string id, string apiVersion, string organizationId);
         /// <summary>
         /// Updates partial details of Asset
         /// </summary>
@@ -719,7 +719,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Asset details to be updated (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdPutAsync (string id, string apiVersion, Asset body = null);
+        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdPutAsync (string id, string apiVersion, string organizationId, Asset body = null);
 
         /// <summary>
         /// Updates an Asset
@@ -732,7 +732,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Asset details to be updated (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdPutAsyncWithHttpInfo (string id, string apiVersion, Asset body = null);
+        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdPutAsyncWithHttpInfo (string id, string apiVersion, string organizationId, Asset body = null);
         /// <summary>
         /// Subtract the number value of Asset
         /// </summary>
@@ -744,7 +744,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="value">Value of the Asset to be updated (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdSubtractPutAsync (string id, string apiVersion, int? value = null);
+        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdSubtractPutAsync (string id, string apiVersion, string organizationId, int? value = null);
 
         /// <summary>
         /// Subtract the number value of Asset
@@ -757,7 +757,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="value">Value of the Asset to be updated (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdSubtractPutAsyncWithHttpInfo (string id, string apiVersion, int? value = null);
+        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdSubtractPutAsyncWithHttpInfo (string id, string apiVersion, string organizationId, int? value = null);
         /// <summary>
         /// Updates an Asset with file
         /// </summary>
@@ -768,7 +768,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of Asset</returns>
-        System.Threading.Tasks.Task<Asset> ApiVapiVersionAssetsIdUpdatePutAsync (string id, string apiVersion, string name, string type, Guid? fileId, System.IO.FileStream _file);
+        System.Threading.Tasks.Task<Asset> ApiVapiVersionAssetsIdUpdatePutAsync (string id, string apiVersion, string organizationId, string name, string type, Guid? fileId, System.IO.FileStream _file);
 
         /// <summary>
         /// Updates an Asset with file
@@ -780,7 +780,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (Asset)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Asset>> ApiVapiVersionAssetsIdUpdatePutAsyncWithHttpInfo (string id, string apiVersion, string name, string type, Guid? fileId, System.IO.FileStream _file);
+        System.Threading.Tasks.Task<ApiResponse<Asset>> ApiVapiVersionAssetsIdUpdatePutAsyncWithHttpInfo (string id, string apiVersion, string organizationId, string name, string type, Guid? fileId, System.IO.FileStream _file);
         /// <summary>
         /// Create a new Asset entity
         /// </summary>
@@ -865,7 +865,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of System.IO.MemoryStream</returns>
-        System.Threading.Tasks.Task<System.IO.MemoryStream> ExportAssetAsync (string id, string apiVersion, string driveName = null);
+        System.Threading.Tasks.Task<System.IO.MemoryStream> ExportAssetAsync (string id, string apiVersion, string organizationId, string driveName = null);
 
         /// <summary>
         /// Export/download an Asset file
@@ -878,7 +878,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of ApiResponse (System.IO.MemoryStream)</returns>
-        System.Threading.Tasks.Task<ApiResponse<System.IO.MemoryStream>> ExportAssetAsyncWithHttpInfo (string id, string apiVersion, string driveName = null);
+        System.Threading.Tasks.Task<ApiResponse<System.IO.MemoryStream>> ExportAssetAsyncWithHttpInfo (string id, string apiVersion, string organizationId, string driveName = null);
         /// <summary>
         /// Provides an Asset&#x27;s details for a particular Asset id
         /// </summary>
@@ -1578,9 +1578,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="assetType">Asset type (optional)</param>
         /// <returns>Task of Asset</returns>
-        public async System.Threading.Tasks.Task<Asset> ApiVapiVersionAssetsGetAssetByNameAssetNameGetAsync (string assetName, string apiVersion, string assetType = null)
+        public async System.Threading.Tasks.Task<Asset> ApiVapiVersionAssetsGetAssetByNameAssetNameGetAsync (string assetName, string apiVersion, string organizationId, string assetType = null)
         {
-             ApiResponse<Asset> localVarResponse = await ApiVapiVersionAssetsGetAssetByNameAssetNameGetAsyncWithHttpInfo(assetName, apiVersion, assetType);
+             ApiResponse<Asset> localVarResponse = await ApiVapiVersionAssetsGetAssetByNameAssetNameGetAsyncWithHttpInfo(assetName, apiVersion, organizationId, assetType);
              return localVarResponse.Data;
 
         }
@@ -1593,7 +1593,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="assetType">Asset type (optional)</param>
         /// <returns>Task of ApiResponse (Asset)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Asset>> ApiVapiVersionAssetsGetAssetByNameAssetNameGetAsyncWithHttpInfo (string assetName, string apiVersion, string assetType = null)
+        public async System.Threading.Tasks.Task<ApiResponse<Asset>> ApiVapiVersionAssetsGetAssetByNameAssetNameGetAsyncWithHttpInfo (string assetName, string apiVersion, string organizationId, string assetType = null)
         {
             // verify the required parameter 'assetName' is set
             if (assetName == null)
@@ -1602,7 +1602,10 @@ namespace OpenBots.Server.SDK.Api
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AssetsApi->ApiVapiVersionAssetsGetAssetByNameAssetNameGet");
 
-            var localVarPath = "/api/v{apiVersion}/Assets/GetAssetByName/{assetName}";
+            var localVarPath = string.Empty;
+            if (string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Assets/GetAssetByName/{assetName}";
+            else localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Assets/GetAssetByName/{assetName}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1625,6 +1628,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (assetName != null) localVarPathParams.Add("assetName", this.Configuration.ApiClient.ParameterToString(assetName)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (assetType != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "assetType", assetType)); // query parameter
             // authentication (oauth2) required
             // bearer required
@@ -1739,9 +1743,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="value">Value of the Asset to be updated (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdAddPutAsync (string id, string apiVersion, int? value = null)
+        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdAddPutAsync (string id, string apiVersion, string organizationId, int? value = null)
         {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionAssetsIdAddPutAsyncWithHttpInfo(id, apiVersion, value);
+             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionAssetsIdAddPutAsyncWithHttpInfo(id, apiVersion, organizationId, value);
              return localVarResponse.Data;
 
         }
@@ -1754,7 +1758,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="value">Value of the Asset to be updated (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdAddPutAsyncWithHttpInfo (string id, string apiVersion, int? value = null)
+        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdAddPutAsyncWithHttpInfo (string id, string apiVersion, string organizationId, int? value = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1764,6 +1768,8 @@ namespace OpenBots.Server.SDK.Api
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AssetsApi->ApiVapiVersionAssetsIdAddPut");
 
             var localVarPath = "/api/v{apiVersion}/Assets/{id}/Add";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Assets/{id}/Add";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1900,9 +1906,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="value">Value of the Asset to be updated (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdAppendPutAsync (string id, string apiVersion, string value = null)
+        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdAppendPutAsync (string id, string apiVersion, string organizationId, string value = null)
         {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionAssetsIdAppendPutAsyncWithHttpInfo(id, apiVersion, value);
+             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionAssetsIdAppendPutAsyncWithHttpInfo(id, apiVersion, organizationId, value);
              return localVarResponse.Data;
 
         }
@@ -1915,7 +1921,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="value">Value of the Asset to be updated (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdAppendPutAsyncWithHttpInfo (string id, string apiVersion, string value = null)
+        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdAppendPutAsyncWithHttpInfo (string id, string apiVersion, string organizationId, string value = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1924,7 +1930,10 @@ namespace OpenBots.Server.SDK.Api
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AssetsApi->ApiVapiVersionAssetsIdAppendPut");
 
-            var localVarPath = "/api/v{apiVersion}/Assets/{id}/Append";
+            var localVarPath = string.Empty;
+            if (string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Assets/{id}/Append";
+            else localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Assets/{id}/Append";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1947,6 +1956,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (value != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "value", value)); // query parameter
             // authentication (oauth2) required
             // bearer required
@@ -2057,9 +2067,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset identifier</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdDecrementPutAsync (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdDecrementPutAsync (string id, string apiVersion, string organizationId)
         {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionAssetsIdDecrementPutAsyncWithHttpInfo(id, apiVersion);
+             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionAssetsIdDecrementPutAsyncWithHttpInfo(id, apiVersion, organizationId);
              return localVarResponse.Data;
 
         }
@@ -2071,7 +2081,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset identifier</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdDecrementPutAsyncWithHttpInfo (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdDecrementPutAsyncWithHttpInfo (string id, string apiVersion, string organizationId)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2080,7 +2090,10 @@ namespace OpenBots.Server.SDK.Api
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AssetsApi->ApiVapiVersionAssetsIdDecrementPut");
 
-            var localVarPath = "/api/v{apiVersion}/Assets/{id}/Decrement";
+            var localVarPath = string.Empty;
+            if (string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Assets/{id}/Decrement";
+            else localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Assets/{id}/Decrement";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -2103,6 +2116,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             // authentication (oauth2) required
             // bearer required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -2373,9 +2387,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset identifier</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdIncrementPutAsync (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdIncrementPutAsync (string id, string apiVersion, string organizationId)
         {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionAssetsIdIncrementPutAsyncWithHttpInfo(id, apiVersion);
+             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionAssetsIdIncrementPutAsyncWithHttpInfo(id, apiVersion, organizationId);
              return localVarResponse.Data;
 
         }
@@ -2387,7 +2401,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset identifier</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdIncrementPutAsyncWithHttpInfo (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdIncrementPutAsyncWithHttpInfo (string id, string apiVersion, string organizationId)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2396,7 +2410,10 @@ namespace OpenBots.Server.SDK.Api
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AssetsApi->ApiVapiVersionAssetsIdIncrementPut");
 
-            var localVarPath = "/api/v{apiVersion}/Assets/{id}/Increment";
+            var localVarPath = string.Empty;
+            if (string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Assets/{id}/Increment";
+            else localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Assets/{id}/Increment";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -2419,6 +2436,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             // authentication (oauth2) required
             // bearer required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -2726,9 +2744,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Asset details to be updated (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdPutAsync (string id, string apiVersion, Asset body = null)
+        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdPutAsync (string id, string apiVersion, string organizationId, Asset body = null)
         {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionAssetsIdPutAsyncWithHttpInfo(id, apiVersion, body);
+             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionAssetsIdPutAsyncWithHttpInfo(id, apiVersion, organizationId, body);
              return localVarResponse.Data;
 
         }
@@ -2741,7 +2759,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Asset details to be updated (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdPutAsyncWithHttpInfo (string id, string apiVersion, Asset body = null)
+        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdPutAsyncWithHttpInfo (string id, string apiVersion, string organizationId, Asset body = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2750,7 +2768,10 @@ namespace OpenBots.Server.SDK.Api
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AssetsApi->ApiVapiVersionAssetsIdPut");
 
-            var localVarPath = "/api/v{apiVersion}/Assets/{id}";
+            var localVarPath = string.Empty;
+            if (string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Assets/{id}";
+            else localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Assets/{id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -2777,6 +2798,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (body != null && body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
@@ -2898,9 +2920,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="value">Value of the Asset to be updated (optional)</param>
         /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdSubtractPutAsync (string id, string apiVersion, int? value = null)
+        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionAssetsIdSubtractPutAsync (string id, string apiVersion, string organizationId, int? value = null)
         {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionAssetsIdSubtractPutAsyncWithHttpInfo(id, apiVersion, value);
+             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionAssetsIdSubtractPutAsyncWithHttpInfo(id, apiVersion, organizationId, value);
              return localVarResponse.Data;
 
         }
@@ -2913,7 +2935,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="value">Value of the Asset to be updated (optional)</param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdSubtractPutAsyncWithHttpInfo (string id, string apiVersion, int? value = null)
+        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionAssetsIdSubtractPutAsyncWithHttpInfo (string id, string apiVersion, string organizationId, int? value = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2923,6 +2945,8 @@ namespace OpenBots.Server.SDK.Api
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AssetsApi->ApiVapiVersionAssetsIdSubtractPut");
 
             var localVarPath = "/api/v{apiVersion}/Assets/{id}/Subtract";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Assets/{id}/Subtract";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -2945,6 +2969,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (value != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "value", value)); // query parameter
             // authentication (oauth2) required
             // bearer required
@@ -3065,9 +3090,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of Asset</returns>
-        public async System.Threading.Tasks.Task<Asset> ApiVapiVersionAssetsIdUpdatePutAsync (string id, string apiVersion, string name, string type, Guid? fileId, System.IO.FileStream _file)
+        public async System.Threading.Tasks.Task<Asset> ApiVapiVersionAssetsIdUpdatePutAsync (string id, string apiVersion, string organizationId, string name, string type, Guid? fileId, System.IO.FileStream _file)
         {
-             ApiResponse<Asset> localVarResponse = await ApiVapiVersionAssetsIdUpdatePutAsyncWithHttpInfo(id, apiVersion, name, type, fileId, _file);
+             ApiResponse<Asset> localVarResponse = await ApiVapiVersionAssetsIdUpdatePutAsyncWithHttpInfo(id, apiVersion, organizationId, name, type, fileId, _file);
              return localVarResponse.Data;
 
         }
@@ -3079,7 +3104,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Asset id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (Asset)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Asset>> ApiVapiVersionAssetsIdUpdatePutAsyncWithHttpInfo (string id, string apiVersion, string name, string type, Guid? fileId, System.IO.FileStream _file)
+        public async System.Threading.Tasks.Task<ApiResponse<Asset>> ApiVapiVersionAssetsIdUpdatePutAsyncWithHttpInfo (string id, string apiVersion, string organizationId, string name, string type, Guid? fileId, System.IO.FileStream _file)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -3088,7 +3113,10 @@ namespace OpenBots.Server.SDK.Api
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AssetsApi->ApiVapiVersionAssetsIdUpdatePut");
 
-            var localVarPath = "/api/v{apiVersion}/Assets/{id}/Update";
+            var localVarPath = string.Empty;
+            if (string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Assets/{id}/Update";
+            else localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Assets/{id}/Update";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -3116,6 +3144,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (id != null) localVarFormParams.Add("Id", this.Configuration.ApiClient.ParameterToString(id)); // form parameter
             if (name != null) localVarFormParams.Add("Name", this.Configuration.ApiClient.ParameterToString(name)); // form parameter
             if (type != null) localVarFormParams.Add("Type", this.Configuration.ApiClient.ParameterToString(type)); // form parameter
@@ -3725,9 +3754,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of System.IO.MemoryStream</returns>
-        public async System.Threading.Tasks.Task<System.IO.MemoryStream> ExportAssetAsync (string id, string apiVersion, string driveName = null)
+        public async System.Threading.Tasks.Task<System.IO.MemoryStream> ExportAssetAsync (string id, string apiVersion, string organizationId, string driveName = null)
         {
-             ApiResponse<System.IO.MemoryStream> localVarResponse = await ExportAssetAsyncWithHttpInfo(id, apiVersion, driveName);
+             ApiResponse<System.IO.MemoryStream> localVarResponse = await ExportAssetAsyncWithHttpInfo(id, apiVersion, organizationId, driveName);
              return localVarResponse.Data;
 
         }
@@ -3740,7 +3769,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of ApiResponse (System.IO.MemoryStream)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<System.IO.MemoryStream>> ExportAssetAsyncWithHttpInfo (string id, string apiVersion, string driveName = null)
+        public async System.Threading.Tasks.Task<ApiResponse<System.IO.MemoryStream>> ExportAssetAsyncWithHttpInfo (string id, string apiVersion, string organizationId, string driveName = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -3749,7 +3778,10 @@ namespace OpenBots.Server.SDK.Api
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AssetsApi->ExportAsset");
 
-            var localVarPath = "/api/v{apiVersion}/Assets/{id}/Export";
+            var localVarPath = string.Empty;
+            if (string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Assets/{id}/Export";
+            else localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Assets/{id}/Export";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -3772,6 +3804,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (driveName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "driveName", driveName)); // query parameter
             // authentication (oauth2) required
             // bearer required
