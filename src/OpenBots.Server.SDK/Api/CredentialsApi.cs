@@ -14,6 +14,7 @@ using System.Linq;
 using RestSharp;
 using OpenBots.Server.SDK.Client;
 using OpenBots.Server.SDK.Model;
+using Newtonsoft.Json;
 
 namespace OpenBots.Server.SDK.Api
 {
@@ -270,7 +271,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Credential</returns>
-        Credential GetCredential(string id, string apiVersion);
+        Credential GetCredential(string id, string apiVersion, string organizationId);
 
         /// <summary>
         /// Provides a credential&#x27;s details for a particular credential id
@@ -282,7 +283,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of Credential</returns>
-        ApiResponse<Credential> GetCredentialWithHttpInfo(string id, string apiVersion);
+        ApiResponse<Credential> GetCredentialWithHttpInfo(string id, string apiVersion, string organizationId);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -2285,9 +2286,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>Credential</returns>
-        public Credential GetCredential(string id, string apiVersion)
+        public Credential GetCredential(string id, string apiVersion, string organizationId)
         {
-            ApiResponse<Credential> localVarResponse = GetCredentialWithHttpInfo(id, apiVersion);
+            ApiResponse<Credential> localVarResponse = GetCredentialWithHttpInfo(id, apiVersion, organizationId);
             return localVarResponse.Data;
         }
 
@@ -2298,7 +2299,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Credential id</param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of Credential</returns>
-        public ApiResponse<Credential> GetCredentialWithHttpInfo(string id, string apiVersion)
+        public ApiResponse<Credential> GetCredentialWithHttpInfo(string id, string apiVersion, string organizationId)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2308,6 +2309,8 @@ namespace OpenBots.Server.SDK.Api
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling CredentialsApi->GetCredential");
 
             var localVarPath = "/api/v{apiVersion}/Credentials/{id}";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Credentials/{id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -2352,7 +2355,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<Credential>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Credential)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Credential)));
+                JsonConvert.DeserializeObject<Credential>(localVarResponse.Content));
         }
 
         /// <summary>

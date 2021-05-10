@@ -85,7 +85,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>AutomationPaginatedList</returns>
-        AutomationPaginatedList ApiVapiVersionAutomationsGet (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        AutomationPaginatedList ApiVapiVersionAutomationsGet (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null);
 
         /// <summary>
         /// Provides a list of all Automations
@@ -100,7 +100,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>ApiResponse of AutomationPaginatedList</returns>
-        ApiResponse<AutomationPaginatedList> ApiVapiVersionAutomationsGetWithHttpInfo (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        ApiResponse<AutomationPaginatedList> ApiVapiVersionAutomationsGetWithHttpInfo (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null);
         /// <summary>
         /// Lookup list of all Automations
         /// </summary>
@@ -303,8 +303,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>MemoryStream</returns>
-        MemoryStream ExportAutomation (string id, string apiVersion, string driveName = null);
+        /// <returns>System.IO.MemoryStream</returns>
+        System.IO.MemoryStream ExportAutomation (string id, string apiVersion, string organizationId);
 
         /// <summary>
         /// Export/download an Automation
@@ -316,8 +316,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>ApiResponse of MemoryStream</returns>
-        ApiResponse<MemoryStream> ExportAutomationWithHttpInfo (string id, string apiVersion, string driveName = null);
+        /// <returns>ApiResponse of System.IO.MemoryStream</returns>
+        ApiResponse<System.IO.MemoryStream> ExportAutomationWithHttpInfo (string id, string apiVersion, string organizationId);
         /// <summary>
         /// Get Automation by id
         /// </summary>
@@ -622,8 +622,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>Task of MemoryStream</returns>
-        System.Threading.Tasks.Task<MemoryStream> ExportAutomationAsync (string id, string apiVersion, string driveName = null);
+        /// <returns>Task of System.IO.MemoryStream</returns>
+        System.Threading.Tasks.Task<System.IO.MemoryStream> ExportAutomationAsync (string id, string apiVersion, string driveName = null);
 
         /// <summary>
         /// Export/download an Automation
@@ -635,8 +635,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>Task of ApiResponse (MemoryStream)</returns>
-        System.Threading.Tasks.Task<ApiResponse<MemoryStream>> ExportAutomationAsyncWithHttpInfo (string id, string apiVersion, string driveName = null);
+        /// <returns>Task of ApiResponse (System.IO.MemoryStream)</returns>
+        System.Threading.Tasks.Task<ApiResponse<System.IO.MemoryStream>> ExportAutomationAsyncWithHttpInfo (string id, string apiVersion, string driveName = null);
         /// <summary>
         /// Get Automation by id
         /// </summary>
@@ -1114,9 +1114,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>AutomationPaginatedList</returns>
-        public AutomationPaginatedList ApiVapiVersionAutomationsGet (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        public AutomationPaginatedList ApiVapiVersionAutomationsGet (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
-             ApiResponse<AutomationPaginatedList> localVarResponse = ApiVapiVersionAutomationsGetWithHttpInfo(apiVersion, filter, orderby, top, skip);
+             ApiResponse<AutomationPaginatedList> localVarResponse = ApiVapiVersionAutomationsGetWithHttpInfo(apiVersion, organizationId, filter, orderby, top, skip);
              return localVarResponse.Data;
         }
 
@@ -1130,13 +1130,15 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
         /// <returns>ApiResponse of AutomationPaginatedList</returns>
-        public ApiResponse< AutomationPaginatedList > ApiVapiVersionAutomationsGetWithHttpInfo (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        public ApiResponse< AutomationPaginatedList > ApiVapiVersionAutomationsGetWithHttpInfo (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AutomationsApi->ApiVapiVersionAutomationsGet");
 
             var localVarPath = "/api/v{apiVersion}/Automations";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Automations";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1158,6 +1160,7 @@ namespace OpenBots.Server.SDK.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (filter != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "$filter", filter)); // query parameter
             if (orderby != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "$orderby", orderby)); // query parameter
             if (top != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "$top", top)); // query parameter
@@ -1184,7 +1187,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<AutomationPaginatedList>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (AutomationPaginatedList) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(AutomationPaginatedList)));
+                JsonConvert.DeserializeObject<AutomationPaginatedList>(localVarResponse.Content));
         }
 
         /// <summary>
@@ -2658,11 +2661,11 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
-        /// <param name="driveName"> (optional)</param>
-        /// <returns>MemoryStream</returns>
-        public MemoryStream ExportAutomation (string id, string apiVersion, string driveName = null)
+        /// <param name="organizationId"> (optional)</param>
+        /// <returns>System.IO.MemoryStream</returns>
+        public System.IO.MemoryStream ExportAutomation (string id, string apiVersion, string organizationId)
         {
-             ApiResponse<MemoryStream> localVarResponse = ExportAutomationWithHttpInfo(id, apiVersion, driveName);
+             ApiResponse<System.IO.MemoryStream> localVarResponse = ExportAutomationWithHttpInfo(id, apiVersion, organizationId);
              return localVarResponse.Data;
         }
 
@@ -2672,9 +2675,9 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
-        /// <param name="driveName"> (optional)</param>
-        /// <returns>ApiResponse of MemoryStream</returns>
-        public ApiResponse< MemoryStream > ExportAutomationWithHttpInfo (string id, string apiVersion, string driveName = null)
+        /// <param name="organizationId"> (optional)</param>
+        /// <returns>ApiResponse of System.IO.MemoryStream</returns>
+        public ApiResponse< System.IO.MemoryStream > ExportAutomationWithHttpInfo (string id, string apiVersion, string organizationId)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2684,6 +2687,8 @@ namespace OpenBots.Server.SDK.Api
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AutomationsApi->ExportAutomation");
 
             var localVarPath = "/api/v{apiVersion}/Automations/{id}/Export";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Automations/{id}/Export";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -2706,7 +2711,8 @@ namespace OpenBots.Server.SDK.Api
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (driveName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "driveName", driveName)); // query parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
+            //if (driveName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "driveName", driveName)); // query parameter
             // authentication (oauth2) required
             // bearer required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -2727,9 +2733,13 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<MemoryStream>(localVarStatusCode,
+            byte[] byteArray = localVarResponse.RawBytes;
+            System.IO.MemoryStream stream = new System.IO.MemoryStream();
+            stream.Write(byteArray, 0, byteArray.Length);
+
+            return new ApiResponse<System.IO.MemoryStream>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (MemoryStream) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(MemoryStream)));
+                stream);
         }
 
         /// <summary>
@@ -2739,10 +2749,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>Task of MemoryStream</returns>
-        public async System.Threading.Tasks.Task<MemoryStream> ExportAutomationAsync (string id, string apiVersion, string driveName = null)
+        /// <returns>Task of System.IO.MemoryStream</returns>
+        public async System.Threading.Tasks.Task<System.IO.MemoryStream> ExportAutomationAsync (string id, string apiVersion, string driveName = null)
         {
-             ApiResponse<MemoryStream> localVarResponse = await ExportAutomationAsyncWithHttpInfo(id, apiVersion, driveName);
+             ApiResponse<System.IO.MemoryStream> localVarResponse = await ExportAutomationAsyncWithHttpInfo(id, apiVersion, driveName);
              return localVarResponse.Data;
 
         }
@@ -2754,8 +2764,8 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
-        /// <returns>Task of ApiResponse (MemoryStream)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<MemoryStream>> ExportAutomationAsyncWithHttpInfo (string id, string apiVersion, string driveName = null)
+        /// <returns>Task of ApiResponse (System.IO.MemoryStream)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<System.IO.MemoryStream>> ExportAutomationAsyncWithHttpInfo (string id, string apiVersion, string driveName = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2808,9 +2818,9 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<MemoryStream>(localVarStatusCode,
+            return new ApiResponse<System.IO.MemoryStream>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (MemoryStream) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(MemoryStream)));
+                (System.IO.MemoryStream) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(System.IO.MemoryStream)));
         }
 
         /// <summary>
@@ -2820,9 +2830,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <returns>AutomationPaginatedList</returns>
-        public AutomationPaginatedList GetAutomation (string id, string apiVersion)
+        public AutomationPaginatedList GetAutomation (string id, string apiVersion, string organizationId)
         {
-             ApiResponse<AutomationPaginatedList> localVarResponse = GetAutomationWithHttpInfo(id, apiVersion);
+             ApiResponse<AutomationPaginatedList> localVarResponse = GetAutomationWithHttpInfo(id, apiVersion, organizationId);
              return localVarResponse.Data;
         }
 
@@ -2833,7 +2843,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of AutomationPaginatedList</returns>
-        public ApiResponse< AutomationPaginatedList > GetAutomationWithHttpInfo (string id, string apiVersion)
+        public ApiResponse< AutomationPaginatedList > GetAutomationWithHttpInfo (string id, string apiVersion, string organizationId)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2843,6 +2853,8 @@ namespace OpenBots.Server.SDK.Api
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AutomationsApi->GetAutomation");
 
             var localVarPath = "/api/v{apiVersion}/Automations/{id}";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Automations/{id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -2865,6 +2877,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             // authentication (oauth2) required
             // bearer required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -2887,7 +2900,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<AutomationPaginatedList>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (AutomationPaginatedList) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(AutomationPaginatedList)));
+                JsonConvert.DeserializeObject<AutomationPaginatedList>(localVarResponse.Content));
         }
 
         /// <summary>

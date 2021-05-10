@@ -14,6 +14,7 @@ using System.Linq;
 using RestSharp;
 using OpenBots.Server.SDK.Client;
 using OpenBots.Server.SDK.Model;
+using Newtonsoft.Json;
 
 namespace OpenBots.Server.SDK.Api
 {
@@ -109,7 +110,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">AutomationExecutionLog details to be updated (optional)</param>
         /// <returns>IActionResult</returns>
-        IActionResult ApiVapiVersionAutomationExecutionLogsIdEndAutomationPut (string id, string apiVersion, AutomationExecutionLog body = null);
+        AutomationExecutionLog ApiVapiVersionAutomationExecutionLogsIdEndAutomationPut (string id, string apiVersion, string organizationId, AutomationExecutionLog body = null);
 
         /// <summary>
         /// Agent is able to update a AutomationExecutionLog End status
@@ -122,7 +123,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">AutomationExecutionLog details to be updated (optional)</param>
         /// <returns>ApiResponse of IActionResult</returns>
-        ApiResponse<IActionResult> ApiVapiVersionAutomationExecutionLogsIdEndAutomationPutWithHttpInfo (string id, string apiVersion, AutomationExecutionLog body = null);
+        ApiResponse<AutomationExecutionLog> ApiVapiVersionAutomationExecutionLogsIdEndAutomationPutWithHttpInfo (string id, string apiVersion, string organizationId, AutomationExecutionLog body = null);
         /// <summary>
         /// Updates partial details of AutomationExecutionLog.
         /// </summary>
@@ -206,7 +207,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>AutomationExecutionLog</returns>
-        AutomationExecutionLog ApiVapiVersionAutomationExecutionLogsStartAutomationPost (string apiVersion, AutomationExecutionLog body = null);
+        AutomationExecutionLog ApiVapiVersionAutomationExecutionLogsStartAutomationPost (string apiVersion, string organizationId, AutomationExecutionLog body = null);
 
         /// <summary>
         /// Allows Agent to add a new AutomationExecutionLog to the existing AutomationExecutionLogs
@@ -218,7 +219,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of AutomationExecutionLog</returns>
-        ApiResponse<AutomationExecutionLog> ApiVapiVersionAutomationExecutionLogsStartAutomationPostWithHttpInfo (string apiVersion, AutomationExecutionLog body = null);
+        ApiResponse<AutomationExecutionLog> ApiVapiVersionAutomationExecutionLogsStartAutomationPostWithHttpInfo (string apiVersion, string organizationId, AutomationExecutionLog body = null);
         /// <summary>
         /// Provides a viewmodel list of all AutomationExecutionLogs
         /// </summary>
@@ -1157,9 +1158,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">AutomationExecutionLog details to be updated (optional)</param>
         /// <returns>IActionResult</returns>
-        public IActionResult ApiVapiVersionAutomationExecutionLogsIdEndAutomationPut (string id, string apiVersion, AutomationExecutionLog body = null)
+        public AutomationExecutionLog ApiVapiVersionAutomationExecutionLogsIdEndAutomationPut (string id, string apiVersion, string organizationId, AutomationExecutionLog body = null)
         {
-             ApiResponse<IActionResult> localVarResponse = ApiVapiVersionAutomationExecutionLogsIdEndAutomationPutWithHttpInfo(id, apiVersion, body);
+             ApiResponse<AutomationExecutionLog> localVarResponse = ApiVapiVersionAutomationExecutionLogsIdEndAutomationPutWithHttpInfo(id, apiVersion, organizationId, body);
              return localVarResponse.Data;
         }
 
@@ -1171,7 +1172,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">AutomationExecutionLog details to be updated (optional)</param>
         /// <returns>ApiResponse of IActionResult</returns>
-        public ApiResponse< IActionResult > ApiVapiVersionAutomationExecutionLogsIdEndAutomationPutWithHttpInfo (string id, string apiVersion, AutomationExecutionLog body = null)
+        public ApiResponse<AutomationExecutionLog> ApiVapiVersionAutomationExecutionLogsIdEndAutomationPutWithHttpInfo (string id, string apiVersion, string organizationId, AutomationExecutionLog body = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1181,6 +1182,8 @@ namespace OpenBots.Server.SDK.Api
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AutomationExecutionLogsApi->ApiVapiVersionAutomationExecutionLogsIdEndAutomationPut");
 
             var localVarPath = "/api/v{apiVersion}/AutomationExecutionLogs/{id}/EndAutomation";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/AutomationExecutionLogs/{id}/EndAutomation";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1206,6 +1209,7 @@ namespace OpenBots.Server.SDK.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
             if (body != null && body.GetType() != typeof(byte[]))
             {
@@ -1229,9 +1233,9 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<IActionResult>(localVarStatusCode,
+            return new ApiResponse<AutomationExecutionLog>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (IActionResult) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
+                JsonConvert.DeserializeObject<AutomationExecutionLog>(localVarResponse.Content));
         }
 
         /// <summary>
@@ -1864,9 +1868,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>AutomationExecutionLog</returns>
-        public AutomationExecutionLog ApiVapiVersionAutomationExecutionLogsStartAutomationPost (string apiVersion, AutomationExecutionLog body = null)
+        public AutomationExecutionLog ApiVapiVersionAutomationExecutionLogsStartAutomationPost (string apiVersion, string organizationId, AutomationExecutionLog body = null)
         {
-             ApiResponse<AutomationExecutionLog> localVarResponse = ApiVapiVersionAutomationExecutionLogsStartAutomationPostWithHttpInfo(apiVersion, body);
+             ApiResponse<AutomationExecutionLog> localVarResponse = ApiVapiVersionAutomationExecutionLogsStartAutomationPostWithHttpInfo(apiVersion, organizationId, body);
              return localVarResponse.Data;
         }
 
@@ -1877,13 +1881,15 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
         /// <returns>ApiResponse of AutomationExecutionLog</returns>
-        public ApiResponse< AutomationExecutionLog > ApiVapiVersionAutomationExecutionLogsStartAutomationPostWithHttpInfo (string apiVersion, AutomationExecutionLog body = null)
+        public ApiResponse< AutomationExecutionLog > ApiVapiVersionAutomationExecutionLogsStartAutomationPostWithHttpInfo (string apiVersion, string organizationId, AutomationExecutionLog body = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AutomationExecutionLogsApi->ApiVapiVersionAutomationExecutionLogsStartAutomationPost");
 
             var localVarPath = "/api/v{apiVersion}/AutomationExecutionLogs/StartAutomation";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/AutomationExecutionLogs/StartAutomation";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1909,6 +1915,7 @@ namespace OpenBots.Server.SDK.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (body != null && body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
@@ -1933,7 +1940,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<AutomationExecutionLog>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (AutomationExecutionLog) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(AutomationExecutionLog)));
+                JsonConvert.DeserializeObject<AutomationExecutionLog>(localVarResponse.Content));
         }
 
         /// <summary>

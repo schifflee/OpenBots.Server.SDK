@@ -14,6 +14,7 @@ using System.Linq;
 using RestSharp;
 using OpenBots.Server.SDK.Client;
 using OpenBots.Server.SDK.Model;
+using Newtonsoft.Json;
 
 namespace OpenBots.Server.SDK.Api
 {
@@ -163,7 +164,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the job to be updated (optional)</param>
         /// <returns>IActionResult</returns>
-        IActionResult ApiVapiVersionJobsIdPatch (string id, string apiVersion, List<Operation> body = null);
+        IActionResult ApiVapiVersionJobsIdPatch (string id, string apiVersion, string organizationId, List<Operation> body = null);
 
         /// <summary>
         /// Updates partial details of a job
@@ -176,7 +177,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the job to be updated (optional)</param>
         /// <returns>ApiResponse of IActionResult</returns>
-        ApiResponse<IActionResult> ApiVapiVersionJobsIdPatchWithHttpInfo (string id, string apiVersion, List<Operation> body = null);
+        ApiResponse<IActionResult> ApiVapiVersionJobsIdPatchWithHttpInfo (string id, string apiVersion, string organizationId, List<Operation> body = null);
         /// <summary>
         /// Updates a job
         /// </summary>
@@ -215,7 +216,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Job error details to be updated (optional)</param>
         /// <returns>Job</returns>
-        Job ApiVapiVersionJobsIdStatusStatusPut (string agentId, string id, JobStatusType status, string apiVersion, JobErrorViewModel body = null);
+        Job ApiVapiVersionJobsIdStatusStatusPut (string agentId, string id, JobStatusType status, string apiVersion, string organizationId, JobErrorViewModel body = null);
 
         /// <summary>
         /// Updates a job with the specified status
@@ -230,7 +231,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Job error details to be updated (optional)</param>
         /// <returns>ApiResponse of Job</returns>
-        ApiResponse<Job> ApiVapiVersionJobsIdStatusStatusPutWithHttpInfo (string agentId, string id, JobStatusType status, string apiVersion, JobErrorViewModel body = null);
+        ApiResponse<Job> ApiVapiVersionJobsIdStatusStatusPutWithHttpInfo (string agentId, string id, JobStatusType status, string apiVersion, string organizationId, JobErrorViewModel body = null);
         /// <summary>
         /// Provides a lookup list of all job agents and automations
         /// </summary>
@@ -339,7 +340,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Job id</param>
         /// <param name="apiVersion"></param>
         /// <returns>JobViewModel</returns>
-        JobViewModel ApiVapiVersionJobsViewIdGet (string id, string apiVersion);
+        JobViewModel ApiVapiVersionJobsViewIdGet (string id, string apiVersion, string organizationId);
 
         /// <summary>
         /// Provides a job&#x27;s view model details for a particular job id
@@ -351,7 +352,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Job id</param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of JobViewModel</returns>
-        ApiResponse<JobViewModel> ApiVapiVersionJobsViewIdGetWithHttpInfo (string id, string apiVersion);
+        ApiResponse<JobViewModel> ApiVapiVersionJobsViewIdGetWithHttpInfo (string id, string apiVersion, string organizationId);
         /// <summary>
         /// Provides a job&#x27;s details for a particular job id
         /// </summary>
@@ -1711,9 +1712,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the job to be updated (optional)</param>
         /// <returns>IActionResult</returns>
-        public IActionResult ApiVapiVersionJobsIdPatch (string id, string apiVersion, List<Operation> body = null)
+        public IActionResult ApiVapiVersionJobsIdPatch (string id, string apiVersion, string organizationId, List<Operation> body = null)
         {
-             ApiResponse<IActionResult> localVarResponse = ApiVapiVersionJobsIdPatchWithHttpInfo(id, apiVersion, body);
+             ApiResponse<IActionResult> localVarResponse = ApiVapiVersionJobsIdPatchWithHttpInfo(id, apiVersion, organizationId, body);
              return localVarResponse.Data;
         }
 
@@ -1725,7 +1726,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Value of the job to be updated (optional)</param>
         /// <returns>ApiResponse of IActionResult</returns>
-        public ApiResponse< IActionResult > ApiVapiVersionJobsIdPatchWithHttpInfo (string id, string apiVersion, List<Operation> body = null)
+        public ApiResponse< IActionResult > ApiVapiVersionJobsIdPatchWithHttpInfo (string id, string apiVersion, string organizationId, List<Operation> body = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1735,6 +1736,8 @@ namespace OpenBots.Server.SDK.Api
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling JobsApi->ApiVapiVersionJobsIdPatch");
 
             var localVarPath = "/api/v{apiVersion}/Jobs/{id}";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Jobs/{id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1761,6 +1764,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)) // path parameter
             if (body != null && body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
@@ -2079,9 +2083,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Job error details to be updated (optional)</param>
         /// <returns>Job</returns>
-        public Job ApiVapiVersionJobsIdStatusStatusPut (string agentId, string id, JobStatusType status, string apiVersion, JobErrorViewModel body = null)
+        public Job ApiVapiVersionJobsIdStatusStatusPut (string agentId, string id, JobStatusType status, string apiVersion, string organizationId, JobErrorViewModel body = null)
         {
-             ApiResponse<Job> localVarResponse = ApiVapiVersionJobsIdStatusStatusPutWithHttpInfo(agentId, id, status, apiVersion, body);
+             ApiResponse<Job> localVarResponse = ApiVapiVersionJobsIdStatusStatusPutWithHttpInfo(agentId, id, status, apiVersion, organizationId, body);
              return localVarResponse.Data;
         }
 
@@ -2095,7 +2099,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Job error details to be updated (optional)</param>
         /// <returns>ApiResponse of Job</returns>
-        public ApiResponse< Job > ApiVapiVersionJobsIdStatusStatusPutWithHttpInfo (string agentId, string id, JobStatusType status, string apiVersion, JobErrorViewModel body = null)
+        public ApiResponse< Job > ApiVapiVersionJobsIdStatusStatusPutWithHttpInfo (string agentId, string id, JobStatusType status, string apiVersion, string organizationId, JobErrorViewModel body = null)
         {
             // verify the required parameter 'agentId' is set
             if (agentId == null)
@@ -2111,6 +2115,8 @@ namespace OpenBots.Server.SDK.Api
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling JobsApi->ApiVapiVersionJobsIdStatusStatusPut");
 
             var localVarPath = "/api/v{apiVersion}/Jobs/{id}/Status/{status}";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Jobs/{id}/Status/{status}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -2138,6 +2144,7 @@ namespace OpenBots.Server.SDK.Api
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (status != null) localVarPathParams.Add("status", this.Configuration.ApiClient.ParameterToString(status)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (agentId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "agentId", agentId)); // query parameter
             if (body != null && body.GetType() != typeof(byte[]))
             {
@@ -2169,7 +2176,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<Job>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Job) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Job)));
+                JsonConvert.DeserializeObject<Job>(localVarResponse.Content));
         }
 
         /// <summary>
@@ -2947,9 +2954,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Job id</param>
         /// <param name="apiVersion"></param>
         /// <returns>JobViewModel</returns>
-        public JobViewModel ApiVapiVersionJobsViewIdGet (string id, string apiVersion)
+        public JobViewModel ApiVapiVersionJobsViewIdGet (string id, string apiVersion, string organizationId)
         {
-             ApiResponse<JobViewModel> localVarResponse = ApiVapiVersionJobsViewIdGetWithHttpInfo(id, apiVersion);
+             ApiResponse<JobViewModel> localVarResponse = ApiVapiVersionJobsViewIdGetWithHttpInfo(id, apiVersion, organizationId);
              return localVarResponse.Data;
         }
 
@@ -2960,7 +2967,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id">Job id</param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of JobViewModel</returns>
-        public ApiResponse< JobViewModel > ApiVapiVersionJobsViewIdGetWithHttpInfo (string id, string apiVersion)
+        public ApiResponse< JobViewModel > ApiVapiVersionJobsViewIdGetWithHttpInfo (string id, string apiVersion, string organizationId)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2970,6 +2977,8 @@ namespace OpenBots.Server.SDK.Api
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling JobsApi->ApiVapiVersionJobsViewIdGet");
 
             var localVarPath = "/api/v{apiVersion}/Jobs/view/{id}";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Jobs/view/{id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -2992,6 +3001,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             // authentication (oauth2) required
             // bearer required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -3014,7 +3024,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<JobViewModel>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (JobViewModel) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(JobViewModel)));
+                JsonConvert.DeserializeObject<JobViewModel>(localVarResponse.Content));
         }
 
         /// <summary>

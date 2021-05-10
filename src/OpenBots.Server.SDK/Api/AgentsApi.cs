@@ -14,6 +14,7 @@ using System.Linq;
 using RestSharp;
 using OpenBots.Server.SDK.Client;
 using OpenBots.Server.SDK.Model;
+using Newtonsoft.Json;
 
 namespace OpenBots.Server.SDK.Api
 {
@@ -35,7 +36,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="macAddresses"> (optional)</param>
         /// <returns>ConnectedViewModel</returns>
-        ConnectedViewModel ApiVapiVersionAgentsAgentIDConnectPatch (string agentID, string machineName, string apiVersion, string macAddresses = null);
+        ConnectedViewModel ApiVapiVersionAgentsAgentIDConnectPatch (string agentID, string apiVersion, string organizationId, ConnectAgentViewModel body = null);
 
         /// <summary>
         /// Provides an agent id and name if the provided machine matches an agent and updates the isConnected field
@@ -49,7 +50,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="macAddresses"> (optional)</param>
         /// <returns>ApiResponse of ConnectedViewModel</returns>
-        ApiResponse<ConnectedViewModel> ApiVapiVersionAgentsAgentIDConnectPatchWithHttpInfo (string agentID, string machineName, string apiVersion, string macAddresses = null);
+        ApiResponse<ConnectedViewModel> ApiVapiVersionAgentsAgentIDConnectPatchWithHttpInfo (string agentID, string apiVersion, string organizationId, ConnectAgentViewModel body = null);
         /// <summary>
         /// Updates the isConnected field if the disconnect details are correct
         /// </summary>
@@ -62,7 +63,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="macAddresses"> (optional)</param>
         /// <returns>IActionResult</returns>
-        IActionResult ApiVapiVersionAgentsAgentIDDisconnectPatch (string agentID, string machineName, string apiVersion, string macAddresses = null);
+        IActionResult ApiVapiVersionAgentsAgentIDDisconnectPatch (string agentID, string apiVersion, string organizationId, ConnectAgentViewModel body = null);
 
         /// <summary>
         /// Updates the isConnected field if the disconnect details are correct
@@ -76,7 +77,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="macAddresses"> (optional)</param>
         /// <returns>ApiResponse of IActionResult</returns>
-        ApiResponse<IActionResult> ApiVapiVersionAgentsAgentIDDisconnectPatchWithHttpInfo (string agentID, string machineName, string apiVersion, string macAddresses = null);
+        ApiResponse<IActionResult> ApiVapiVersionAgentsAgentIDDisconnectPatchWithHttpInfo (string agentID, string apiVersion, string organizationId, ConnectAgentViewModel body = null);
         /// <summary>
         /// Creates a new heartbeat for the specified AgentId
         /// </summary>
@@ -88,7 +89,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Heartbeat values to be updated (optional)</param>
         /// <returns>AgentHeartbeat</returns>
-        AgentHeartbeat ApiVapiVersionAgentsAgentIdAddHeartbeatPost (string agentId, string apiVersion, HeartbeatViewModel body = null);
+        NextJobViewModel ApiVapiVersionAgentsAgentIdAddHeartbeatPost (string agentId, string apiVersion, string organizationId, HeartbeatViewModel body = null);
 
         /// <summary>
         /// Creates a new heartbeat for the specified AgentId
@@ -101,7 +102,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Heartbeat values to be updated (optional)</param>
         /// <returns>ApiResponse of AgentHeartbeat</returns>
-        ApiResponse<AgentHeartbeat> ApiVapiVersionAgentsAgentIdAddHeartbeatPostWithHttpInfo (string agentId, string apiVersion, HeartbeatViewModel body = null);
+        ApiResponse<NextJobViewModel> ApiVapiVersionAgentsAgentIdAddHeartbeatPostWithHttpInfo (string agentId, string apiVersion, string organizationId, HeartbeatViewModel body = null);
         /// <summary>
         /// Provides a list of all AgentGroupMembers for the specified Agent
         /// </summary>
@@ -333,7 +334,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <returns>AgentViewModel</returns>
-        AgentViewModel GetAgent (string id, string apiVersion);
+        AgentViewModel GetAgent (string id, string apiVersion, string organizationId);
 
         /// <summary>
         /// 
@@ -345,7 +346,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of AgentViewModel</returns>
-        ApiResponse<AgentViewModel> GetAgentWithHttpInfo (string id, string apiVersion);
+        ApiResponse<AgentViewModel> GetAgentWithHttpInfo (string id, string apiVersion, string organizationId);
         /// <summary>
         /// Provides a list of heartbeat details for a particular agent id
         /// </summary>
@@ -853,9 +854,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="macAddresses"> (optional)</param>
         /// <returns>ConnectedViewModel</returns>
-        public ConnectedViewModel ApiVapiVersionAgentsAgentIDConnectPatch (string agentID, string machineName, string apiVersion, string macAddresses = null)
+        public ConnectedViewModel ApiVapiVersionAgentsAgentIDConnectPatch (string agentID, string apiVersion, string organizationId, ConnectAgentViewModel body = null)
         {
-             ApiResponse<ConnectedViewModel> localVarResponse = ApiVapiVersionAgentsAgentIDConnectPatchWithHttpInfo(agentID, machineName, apiVersion, macAddresses);
+             ApiResponse<ConnectedViewModel> localVarResponse = ApiVapiVersionAgentsAgentIDConnectPatchWithHttpInfo(agentID, apiVersion, organizationId, body);
              return localVarResponse.Data;
         }
 
@@ -868,19 +869,21 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="macAddresses"> (optional)</param>
         /// <returns>ApiResponse of ConnectedViewModel</returns>
-        public ApiResponse< ConnectedViewModel > ApiVapiVersionAgentsAgentIDConnectPatchWithHttpInfo (string agentID, string machineName, string apiVersion, string macAddresses = null)
+        public ApiResponse< ConnectedViewModel > ApiVapiVersionAgentsAgentIDConnectPatchWithHttpInfo (string agentID, string apiVersion, string organizationId, ConnectAgentViewModel body = null)
         {
             // verify the required parameter 'agentID' is set
             if (agentID == null)
                 throw new ApiException(400, "Missing required parameter 'agentID' when calling AgentsApi->ApiVapiVersionAgentsAgentIDConnectPatch");
             // verify the required parameter 'machineName' is set
-            if (machineName == null)
+            if (body.MachineName == null)
                 throw new ApiException(400, "Missing required parameter 'machineName' when calling AgentsApi->ApiVapiVersionAgentsAgentIDConnectPatch");
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AgentsApi->ApiVapiVersionAgentsAgentIDConnectPatch");
 
             var localVarPath = "/api/v{apiVersion}/Agents/{agentID}/Connect";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Agents/{agentID}/Connect";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -902,9 +905,10 @@ namespace OpenBots.Server.SDK.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (agentID != null) localVarPathParams.Add("agentID", this.Configuration.ApiClient.ParameterToString(agentID)); // path parameter
+            if (string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (machineName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "MachineName", machineName)); // query parameter
-            if (macAddresses != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "MacAddresses", macAddresses)); // query parameter
+            //if (machineName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "MachineName", machineName)); // query parameter
+            //if (macAddresses != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "MacAddresses", macAddresses)); // query parameter
             // authentication (oauth2) required
             // bearer required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -927,7 +931,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<ConnectedViewModel>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (ConnectedViewModel) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(ConnectedViewModel)));
+                JsonConvert.DeserializeObject<ConnectedViewModel>(localVarResponse.Content));
         }
 
         /// <summary>
@@ -1026,9 +1030,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="macAddresses"> (optional)</param>
         /// <returns>IActionResult</returns>
-        public IActionResult ApiVapiVersionAgentsAgentIDDisconnectPatch (string agentID, string machineName, string apiVersion, string macAddresses = null)
+        public IActionResult ApiVapiVersionAgentsAgentIDDisconnectPatch (string agentID, string apiVersion, string organizationId, ConnectAgentViewModel body = null)
         {
-             ApiResponse<IActionResult> localVarResponse = ApiVapiVersionAgentsAgentIDDisconnectPatchWithHttpInfo(agentID, machineName, apiVersion, macAddresses);
+             ApiResponse<IActionResult> localVarResponse = ApiVapiVersionAgentsAgentIDDisconnectPatchWithHttpInfo(agentID, apiVersion, organizationId, body);
              return localVarResponse.Data;
         }
 
@@ -1041,19 +1045,21 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="macAddresses"> (optional)</param>
         /// <returns>ApiResponse of IActionResult</returns>
-        public ApiResponse< IActionResult > ApiVapiVersionAgentsAgentIDDisconnectPatchWithHttpInfo (string agentID, string machineName, string apiVersion, string macAddresses = null)
+        public ApiResponse< IActionResult > ApiVapiVersionAgentsAgentIDDisconnectPatchWithHttpInfo (string agentID, string apiVersion, string organizationId, ConnectAgentViewModel body = null)
         {
             // verify the required parameter 'agentID' is set
             if (agentID == null)
                 throw new ApiException(400, "Missing required parameter 'agentID' when calling AgentsApi->ApiVapiVersionAgentsAgentIDDisconnectPatch");
             // verify the required parameter 'machineName' is set
-            if (machineName == null)
+            if (body.MachineName == null)
                 throw new ApiException(400, "Missing required parameter 'machineName' when calling AgentsApi->ApiVapiVersionAgentsAgentIDDisconnectPatch");
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AgentsApi->ApiVapiVersionAgentsAgentIDDisconnectPatch");
 
             var localVarPath = "/api/v{apiVersion}/Agents/{agentID}/Disconnect";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Agents/{agentID}/Disconnect";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1075,9 +1081,10 @@ namespace OpenBots.Server.SDK.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (agentID != null) localVarPathParams.Add("agentID", this.Configuration.ApiClient.ParameterToString(agentID)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (machineName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "MachineName", machineName)); // query parameter
-            if (macAddresses != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "MacAddresses", macAddresses)); // query parameter
+            //if (machineName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "MachineName", machineName)); // query parameter
+            //if (macAddresses != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "MacAddresses", macAddresses)); // query parameter
             // authentication (oauth2) required
             // bearer required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -1198,9 +1205,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Heartbeat values to be updated (optional)</param>
         /// <returns>AgentHeartbeat</returns>
-        public AgentHeartbeat ApiVapiVersionAgentsAgentIdAddHeartbeatPost (string agentId, string apiVersion, HeartbeatViewModel body = null)
+        public NextJobViewModel ApiVapiVersionAgentsAgentIdAddHeartbeatPost (string agentId, string apiVersion, string organizationId, HeartbeatViewModel body = null)
         {
-             ApiResponse<AgentHeartbeat> localVarResponse = ApiVapiVersionAgentsAgentIdAddHeartbeatPostWithHttpInfo(agentId, apiVersion, body);
+             ApiResponse<NextJobViewModel> localVarResponse = ApiVapiVersionAgentsAgentIdAddHeartbeatPostWithHttpInfo(agentId, apiVersion, organizationId, body);
              return localVarResponse.Data;
         }
 
@@ -1212,7 +1219,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Heartbeat values to be updated (optional)</param>
         /// <returns>ApiResponse of AgentHeartbeat</returns>
-        public ApiResponse< AgentHeartbeat > ApiVapiVersionAgentsAgentIdAddHeartbeatPostWithHttpInfo (string agentId, string apiVersion, HeartbeatViewModel body = null)
+        public ApiResponse<NextJobViewModel> ApiVapiVersionAgentsAgentIdAddHeartbeatPostWithHttpInfo (string agentId, string apiVersion, string organizationId, HeartbeatViewModel body = null)
         {
             // verify the required parameter 'agentId' is set
             if (agentId == null)
@@ -1222,6 +1229,8 @@ namespace OpenBots.Server.SDK.Api
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AgentsApi->ApiVapiVersionAgentsAgentIdAddHeartbeatPost");
 
             var localVarPath = "/api/v{apiVersion}/Agents/{agentId}/AddHeartbeat";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Agents/{agentId}/AddHeartbeat";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1248,6 +1257,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (agentId != null) localVarPathParams.Add("agentId", this.Configuration.ApiClient.ParameterToString(agentId)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (body != null && body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
@@ -1276,9 +1286,9 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<AgentHeartbeat>(localVarStatusCode,
+            return new ApiResponse<NextJobViewModel>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (AgentHeartbeat) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(AgentHeartbeat)));
+                JsonConvert.DeserializeObject<NextJobViewModel>(localVarResponse.Content));
         }
 
         /// <summary>
@@ -2853,9 +2863,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <returns>AgentViewModel</returns>
-        public AgentViewModel GetAgent (string id, string apiVersion)
+        public AgentViewModel GetAgent (string id, string apiVersion, string organizationId)
         {
-             ApiResponse<AgentViewModel> localVarResponse = GetAgentWithHttpInfo(id, apiVersion);
+             ApiResponse<AgentViewModel> localVarResponse = GetAgentWithHttpInfo(id, apiVersion, organizationId);
              return localVarResponse.Data;
         }
 
@@ -2866,7 +2876,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of AgentViewModel</returns>
-        public ApiResponse< AgentViewModel > GetAgentWithHttpInfo (string id, string apiVersion)
+        public ApiResponse< AgentViewModel > GetAgentWithHttpInfo (string id, string apiVersion, string organizationId)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2876,6 +2886,8 @@ namespace OpenBots.Server.SDK.Api
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AgentsApi->GetAgent");
 
             var localVarPath = "/api/v{apiVersion}/Agents/{id}";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Agents/{id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -2898,6 +2910,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             // authentication (oauth2) required
             // bearer required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -2920,7 +2933,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<AgentViewModel>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (AgentViewModel) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(AgentViewModel)));
+                JsonConvert.DeserializeObject<AgentViewModel>(localVarResponse.Content));
         }
 
         /// <summary>

@@ -95,6 +95,8 @@ OpenAPI spec version: v1
   </ItemGroup>
   <ItemGroup>
     <Compile Include="**\*.cs" Exclude="obj\**" />
+    <Compile Include="Api\ConnectAgentViewModel.cs" />
+    <Compile Include="Model\NextJobViewModel.cs" />
     <Compile Include="Model\ServerInfo.cs" />
     <Compile Include="Model\ServiceRegistration.cs" />
     <Compile Include="Model\UserInfo.cs" />
