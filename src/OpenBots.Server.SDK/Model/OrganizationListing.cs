@@ -60,6 +60,8 @@ namespace OpenBots.Server.SDK.Model
         [DataMember(Name="isAdministrator", EmitDefaultValue=false)]
         public bool? IsAdministrator { get; set; }
 
+        public Guid? TenantKey { get; set; }
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>

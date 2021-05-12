@@ -1083,7 +1083,7 @@ namespace OpenBots.Server.SDK.Api
 
             var localVarPath = "/api/v{apiVersion}/Credentials/GetCredentialByName/{credentialName}";
             if (!string.IsNullOrEmpty(organizationId))
-                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Credentials/GetCredentiaByName/{credentialName}";
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Credentials/GetCredentialByName/{credentialName}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1765,6 +1765,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
             if (body != null && body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter

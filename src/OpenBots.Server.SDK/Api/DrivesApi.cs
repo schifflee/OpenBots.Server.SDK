@@ -11,20 +11,21 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using RestSharp;
+using Newtonsoft.Json;
 using OpenBots.Server.SDK.Client;
 using OpenBots.Server.SDK.Model;
+using RestSharp;
 
 namespace OpenBots.Server.SDK.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-        public interface IQueuesApi : IApiAccessor
+        public interface IDrivesApi : IApiAccessor
     {
         #region Synchronous Operations
         /// <summary>
-        /// Gets count of queues in database
+        /// Gets count of storage drives in database
         /// </summary>
         /// <remarks>
         /// 
@@ -33,10 +34,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns></returns>
-        void ApiVapiVersionQueuesCountGet (string apiVersion, string filter = null);
+        void ApiVapiVersionStorageDrivesCountGet (string apiVersion, string filter = null);
 
         /// <summary>
-        /// Gets count of queues in database
+        /// Gets count of storage drives in database
         /// </summary>
         /// <remarks>
         /// 
@@ -45,9 +46,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> ApiVapiVersionQueuesCountGetWithHttpInfo (string apiVersion, string filter = null);
+        ApiResponse<Object> ApiVapiVersionStorageDrivesCountGetWithHttpInfo (string apiVersion, string filter = null);
         /// <summary>
-        /// Provides a list of all queues
+        /// Provides a list of all storage drives
         /// </summary>
         /// <remarks>
         /// 
@@ -58,11 +59,11 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="orderby"> (optional)</param>
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
-        /// <returns>QueuePaginatedList</returns>
-        QueuePaginatedList ApiVapiVersionQueuesGet (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        /// <returns>StorageDrivePaginatedList</returns>
+        StorageDrivePaginatedList ApiVapiVersionStorageDrivesGet (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
 
         /// <summary>
-        /// Provides a list of all queues
+        /// Provides a list of all storage drives
         /// </summary>
         /// <remarks>
         /// 
@@ -73,83 +74,58 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="orderby"> (optional)</param>
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
-        /// <returns>ApiResponse of QueuePaginatedList</returns>
-        ApiResponse<QueuePaginatedList> ApiVapiVersionQueuesGetWithHttpInfo (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        /// <returns>ApiResponse of StorageDrivePaginatedList</returns>
+        ApiResponse<StorageDrivePaginatedList> ApiVapiVersionStorageDrivesGetWithHttpInfo (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null);
         /// <summary>
-        /// Deletes a queue with a specified id from the queues
+        /// Deletes a storage drive with a specified id from the database
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id to be deleted - throws bad request if null or empty Guid</param>
+        /// <param name="id">Storage drive id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>IActionResult</returns>
-        IActionResult ApiVapiVersionQueuesIdDelete (string id, string apiVersion);
+        IActionResult ApiVapiVersionStorageDrivesIdDelete (string id, string apiVersion);
 
         /// <summary>
-        /// Deletes a queue with a specified id from the queues
+        /// Deletes a storage drive with a specified id from the database
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id to be deleted - throws bad request if null or empty Guid</param>
+        /// <param name="id">Storage drive id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of IActionResult</returns>
-        ApiResponse<IActionResult> ApiVapiVersionQueuesIdDeleteWithHttpInfo (string id, string apiVersion);
+        ApiResponse<IActionResult> ApiVapiVersionStorageDrivesIdDeleteWithHttpInfo (string id, string apiVersion);
         /// <summary>
-        /// Updates partial details of queue
+        /// Updates a storage drive
         /// </summary>
         /// <remarks>
-        /// 
+        /// Provides an action to update a storage drive, when the id is given
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue identifier</param>
+        /// <param name="id">Storage drive id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
-        /// <param name="body">Value of the queue to be updated (optional)</param>
-        /// <returns>IActionResult</returns>
-        IActionResult ApiVapiVersionQueuesIdPatch (string id, string apiVersion, List<Operation> body = null);
+        /// <param name="body">Storage drive to be updated (optional)</param>
+        /// <returns>StorageDrive</returns>
+        StorageDrive ApiVapiVersionStorageDrivesIdPut (string id, string apiVersion, StorageDrive body = null);
 
         /// <summary>
-        /// Updates partial details of queue
+        /// Updates a storage drive
         /// </summary>
         /// <remarks>
-        /// 
+        /// Provides an action to update a storage drive, when the id is given
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue identifier</param>
+        /// <param name="id">Storage drive id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
-        /// <param name="body">Value of the queue to be updated (optional)</param>
-        /// <returns>ApiResponse of IActionResult</returns>
-        ApiResponse<IActionResult> ApiVapiVersionQueuesIdPatchWithHttpInfo (string id, string apiVersion, List<Operation> body = null);
+        /// <param name="body">Storage drive to be updated (optional)</param>
+        /// <returns>ApiResponse of StorageDrive</returns>
+        ApiResponse<StorageDrive> ApiVapiVersionStorageDrivesIdPutWithHttpInfo (string id, string apiVersion, StorageDrive body = null);
         /// <summary>
-        /// Updates a queue
-        /// </summary>
-        /// <remarks>
-        /// Provides an action to update an queue, when queue id and the new details of the queue are given
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id, produces bad request if id is null or ids don&#x27;t match</param>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Queue details to be updated (optional)</param>
-        /// <returns>IActionResult</returns>
-        IActionResult ApiVapiVersionQueuesIdPut (string id, string apiVersion, QueueViewModel body = null);
-
-        /// <summary>
-        /// Updates a queue
-        /// </summary>
-        /// <remarks>
-        /// Provides an action to update an queue, when queue id and the new details of the queue are given
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id, produces bad request if id is null or ids don&#x27;t match</param>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Queue details to be updated (optional)</param>
-        /// <returns>ApiResponse of IActionResult</returns>
-        ApiResponse<IActionResult> ApiVapiVersionQueuesIdPutWithHttpInfo (string id, string apiVersion, QueueViewModel body = null);
-        /// <summary>
-        /// Adds a new queue
+        /// Creates new storage drive
         /// </summary>
         /// <remarks>
         /// 
@@ -157,11 +133,11 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
-        /// <returns>Queue</returns>
-        Queue ApiVapiVersionQueuesPost (string apiVersion, Queue body = null);
+        /// <returns>StorageDrive</returns>
+        StorageDrive ApiVapiVersionStorageDrivesPost (string apiVersion, StorageDrive body = null);
 
         /// <summary>
-        /// Adds a new queue
+        /// Creates new storage drive
         /// </summary>
         /// <remarks>
         /// 
@@ -169,35 +145,81 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Queue</returns>
-        ApiResponse<Queue> ApiVapiVersionQueuesPostWithHttpInfo (string apiVersion, Queue body = null);
+        /// <returns>ApiResponse of StorageDrive</returns>
+        ApiResponse<StorageDrive> ApiVapiVersionStorageDrivesPostWithHttpInfo (string apiVersion, StorageDrive body = null);
         /// <summary>
-        /// Provides queue details for a particular queue id
+        /// Provides storage drive details by drive id
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id</param>
+        /// <param name="id">Storage drive id</param>
         /// <param name="apiVersion"></param>
-        /// <returns>Queue</returns>
-        Queue GetQueue (string id, string apiVersion);
+        /// <returns>StorageDrive</returns>
+        StorageDrive GetDrive (string id, string apiVersion);
 
         /// <summary>
-        /// Provides queue details for a particular queue id
+        /// Provides storage drive details by drive id
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id</param>
+        /// <param name="id">Storage drive id</param>
         /// <param name="apiVersion"></param>
-        /// <returns>ApiResponse of Queue</returns>
-        ApiResponse<Queue> GetQueueWithHttpInfo (string id, string apiVersion);
+        /// <returns>ApiResponse of StorageDrive</returns>
+        ApiResponse<StorageDrive> GetDriveWithHttpInfo (string id, string apiVersion);
+        /// <summary>
+        /// Provides storage drive details by drive name
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="driveName">Storage drive name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>StorageDrive</returns>
+        StorageDrive GetDriveByName (string driveName, string apiVersion);
+
+        /// <summary>
+        /// Provides storage drive details by drive name
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="driveName">Storage drive name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>ApiResponse of StorageDrive</returns>
+        ApiResponse<StorageDrive> GetDriveByNameWithHttpInfo (string driveName, string apiVersion);
+        /// <summary>
+        /// Provides storage drive names
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiVersion"></param>
+        /// <param name="adapterType"> (optional)</param>
+        /// <returns>IActionResult</returns>
+        IActionResult GetDriveNames (string apiVersion, string adapterType = null);
+
+        /// <summary>
+        /// Provides storage drive names
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiVersion"></param>
+        /// <param name="adapterType"> (optional)</param>
+        /// <returns>ApiResponse of IActionResult</returns>
+        ApiResponse<IActionResult> GetDriveNamesWithHttpInfo (string apiVersion, string adapterType = null);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
-        /// Gets count of queues in database
+        /// Gets count of storage drives in database
         /// </summary>
         /// <remarks>
         /// 
@@ -206,10 +228,10 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task ApiVapiVersionQueuesCountGetAsync (string apiVersion, string filter = null);
+        System.Threading.Tasks.Task ApiVapiVersionStorageDrivesCountGetAsync (string apiVersion, string filter = null);
 
         /// <summary>
-        /// Gets count of queues in database
+        /// Gets count of storage drives in database
         /// </summary>
         /// <remarks>
         /// 
@@ -218,9 +240,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionQueuesCountGetAsyncWithHttpInfo (string apiVersion, string filter = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionStorageDrivesCountGetAsyncWithHttpInfo (string apiVersion, string filter = null);
         /// <summary>
-        /// Provides a list of all queues
+        /// Provides a list of all storage drives
         /// </summary>
         /// <remarks>
         /// 
@@ -231,11 +253,11 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="orderby"> (optional)</param>
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
-        /// <returns>Task of QueuePaginatedList</returns>
-        System.Threading.Tasks.Task<QueuePaginatedList> ApiVapiVersionQueuesGetAsync (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        /// <returns>Task of StorageDrivePaginatedList</returns>
+        System.Threading.Tasks.Task<StorageDrivePaginatedList> ApiVapiVersionStorageDrivesGetAsync (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null);
 
         /// <summary>
-        /// Provides a list of all queues
+        /// Provides a list of all storage drives
         /// </summary>
         /// <remarks>
         /// 
@@ -246,83 +268,58 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="orderby"> (optional)</param>
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
-        /// <returns>Task of ApiResponse (QueuePaginatedList)</returns>
-        System.Threading.Tasks.Task<ApiResponse<QueuePaginatedList>> ApiVapiVersionQueuesGetAsyncWithHttpInfo (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null);
+        /// <returns>Task of ApiResponse (StorageDrivePaginatedList)</returns>
+        System.Threading.Tasks.Task<ApiResponse<StorageDrivePaginatedList>> ApiVapiVersionStorageDrivesGetAsyncWithHttpInfo (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null);
         /// <summary>
-        /// Deletes a queue with a specified id from the queues
+        /// Deletes a storage drive with a specified id from the database
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id to be deleted - throws bad request if null or empty Guid</param>
+        /// <param name="id">Storage drive id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueuesIdDeleteAsync (string id, string apiVersion);
+        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionStorageDrivesIdDeleteAsync (string id, string apiVersion);
 
         /// <summary>
-        /// Deletes a queue with a specified id from the queues
+        /// Deletes a storage drive with a specified id from the database
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id to be deleted - throws bad request if null or empty Guid</param>
+        /// <param name="id">Storage drive id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueuesIdDeleteAsyncWithHttpInfo (string id, string apiVersion);
+        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionStorageDrivesIdDeleteAsyncWithHttpInfo (string id, string apiVersion);
         /// <summary>
-        /// Updates partial details of queue
+        /// Updates a storage drive
         /// </summary>
         /// <remarks>
-        /// 
+        /// Provides an action to update a storage drive, when the id is given
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue identifier</param>
+        /// <param name="id">Storage drive id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
-        /// <param name="body">Value of the queue to be updated (optional)</param>
-        /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueuesIdPatchAsync (string id, string apiVersion, List<Operation> body = null);
+        /// <param name="body">Storage drive to be updated (optional)</param>
+        /// <returns>Task of StorageDrive</returns>
+        System.Threading.Tasks.Task<StorageDrive> ApiVapiVersionStorageDrivesIdPutAsync (string id, string apiVersion, StorageDrive body = null);
 
         /// <summary>
-        /// Updates partial details of queue
+        /// Updates a storage drive
         /// </summary>
         /// <remarks>
-        /// 
+        /// Provides an action to update a storage drive, when the id is given
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue identifier</param>
+        /// <param name="id">Storage drive id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
-        /// <param name="body">Value of the queue to be updated (optional)</param>
-        /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueuesIdPatchAsyncWithHttpInfo (string id, string apiVersion, List<Operation> body = null);
+        /// <param name="body">Storage drive to be updated (optional)</param>
+        /// <returns>Task of ApiResponse (StorageDrive)</returns>
+        System.Threading.Tasks.Task<ApiResponse<StorageDrive>> ApiVapiVersionStorageDrivesIdPutAsyncWithHttpInfo (string id, string apiVersion, StorageDrive body = null);
         /// <summary>
-        /// Updates a queue
-        /// </summary>
-        /// <remarks>
-        /// Provides an action to update an queue, when queue id and the new details of the queue are given
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id, produces bad request if id is null or ids don&#x27;t match</param>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Queue details to be updated (optional)</param>
-        /// <returns>Task of IActionResult</returns>
-        System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueuesIdPutAsync (string id, string apiVersion, QueueViewModel body = null);
-
-        /// <summary>
-        /// Updates a queue
-        /// </summary>
-        /// <remarks>
-        /// Provides an action to update an queue, when queue id and the new details of the queue are given
-        /// </remarks>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id, produces bad request if id is null or ids don&#x27;t match</param>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Queue details to be updated (optional)</param>
-        /// <returns>Task of ApiResponse (IActionResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueuesIdPutAsyncWithHttpInfo (string id, string apiVersion, QueueViewModel body = null);
-        /// <summary>
-        /// Adds a new queue
+        /// Creates new storage drive
         /// </summary>
         /// <remarks>
         /// 
@@ -330,11 +327,11 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
-        /// <returns>Task of Queue</returns>
-        System.Threading.Tasks.Task<Queue> ApiVapiVersionQueuesPostAsync (string apiVersion, Queue body = null);
+        /// <returns>Task of StorageDrive</returns>
+        System.Threading.Tasks.Task<StorageDrive> ApiVapiVersionStorageDrivesPostAsync (string apiVersion, StorageDrive body = null);
 
         /// <summary>
-        /// Adds a new queue
+        /// Creates new storage drive
         /// </summary>
         /// <remarks>
         /// 
@@ -342,46 +339,92 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse (Queue)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Queue>> ApiVapiVersionQueuesPostAsyncWithHttpInfo (string apiVersion, Queue body = null);
+        /// <returns>Task of ApiResponse (StorageDrive)</returns>
+        System.Threading.Tasks.Task<ApiResponse<StorageDrive>> ApiVapiVersionStorageDrivesPostAsyncWithHttpInfo (string apiVersion, StorageDrive body = null);
         /// <summary>
-        /// Provides queue details for a particular queue id
+        /// Provides storage drive details by drive id
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id</param>
+        /// <param name="id">Storage drive id</param>
         /// <param name="apiVersion"></param>
-        /// <returns>Task of Queue</returns>
-        System.Threading.Tasks.Task<Queue> GetQueueAsync (string id, string apiVersion);
+        /// <returns>Task of StorageDrive</returns>
+        System.Threading.Tasks.Task<StorageDrive> GetDriveAsync (string id, string apiVersion);
 
         /// <summary>
-        /// Provides queue details for a particular queue id
+        /// Provides storage drive details by drive id
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id</param>
+        /// <param name="id">Storage drive id</param>
         /// <param name="apiVersion"></param>
-        /// <returns>Task of ApiResponse (Queue)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Queue>> GetQueueAsyncWithHttpInfo (string id, string apiVersion);
+        /// <returns>Task of ApiResponse (StorageDrive)</returns>
+        System.Threading.Tasks.Task<ApiResponse<StorageDrive>> GetDriveAsyncWithHttpInfo (string id, string apiVersion);
+        /// <summary>
+        /// Provides storage drive details by drive name
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="driveName">Storage drive name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>Task of StorageDrive</returns>
+        System.Threading.Tasks.Task<StorageDrive> GetDriveByNameAsync (string driveName, string apiVersion);
+
+        /// <summary>
+        /// Provides storage drive details by drive name
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="driveName">Storage drive name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>Task of ApiResponse (StorageDrive)</returns>
+        System.Threading.Tasks.Task<ApiResponse<StorageDrive>> GetDriveByNameAsyncWithHttpInfo (string driveName, string apiVersion);
+        /// <summary>
+        /// Provides storage drive names
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiVersion"></param>
+        /// <param name="adapterType"> (optional)</param>
+        /// <returns>Task of IActionResult</returns>
+        System.Threading.Tasks.Task<IActionResult> GetDriveNamesAsync (string apiVersion, string adapterType = null);
+
+        /// <summary>
+        /// Provides storage drive names
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiVersion"></param>
+        /// <param name="adapterType"> (optional)</param>
+        /// <returns>Task of ApiResponse (IActionResult)</returns>
+        System.Threading.Tasks.Task<ApiResponse<IActionResult>> GetDriveNamesAsyncWithHttpInfo (string apiVersion, string adapterType = null);
         #endregion Asynchronous Operations
     }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-        public partial class QueuesApi : IQueuesApi
+        public partial class DrivesApi : IDrivesApi
     {
         private OpenBots.Server.SDK.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="QueuesApi"/> class.
+        /// Initializes a new instance of the <see cref="DrivesApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public QueuesApi(String basePath)
+        public DrivesApi(String basePath)
         {
             this.Configuration = new OpenBots.Server.SDK.Client.Configuration { BasePath = basePath };
 
@@ -389,10 +432,10 @@ namespace OpenBots.Server.SDK.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="QueuesApi"/> class
+        /// Initializes a new instance of the <see cref="DrivesApi"/> class
         /// </summary>
         /// <returns></returns>
-        public QueuesApi()
+        public DrivesApi()
         {
             this.Configuration = OpenBots.Server.SDK.Client.Configuration.Default;
 
@@ -400,12 +443,12 @@ namespace OpenBots.Server.SDK.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="QueuesApi"/> class
+        /// Initializes a new instance of the <see cref="DrivesApi"/> class
         /// using Configuration object
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
         /// <returns></returns>
-        public QueuesApi(OpenBots.Server.SDK.Client.Configuration configuration = null)
+        public DrivesApi(OpenBots.Server.SDK.Client.Configuration configuration = null)
         {
             if (configuration == null) // use the default one in Configuration
                 this.Configuration = OpenBots.Server.SDK.Client.Configuration.Default;
@@ -479,31 +522,31 @@ namespace OpenBots.Server.SDK.Api
         }
 
         /// <summary>
-        /// Gets count of queues in database 
+        /// Gets count of storage drives in database 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns></returns>
-        public void ApiVapiVersionQueuesCountGet (string apiVersion, string filter = null)
+        public void ApiVapiVersionStorageDrivesCountGet (string apiVersion, string filter = null)
         {
-             ApiVapiVersionQueuesCountGetWithHttpInfo(apiVersion, filter);
+             ApiVapiVersionStorageDrivesCountGetWithHttpInfo(apiVersion, filter);
         }
 
         /// <summary>
-        /// Gets count of queues in database 
+        /// Gets count of storage drives in database 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> ApiVapiVersionQueuesCountGetWithHttpInfo (string apiVersion, string filter = null)
+        public ApiResponse<Object> ApiVapiVersionStorageDrivesCountGetWithHttpInfo (string apiVersion, string filter = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueuesApi->ApiVapiVersionQueuesCountGet");
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->ApiVapiVersionStorageDrivesCountGet");
 
-            var localVarPath = "/api/v{apiVersion}/Queues/count";
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives/count";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -542,7 +585,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueuesCountGet", localVarResponse);
+                Exception exception = ExceptionFactory("ApiVapiVersionStorageDrivesCountGet", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -552,32 +595,32 @@ namespace OpenBots.Server.SDK.Api
         }
 
         /// <summary>
-        /// Gets count of queues in database 
+        /// Gets count of storage drives in database 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task ApiVapiVersionQueuesCountGetAsync (string apiVersion, string filter = null)
+        public async System.Threading.Tasks.Task ApiVapiVersionStorageDrivesCountGetAsync (string apiVersion, string filter = null)
         {
-             await ApiVapiVersionQueuesCountGetAsyncWithHttpInfo(apiVersion, filter);
+             await ApiVapiVersionStorageDrivesCountGetAsyncWithHttpInfo(apiVersion, filter);
 
         }
 
         /// <summary>
-        /// Gets count of queues in database 
+        /// Gets count of storage drives in database 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <param name="filter"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionQueuesCountGetAsyncWithHttpInfo (string apiVersion, string filter = null)
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionStorageDrivesCountGetAsyncWithHttpInfo (string apiVersion, string filter = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueuesApi->ApiVapiVersionQueuesCountGet");
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->ApiVapiVersionStorageDrivesCountGet");
 
-            var localVarPath = "/api/v{apiVersion}/Queues/count";
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives/count";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -616,7 +659,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueuesCountGet", localVarResponse);
+                Exception exception = ExceptionFactory("ApiVapiVersionStorageDrivesCountGet", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -626,7 +669,7 @@ namespace OpenBots.Server.SDK.Api
         }
 
         /// <summary>
-        /// Provides a list of all queues 
+        /// Provides a list of all storage drives 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
@@ -634,15 +677,15 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="orderby"> (optional)</param>
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
-        /// <returns>QueuePaginatedList</returns>
-        public QueuePaginatedList ApiVapiVersionQueuesGet (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        /// <returns>StorageDrivePaginatedList</returns>
+        public StorageDrivePaginatedList ApiVapiVersionStorageDrivesGet (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
-             ApiResponse<QueuePaginatedList> localVarResponse = ApiVapiVersionQueuesGetWithHttpInfo(apiVersion, filter, orderby, top, skip);
+             ApiResponse<StorageDrivePaginatedList> localVarResponse = ApiVapiVersionStorageDrivesGetWithHttpInfo(apiVersion, filter, orderby, top, skip);
              return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Provides a list of all queues 
+        /// Provides a list of all storage drives 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
@@ -650,14 +693,14 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="orderby"> (optional)</param>
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
-        /// <returns>ApiResponse of QueuePaginatedList</returns>
-        public ApiResponse< QueuePaginatedList > ApiVapiVersionQueuesGetWithHttpInfo (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        /// <returns>ApiResponse of StorageDrivePaginatedList</returns>
+        public ApiResponse< StorageDrivePaginatedList > ApiVapiVersionStorageDrivesGetWithHttpInfo (string apiVersion, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueuesApi->ApiVapiVersionQueuesGet");
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->ApiVapiVersionStorageDrivesGet");
 
-            var localVarPath = "/api/v{apiVersion}/Queues";
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -699,17 +742,17 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueuesGet", localVarResponse);
+                Exception exception = ExceptionFactory("ApiVapiVersionStorageDrivesGet", localVarResponse);
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<QueuePaginatedList>(localVarStatusCode,
+            return new ApiResponse<StorageDrivePaginatedList>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (QueuePaginatedList) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(QueuePaginatedList)));
+                (StorageDrivePaginatedList) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(StorageDrivePaginatedList)));
         }
 
         /// <summary>
-        /// Provides a list of all queues 
+        /// Provides a list of all storage drives 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
@@ -717,16 +760,16 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="orderby"> (optional)</param>
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
-        /// <returns>Task of QueuePaginatedList</returns>
-        public async System.Threading.Tasks.Task<QueuePaginatedList> ApiVapiVersionQueuesGetAsync (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        /// <returns>Task of StorageDrivePaginatedList</returns>
+        public async System.Threading.Tasks.Task<StorageDrivePaginatedList> ApiVapiVersionStorageDrivesGetAsync (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
-             ApiResponse<QueuePaginatedList> localVarResponse = await ApiVapiVersionQueuesGetAsyncWithHttpInfo(apiVersion, organizationId,  filter, orderby, top, skip);
+             ApiResponse<StorageDrivePaginatedList> localVarResponse = await ApiVapiVersionStorageDrivesGetAsyncWithHttpInfo(apiVersion, organizationId, filter, orderby, top, skip);
              return localVarResponse.Data;
 
         }
 
         /// <summary>
-        /// Provides a list of all queues 
+        /// Provides a list of all storage drives 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
@@ -734,16 +777,16 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="orderby"> (optional)</param>
         /// <param name="top"> (optional, default to 100)</param>
         /// <param name="skip"> (optional, default to 0)</param>
-        /// <returns>Task of ApiResponse (QueuePaginatedList)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<QueuePaginatedList>> ApiVapiVersionQueuesGetAsyncWithHttpInfo (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null)
+        /// <returns>Task of ApiResponse (StorageDrivePaginatedList)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<StorageDrivePaginatedList>> ApiVapiVersionStorageDrivesGetAsyncWithHttpInfo (string apiVersion, string organizationId, string filter = null, string orderby = null, int? top = null, int? skip = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueuesApi->ApiVapiVersionQueuesGet");
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->ApiVapiVersionStorageDrivesGet");
 
-            var localVarPath = "/api/v{apiVersion}/Queues";
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives";
             if (!string.IsNullOrEmpty(organizationId))
-                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Queues";
+                localVarPath = "/api/v{apiVersion}/Storage/{organizationId}/Drives";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -753,7 +796,6 @@ namespace OpenBots.Server.SDK.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                "application/json"
             };
             String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
@@ -787,45 +829,45 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueuesGet", localVarResponse);
+                Exception exception = ExceptionFactory("ApiVapiVersionStorageDrivesGet", localVarResponse);
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<QueuePaginatedList>(localVarStatusCode,
+            return new ApiResponse<StorageDrivePaginatedList>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (QueuePaginatedList) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(QueuePaginatedList)));
+                JsonConvert.DeserializeObject<StorageDrivePaginatedList>(localVarResponse.Content));
         }
 
         /// <summary>
-        /// Deletes a queue with a specified id from the queues 
+        /// Deletes a storage drive with a specified id from the database 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id to be deleted - throws bad request if null or empty Guid</param>
+        /// <param name="id">Storage drive id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>IActionResult</returns>
-        public IActionResult ApiVapiVersionQueuesIdDelete (string id, string apiVersion)
+        public IActionResult ApiVapiVersionStorageDrivesIdDelete (string id, string apiVersion)
         {
-             ApiResponse<IActionResult> localVarResponse = ApiVapiVersionQueuesIdDeleteWithHttpInfo(id, apiVersion);
+             ApiResponse<IActionResult> localVarResponse = ApiVapiVersionStorageDrivesIdDeleteWithHttpInfo(id, apiVersion);
              return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Deletes a queue with a specified id from the queues 
+        /// Deletes a storage drive with a specified id from the database 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id to be deleted - throws bad request if null or empty Guid</param>
+        /// <param name="id">Storage drive id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of IActionResult</returns>
-        public ApiResponse< IActionResult > ApiVapiVersionQueuesIdDeleteWithHttpInfo (string id, string apiVersion)
+        public ApiResponse< IActionResult > ApiVapiVersionStorageDrivesIdDeleteWithHttpInfo (string id, string apiVersion)
         {
             // verify the required parameter 'id' is set
             if (id == null)
-                throw new ApiException(400, "Missing required parameter 'id' when calling QueuesApi->ApiVapiVersionQueuesIdDelete");
+                throw new ApiException(400, "Missing required parameter 'id' when calling DrivesApi->ApiVapiVersionStorageDrivesIdDelete");
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueuesApi->ApiVapiVersionQueuesIdDelete");
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->ApiVapiVersionStorageDrivesIdDelete");
 
-            var localVarPath = "/api/v{apiVersion}/Queues/{id}";
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives/{id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -864,7 +906,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueuesIdDelete", localVarResponse);
+                Exception exception = ExceptionFactory("ApiVapiVersionStorageDrivesIdDelete", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -874,36 +916,36 @@ namespace OpenBots.Server.SDK.Api
         }
 
         /// <summary>
-        /// Deletes a queue with a specified id from the queues 
+        /// Deletes a storage drive with a specified id from the database 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id to be deleted - throws bad request if null or empty Guid</param>
+        /// <param name="id">Storage drive id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueuesIdDeleteAsync (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionStorageDrivesIdDeleteAsync (string id, string apiVersion)
         {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionQueuesIdDeleteAsyncWithHttpInfo(id, apiVersion);
+             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionStorageDrivesIdDeleteAsyncWithHttpInfo(id, apiVersion);
              return localVarResponse.Data;
 
         }
 
         /// <summary>
-        /// Deletes a queue with a specified id from the queues 
+        /// Deletes a storage drive with a specified id from the database 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id to be deleted - throws bad request if null or empty Guid</param>
+        /// <param name="id">Storage drive id to be deleted - throws bad request if null or empty Guid</param>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueuesIdDeleteAsyncWithHttpInfo (string id, string apiVersion)
+        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionStorageDrivesIdDeleteAsyncWithHttpInfo (string id, string apiVersion)
         {
             // verify the required parameter 'id' is set
             if (id == null)
-                throw new ApiException(400, "Missing required parameter 'id' when calling QueuesApi->ApiVapiVersionQueuesIdDelete");
+                throw new ApiException(400, "Missing required parameter 'id' when calling DrivesApi->ApiVapiVersionStorageDrivesIdDelete");
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueuesApi->ApiVapiVersionQueuesIdDelete");
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->ApiVapiVersionStorageDrivesIdDelete");
 
-            var localVarPath = "/api/v{apiVersion}/Queues/{id}";
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives/{id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -942,7 +984,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueuesIdDelete", localVarResponse);
+                Exception exception = ExceptionFactory("ApiVapiVersionStorageDrivesIdDelete", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -952,220 +994,37 @@ namespace OpenBots.Server.SDK.Api
         }
 
         /// <summary>
-        /// Updates partial details of queue 
+        /// Updates a storage drive Provides an action to update a storage drive, when the id is given
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue identifier</param>
+        /// <param name="id">Storage drive id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
-        /// <param name="body">Value of the queue to be updated (optional)</param>
-        /// <returns>IActionResult</returns>
-        public IActionResult ApiVapiVersionQueuesIdPatch (string id, string apiVersion, List<Operation> body = null)
+        /// <param name="body">Storage drive to be updated (optional)</param>
+        /// <returns>StorageDrive</returns>
+        public StorageDrive ApiVapiVersionStorageDrivesIdPut (string id, string apiVersion, StorageDrive body = null)
         {
-             ApiResponse<IActionResult> localVarResponse = ApiVapiVersionQueuesIdPatchWithHttpInfo(id, apiVersion, body);
+             ApiResponse<StorageDrive> localVarResponse = ApiVapiVersionStorageDrivesIdPutWithHttpInfo(id, apiVersion, body);
              return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Updates partial details of queue 
+        /// Updates a storage drive Provides an action to update a storage drive, when the id is given
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue identifier</param>
+        /// <param name="id">Storage drive id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
-        /// <param name="body">Value of the queue to be updated (optional)</param>
-        /// <returns>ApiResponse of IActionResult</returns>
-        public ApiResponse< IActionResult > ApiVapiVersionQueuesIdPatchWithHttpInfo (string id, string apiVersion, List<Operation> body = null)
+        /// <param name="body">Storage drive to be updated (optional)</param>
+        /// <returns>ApiResponse of StorageDrive</returns>
+        public ApiResponse< StorageDrive > ApiVapiVersionStorageDrivesIdPutWithHttpInfo (string id, string apiVersion, StorageDrive body = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
-                throw new ApiException(400, "Missing required parameter 'id' when calling QueuesApi->ApiVapiVersionQueuesIdPatch");
+                throw new ApiException(400, "Missing required parameter 'id' when calling DrivesApi->ApiVapiVersionStorageDrivesIdPut");
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueuesApi->ApiVapiVersionQueuesIdPatch");
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->ApiVapiVersionStorageDrivesIdPut");
 
-            var localVarPath = "/api/v{apiVersion}/Queues/{id}";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = body; // byte array
-            }
-            // authentication (oauth2) required
-            // bearer required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.PATCH, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueuesIdPatch", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<IActionResult>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (IActionResult) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
-        }
-
-        /// <summary>
-        /// Updates partial details of queue 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue identifier</param>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Value of the queue to be updated (optional)</param>
-        /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueuesIdPatchAsync (string id, string apiVersion, List<Operation> body = null)
-        {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionQueuesIdPatchAsyncWithHttpInfo(id, apiVersion, body);
-             return localVarResponse.Data;
-
-        }
-
-        /// <summary>
-        /// Updates partial details of queue 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue identifier</param>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Value of the queue to be updated (optional)</param>
-        /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueuesIdPatchAsyncWithHttpInfo (string id, string apiVersion, List<Operation> body = null)
-        {
-            // verify the required parameter 'id' is set
-            if (id == null)
-                throw new ApiException(400, "Missing required parameter 'id' when calling QueuesApi->ApiVapiVersionQueuesIdPatch");
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueuesApi->ApiVapiVersionQueuesIdPatch");
-
-            var localVarPath = "/api/v{apiVersion}/Queues/{id}";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = body; // byte array
-            }
-            // authentication (oauth2) required
-            // bearer required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.PATCH, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueuesIdPatch", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<IActionResult>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (IActionResult) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
-        }
-
-        /// <summary>
-        /// Updates a queue Provides an action to update an queue, when queue id and the new details of the queue are given
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id, produces bad request if id is null or ids don&#x27;t match</param>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Queue details to be updated (optional)</param>
-        /// <returns>IActionResult</returns>
-        public IActionResult ApiVapiVersionQueuesIdPut (string id, string apiVersion, QueueViewModel body = null)
-        {
-             ApiResponse<IActionResult> localVarResponse = ApiVapiVersionQueuesIdPutWithHttpInfo(id, apiVersion, body);
-             return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Updates a queue Provides an action to update an queue, when queue id and the new details of the queue are given
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id, produces bad request if id is null or ids don&#x27;t match</param>
-        /// <param name="apiVersion"></param>
-        /// <param name="body">Queue details to be updated (optional)</param>
-        /// <returns>ApiResponse of IActionResult</returns>
-        public ApiResponse< IActionResult > ApiVapiVersionQueuesIdPutWithHttpInfo (string id, string apiVersion, QueueViewModel body = null)
-        {
-            // verify the required parameter 'id' is set
-            if (id == null)
-                throw new ApiException(400, "Missing required parameter 'id' when calling QueuesApi->ApiVapiVersionQueuesIdPut");
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueuesApi->ApiVapiVersionQueuesIdPut");
-
-            var localVarPath = "/api/v{apiVersion}/Queues/{id}";
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives/{id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1216,48 +1075,48 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueuesIdPut", localVarResponse);
+                Exception exception = ExceptionFactory("ApiVapiVersionStorageDrivesIdPut", localVarResponse);
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<IActionResult>(localVarStatusCode,
+            return new ApiResponse<StorageDrive>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (IActionResult) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
+                (StorageDrive) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(StorageDrive)));
         }
 
         /// <summary>
-        /// Updates a queue Provides an action to update an queue, when queue id and the new details of the queue are given
+        /// Updates a storage drive Provides an action to update a storage drive, when the id is given
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id, produces bad request if id is null or ids don&#x27;t match</param>
+        /// <param name="id">Storage drive id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
-        /// <param name="body">Queue details to be updated (optional)</param>
-        /// <returns>Task of IActionResult</returns>
-        public async System.Threading.Tasks.Task<IActionResult> ApiVapiVersionQueuesIdPutAsync (string id, string apiVersion, QueueViewModel body = null)
+        /// <param name="body">Storage drive to be updated (optional)</param>
+        /// <returns>Task of StorageDrive</returns>
+        public async System.Threading.Tasks.Task<StorageDrive> ApiVapiVersionStorageDrivesIdPutAsync (string id, string apiVersion, StorageDrive body = null)
         {
-             ApiResponse<IActionResult> localVarResponse = await ApiVapiVersionQueuesIdPutAsyncWithHttpInfo(id, apiVersion, body);
+             ApiResponse<StorageDrive> localVarResponse = await ApiVapiVersionStorageDrivesIdPutAsyncWithHttpInfo(id, apiVersion, body);
              return localVarResponse.Data;
 
         }
 
         /// <summary>
-        /// Updates a queue Provides an action to update an queue, when queue id and the new details of the queue are given
+        /// Updates a storage drive Provides an action to update a storage drive, when the id is given
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id, produces bad request if id is null or ids don&#x27;t match</param>
+        /// <param name="id">Storage drive id, produces bad request if id is null or ids don&#x27;t match</param>
         /// <param name="apiVersion"></param>
-        /// <param name="body">Queue details to be updated (optional)</param>
-        /// <returns>Task of ApiResponse (IActionResult)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> ApiVapiVersionQueuesIdPutAsyncWithHttpInfo (string id, string apiVersion, QueueViewModel body = null)
+        /// <param name="body">Storage drive to be updated (optional)</param>
+        /// <returns>Task of ApiResponse (StorageDrive)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<StorageDrive>> ApiVapiVersionStorageDrivesIdPutAsyncWithHttpInfo (string id, string apiVersion, StorageDrive body = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
-                throw new ApiException(400, "Missing required parameter 'id' when calling QueuesApi->ApiVapiVersionQueuesIdPut");
+                throw new ApiException(400, "Missing required parameter 'id' when calling DrivesApi->ApiVapiVersionStorageDrivesIdPut");
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueuesApi->ApiVapiVersionQueuesIdPut");
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->ApiVapiVersionStorageDrivesIdPut");
 
-            var localVarPath = "/api/v{apiVersion}/Queues/{id}";
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives/{id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1308,7 +1167,562 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueuesIdPut", localVarResponse);
+                Exception exception = ExceptionFactory("ApiVapiVersionStorageDrivesIdPut", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<StorageDrive>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (StorageDrive) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(StorageDrive)));
+        }
+
+        /// <summary>
+        /// Creates new storage drive 
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiVersion"></param>
+        /// <param name="body"> (optional)</param>
+        /// <returns>StorageDrive</returns>
+        public StorageDrive ApiVapiVersionStorageDrivesPost (string apiVersion, StorageDrive body = null)
+        {
+             ApiResponse<StorageDrive> localVarResponse = ApiVapiVersionStorageDrivesPostWithHttpInfo(apiVersion, body);
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Creates new storage drive 
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiVersion"></param>
+        /// <param name="body"> (optional)</param>
+        /// <returns>ApiResponse of StorageDrive</returns>
+        public ApiResponse< StorageDrive > ApiVapiVersionStorageDrivesPostWithHttpInfo (string apiVersion, StorageDrive body = null)
+        {
+            // verify the required parameter 'apiVersion' is set
+            if (apiVersion == null)
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->ApiVapiVersionStorageDrivesPost");
+
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json-patch+json", 
+                "application/json", 
+                "text/json", 
+                "application/_*+json"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (body != null && body.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = body; // byte array
+            }
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("ApiVapiVersionStorageDrivesPost", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<StorageDrive>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (StorageDrive) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(StorageDrive)));
+        }
+
+        /// <summary>
+        /// Creates new storage drive 
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiVersion"></param>
+        /// <param name="body"> (optional)</param>
+        /// <returns>Task of StorageDrive</returns>
+        public async System.Threading.Tasks.Task<StorageDrive> ApiVapiVersionStorageDrivesPostAsync (string apiVersion, StorageDrive body = null)
+        {
+             ApiResponse<StorageDrive> localVarResponse = await ApiVapiVersionStorageDrivesPostAsyncWithHttpInfo(apiVersion, body);
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// Creates new storage drive 
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiVersion"></param>
+        /// <param name="body"> (optional)</param>
+        /// <returns>Task of ApiResponse (StorageDrive)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<StorageDrive>> ApiVapiVersionStorageDrivesPostAsyncWithHttpInfo (string apiVersion, StorageDrive body = null)
+        {
+            // verify the required parameter 'apiVersion' is set
+            if (apiVersion == null)
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->ApiVapiVersionStorageDrivesPost");
+
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json-patch+json", 
+                "application/json", 
+                "text/json", 
+                "application/_*+json"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (body != null && body.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = body; // byte array
+            }
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("ApiVapiVersionStorageDrivesPost", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<StorageDrive>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (StorageDrive) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(StorageDrive)));
+        }
+
+        /// <summary>
+        /// Provides storage drive details by drive id 
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Storage drive id</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>StorageDrive</returns>
+        public StorageDrive GetDrive (string id, string apiVersion)
+        {
+             ApiResponse<StorageDrive> localVarResponse = GetDriveWithHttpInfo(id, apiVersion);
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Provides storage drive details by drive id 
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Storage drive id</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>ApiResponse of StorageDrive</returns>
+        public ApiResponse< StorageDrive > GetDriveWithHttpInfo (string id, string apiVersion)
+        {
+            // verify the required parameter 'id' is set
+            if (id == null)
+                throw new ApiException(400, "Missing required parameter 'id' when calling DrivesApi->GetDrive");
+            // verify the required parameter 'apiVersion' is set
+            if (apiVersion == null)
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->GetDrive");
+
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives/DriveDetails/{id}";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
+            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GetDrive", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<StorageDrive>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (StorageDrive) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(StorageDrive)));
+        }
+
+        /// <summary>
+        /// Provides storage drive details by drive id 
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Storage drive id</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>Task of StorageDrive</returns>
+        public async System.Threading.Tasks.Task<StorageDrive> GetDriveAsync (string id, string apiVersion)
+        {
+             ApiResponse<StorageDrive> localVarResponse = await GetDriveAsyncWithHttpInfo(id, apiVersion);
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// Provides storage drive details by drive id 
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Storage drive id</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>Task of ApiResponse (StorageDrive)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<StorageDrive>> GetDriveAsyncWithHttpInfo (string id, string apiVersion)
+        {
+            // verify the required parameter 'id' is set
+            if (id == null)
+                throw new ApiException(400, "Missing required parameter 'id' when calling DrivesApi->GetDrive");
+            // verify the required parameter 'apiVersion' is set
+            if (apiVersion == null)
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->GetDrive");
+
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives/DriveDetails/{id}";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
+            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GetDrive", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<StorageDrive>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (StorageDrive) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(StorageDrive)));
+        }
+
+        /// <summary>
+        /// Provides storage drive details by drive name 
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="driveName">Storage drive name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>StorageDrive</returns>
+        public StorageDrive GetDriveByName (string driveName, string apiVersion)
+        {
+             ApiResponse<StorageDrive> localVarResponse = GetDriveByNameWithHttpInfo(driveName, apiVersion);
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Provides storage drive details by drive name 
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="driveName">Storage drive name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>ApiResponse of StorageDrive</returns>
+        public ApiResponse< StorageDrive > GetDriveByNameWithHttpInfo (string driveName, string apiVersion)
+        {
+            // verify the required parameter 'driveName' is set
+            if (driveName == null)
+                throw new ApiException(400, "Missing required parameter 'driveName' when calling DrivesApi->GetDriveByName");
+            // verify the required parameter 'apiVersion' is set
+            if (apiVersion == null)
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->GetDriveByName");
+
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives/DriveDetailsByName/{driveName}";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (driveName != null) localVarPathParams.Add("driveName", this.Configuration.ApiClient.ParameterToString(driveName)); // path parameter
+            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GetDriveByName", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<StorageDrive>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (StorageDrive) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(StorageDrive)));
+        }
+
+        /// <summary>
+        /// Provides storage drive details by drive name 
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="driveName">Storage drive name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>Task of StorageDrive</returns>
+        public async System.Threading.Tasks.Task<StorageDrive> GetDriveByNameAsync (string driveName, string apiVersion)
+        {
+             ApiResponse<StorageDrive> localVarResponse = await GetDriveByNameAsyncWithHttpInfo(driveName, apiVersion);
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// Provides storage drive details by drive name 
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="driveName">Storage drive name</param>
+        /// <param name="apiVersion"></param>
+        /// <returns>Task of ApiResponse (StorageDrive)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<StorageDrive>> GetDriveByNameAsyncWithHttpInfo (string driveName, string apiVersion)
+        {
+            // verify the required parameter 'driveName' is set
+            if (driveName == null)
+                throw new ApiException(400, "Missing required parameter 'driveName' when calling DrivesApi->GetDriveByName");
+            // verify the required parameter 'apiVersion' is set
+            if (apiVersion == null)
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->GetDriveByName");
+
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives/DriveDetailsByName/{driveName}";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (driveName != null) localVarPathParams.Add("driveName", this.Configuration.ApiClient.ParameterToString(driveName)); // path parameter
+            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GetDriveByName", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<StorageDrive>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (StorageDrive) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(StorageDrive)));
+        }
+
+        /// <summary>
+        /// Provides storage drive names 
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiVersion"></param>
+        /// <param name="adapterType"> (optional)</param>
+        /// <returns>IActionResult</returns>
+        public IActionResult GetDriveNames (string apiVersion, string adapterType = null)
+        {
+             ApiResponse<IActionResult> localVarResponse = GetDriveNamesWithHttpInfo(apiVersion, adapterType);
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Provides storage drive names 
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiVersion"></param>
+        /// <param name="adapterType"> (optional)</param>
+        /// <returns>ApiResponse of IActionResult</returns>
+        public ApiResponse< IActionResult > GetDriveNamesWithHttpInfo (string apiVersion, string adapterType = null)
+        {
+            // verify the required parameter 'apiVersion' is set
+            if (apiVersion == null)
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->GetDriveNames");
+
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives/driveNames";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (adapterType != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "adapterType", adapterType)); // query parameter
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GetDriveNames", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -1318,206 +1732,33 @@ namespace OpenBots.Server.SDK.Api
         }
 
         /// <summary>
-        /// Adds a new queue 
+        /// Provides storage drive names 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Queue</returns>
-        public Queue ApiVapiVersionQueuesPost (string apiVersion, Queue body = null)
+        /// <param name="adapterType"> (optional)</param>
+        /// <returns>Task of IActionResult</returns>
+        public async System.Threading.Tasks.Task<IActionResult> GetDriveNamesAsync (string apiVersion, string adapterType = null)
         {
-             ApiResponse<Queue> localVarResponse = ApiVapiVersionQueuesPostWithHttpInfo(apiVersion, body);
-             return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Adds a new queue 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>ApiResponse of Queue</returns>
-        public ApiResponse< Queue > ApiVapiVersionQueuesPostWithHttpInfo (string apiVersion, Queue body = null)
-        {
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueuesApi->ApiVapiVersionQueuesPost");
-
-            var localVarPath = "/api/v{apiVersion}/Queues";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = body; // byte array
-            }
-            // authentication (oauth2) required
-            // bearer required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueuesPost", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Queue>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Queue) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Queue)));
-        }
-
-        /// <summary>
-        /// Adds a new queue 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of Queue</returns>
-        public async System.Threading.Tasks.Task<Queue> ApiVapiVersionQueuesPostAsync (string apiVersion, Queue body = null)
-        {
-             ApiResponse<Queue> localVarResponse = await ApiVapiVersionQueuesPostAsyncWithHttpInfo(apiVersion, body);
+             ApiResponse<IActionResult> localVarResponse = await GetDriveNamesAsyncWithHttpInfo(apiVersion, adapterType);
              return localVarResponse.Data;
 
         }
 
         /// <summary>
-        /// Adds a new queue 
+        /// Provides storage drive names 
         /// </summary>
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
-        /// <param name="body"> (optional)</param>
-        /// <returns>Task of ApiResponse (Queue)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Queue>> ApiVapiVersionQueuesPostAsyncWithHttpInfo (string apiVersion, Queue body = null)
+        /// <param name="adapterType"> (optional)</param>
+        /// <returns>Task of ApiResponse (IActionResult)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<IActionResult>> GetDriveNamesAsyncWithHttpInfo (string apiVersion, string adapterType = null)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueuesApi->ApiVapiVersionQueuesPost");
+                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling DrivesApi->GetDriveNames");
 
-            var localVarPath = "/api/v{apiVersion}/Queues";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-                "application/json-patch+json", 
-                "application/json", 
-                "text/json", 
-                "application/_*+json"
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (body != null && body.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = body; // byte array
-            }
-            // authentication (oauth2) required
-            // bearer required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueuesPost", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Queue>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Queue) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Queue)));
-        }
-
-        /// <summary>
-        /// Provides queue details for a particular queue id 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id</param>
-        /// <param name="apiVersion"></param>
-        /// <returns>Queue</returns>
-        public Queue GetQueue (string id, string apiVersion)
-        {
-             ApiResponse<Queue> localVarResponse = GetQueueWithHttpInfo(id, apiVersion);
-             return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Provides queue details for a particular queue id 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id</param>
-        /// <param name="apiVersion"></param>
-        /// <returns>ApiResponse of Queue</returns>
-        public ApiResponse< Queue > GetQueueWithHttpInfo (string id, string apiVersion)
-        {
-            // verify the required parameter 'id' is set
-            if (id == null)
-                throw new ApiException(400, "Missing required parameter 'id' when calling QueuesApi->GetQueue");
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueuesApi->GetQueue");
-
-            var localVarPath = "/api/v{apiVersion}/Queues/{id}";
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives/driveNames";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1538,86 +1779,8 @@ namespace OpenBots.Server.SDK.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            // authentication (oauth2) required
-            // bearer required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("GetQueue", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Queue>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Queue) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Queue)));
-        }
-
-        /// <summary>
-        /// Provides queue details for a particular queue id 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id</param>
-        /// <param name="apiVersion"></param>
-        /// <returns>Task of Queue</returns>
-        public async System.Threading.Tasks.Task<Queue> GetQueueAsync (string id, string apiVersion)
-        {
-             ApiResponse<Queue> localVarResponse = await GetQueueAsyncWithHttpInfo(id, apiVersion);
-             return localVarResponse.Data;
-
-        }
-
-        /// <summary>
-        /// Provides queue details for a particular queue id 
-        /// </summary>
-        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">Queue id</param>
-        /// <param name="apiVersion"></param>
-        /// <returns>Task of ApiResponse (Queue)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Queue>> GetQueueAsyncWithHttpInfo (string id, string apiVersion)
-        {
-            // verify the required parameter 'id' is set
-            if (id == null)
-                throw new ApiException(400, "Missing required parameter 'id' when calling QueuesApi->GetQueue");
-            // verify the required parameter 'apiVersion' is set
-            if (apiVersion == null)
-                throw new ApiException(400, "Missing required parameter 'apiVersion' when calling QueuesApi->GetQueue");
-
-            var localVarPath = "/api/v{apiVersion}/Queues/{id}";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
-            if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
+            if (adapterType != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "adapterType", adapterType)); // query parameter
             // authentication (oauth2) required
             // bearer required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -1634,13 +1797,13 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("GetQueue", localVarResponse);
+                Exception exception = ExceptionFactory("GetDriveNames", localVarResponse);
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<Queue>(localVarStatusCode,
+            return new ApiResponse<IActionResult>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Queue) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Queue)));
+                (IActionResult) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(IActionResult)));
         }
 
     }

@@ -3113,10 +3113,9 @@ namespace OpenBots.Server.SDK.Api
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling AssetsApi->ApiVapiVersionAssetsIdUpdatePut");
 
-            var localVarPath = string.Empty;
-            if (string.IsNullOrEmpty(organizationId))
-                localVarPath = "/api/v{apiVersion}/Assets/{id}/Update";
-            else localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Assets/{id}/Update";
+            var localVarPath = "/api/v{apiVersion}/Assets/{id}/Update";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Assets/{id}/Update";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);

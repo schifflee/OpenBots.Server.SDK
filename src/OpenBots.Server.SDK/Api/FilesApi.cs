@@ -14,6 +14,7 @@ using System.Linq;
 using RestSharp;
 using OpenBots.Server.SDK.Client;
 using OpenBots.Server.SDK.Model;
+using Newtonsoft.Json;
 
 namespace OpenBots.Server.SDK.Api
 {
@@ -673,7 +674,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of FileFolderViewModel</returns>
-        System.Threading.Tasks.Task<FileFolderViewModel> GetFileFolderAsync (string id, string apiVersion, string driveName = null);
+        System.Threading.Tasks.Task<FileFolderViewModel> GetFileFolderAsync (string id, string apiVersion, string organizationId, string driveId);
 
         /// <summary>
         /// Provides file/folder details for a particular file/folder
@@ -686,7 +687,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of ApiResponse (FileFolderViewModel)</returns>
-        System.Threading.Tasks.Task<ApiResponse<FileFolderViewModel>> GetFileFolderAsyncWithHttpInfo (string id, string apiVersion, string driveName = null);
+        System.Threading.Tasks.Task<ApiResponse<FileFolderViewModel>> GetFileFolderAsyncWithHttpInfo (string id, string apiVersion, string organizationId, string driveId);
         #endregion Asynchronous Operations
     }
 
@@ -2882,9 +2883,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of FileFolderViewModel</returns>
-        public async System.Threading.Tasks.Task<FileFolderViewModel> GetFileFolderAsync (string id, string apiVersion, string driveName = null)
+        public async System.Threading.Tasks.Task<FileFolderViewModel> GetFileFolderAsync (string id, string apiVersion, string organizationId, string driveId)
         {
-             ApiResponse<FileFolderViewModel> localVarResponse = await GetFileFolderAsyncWithHttpInfo(id, apiVersion, driveName);
+             ApiResponse<FileFolderViewModel> localVarResponse = await GetFileFolderAsyncWithHttpInfo(id, apiVersion, organizationId, driveId);
              return localVarResponse.Data;
 
         }
@@ -2897,7 +2898,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="driveName"> (optional)</param>
         /// <returns>Task of ApiResponse (FileFolderViewModel)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<FileFolderViewModel>> GetFileFolderAsyncWithHttpInfo (string id, string apiVersion, string driveName = null)
+        public async System.Threading.Tasks.Task<ApiResponse<FileFolderViewModel>> GetFileFolderAsyncWithHttpInfo (string id, string apiVersion, string organizationId, string driveId = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -2906,7 +2907,9 @@ namespace OpenBots.Server.SDK.Api
             if (apiVersion == null)
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling FilesApi->GetFileFolder");
 
-            var localVarPath = "/api/v{apiVersion}/Files/{id}";
+            var localVarPath = "/api/v{apiVersion}/Storage/Drives/{driveId}/Files/{id}";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Storage/{organizationId}/Drives/{driveId}/Files/{id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -2929,7 +2932,8 @@ namespace OpenBots.Server.SDK.Api
 
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
-            if (driveName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "driveName", driveName)); // query parameter
+            if (!string.IsNullOrEmpty(organizationId)) localVarPathParams.Add("organizationId", this.Configuration.ApiClient.ParameterToString(organizationId)); // path parameter
+            if (driveId != null) localVarPathParams.Add("driveId", this.Configuration.ApiClient.ParameterToString(driveId)); // path parameter
             // authentication (oauth2) required
             // bearer required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -2950,9 +2954,10 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
+            var response = JsonConvert.DeserializeObject<PaginatedList<FileFolderViewModel>>(localVarResponse.Content).Items.FirstOrDefault();
             return new ApiResponse<FileFolderViewModel>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (FileFolderViewModel) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(FileFolderViewModel)));
+                response);
         }
 
     }

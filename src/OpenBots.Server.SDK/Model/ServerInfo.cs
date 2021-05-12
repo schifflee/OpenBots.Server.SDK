@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenBots.Server.SDK.Model
 {
@@ -15,6 +12,6 @@ namespace OpenBots.Server.SDK.Model
         public bool ForcedPasswordChange { get; set; }
         public bool IsUserConsentRequired { get; set; }
         public bool IsJoinOrgRequestPending { get; set; }
-        public List<OrganizationListing> OrganizationListings { get; set; }
+        public List<OrganizationListing> MyOrganizations { get; set; }
     }
 }

@@ -138,7 +138,7 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task ApiVapiVersionAuthGetUserInfoGetAsync (string apiVersion);
+        System.Threading.Tasks.Task ApiVapiVersionAuthGetUserInfoGetAsync (string token, string apiVersion);
 
         /// <summary>
         /// Get user info for logged in authenticated user
@@ -149,7 +149,7 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo (string apiVersion);
+        System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo (string token, string apiVersion);
         
         /// Login with username and password
         /// </summary>
@@ -430,14 +430,29 @@ namespace OpenBots.Server.SDK.Api
 
             if (serverType == "Cloud")
             {
-                string serviceRegistrationUrl = "https://dev-api.members.openbots.io/api/v1/ServiceRegistration";
-                var serviceRegistration = GetServiceRegistration(apiVersion, serviceRegistrationUrl, environment);
-                if (serviceRegistration.IsCurrentlyUnderMaintenance)
-                    throw new Exception("Server is currently undergoing maintenance and cannot be accessed at this time");
+                //TODO: use live service registration URL: "https://members.openbots.io"??
+                string serviceRegistrationUrl = "https://dev-api.members.openbots.io";
+                var serviceRegistrationList = GetServiceRegistration(apiVersion, serviceRegistrationUrl, environment);
 
-                serverUrl = serviceRegistration.OpenAPIUri.AbsoluteUri;
-                //loginUrl = serviceRegistration.ServiceBaseUri.AbsoluteUri;
-                loginUrl = "https://dev.login.openbots.io/connect/token";
+                if (serviceRegistrationList == null || serviceRegistrationList.Count() == 0)
+                    throw new Exception("Service registration could not be found");
+
+                foreach (var serviceRegistration in serviceRegistrationList)
+                {
+                    if (serviceRegistration.IsCurrentlyUnderMaintenance)
+                        throw new Exception("Server is currently undergoing maintenance and cannot be accessed at this time");
+
+                    if (serviceRegistration.Name == "Auth" && serviceRegistration.Environment == environment)
+                        loginUrl = serviceRegistration.ServiceBaseUri.ToString();
+
+                    if (serviceRegistration.Name == "Cloud Orchestrator" && serviceRegistration.Environment == environment)
+                        serverUrl = serviceRegistration.ServiceBaseUri.ToString();
+                }
+
+                //TODO: Remove these when service registration is working properly
+                serverUrl = "https://dev-api.cloudserver.openbots.io";
+                //loginUrl = "https://dev.login.openbots.io/connect/token";
+                loginUrl = "https://dev-api.members.openbots.io";
             }
             else // serverType == "Local"
                 loginUrl = serverUrl;
@@ -450,10 +465,10 @@ namespace OpenBots.Server.SDK.Api
 
             string token = GetAuthToken(apiVersion, serverType, username, password, loginUrl);
 
-            ServerInfo serverInfo = GetServerInfo(apiVersion, serverUrl);
+            ServerInfo serverInfo = GetServerInfo(apiVersion, serverUrl, token);
 
             if (serverType == "Cloud")
-                organizationId = GetOrganizationId(apiVersion, organizationName, serverUrl, serverInfo.OrganizationListings);
+                organizationId = GetOrganizationId(token, apiVersion, organizationName, serverUrl, serverInfo.MyOrganizations);
 
             var userInfo = new UserInfo()
             {
@@ -467,7 +482,7 @@ namespace OpenBots.Server.SDK.Api
             return userInfo;
         }
 
-        public static ServiceRegistration GetServiceRegistration(string apiVersion, string serviceUrl, string environment)
+        public static List<ServiceRegistration> GetServiceRegistration(string apiVersion, string serviceUrl, string environment)
         {
             var client = new RestClient(serviceUrl);
             var request = new RestRequest($"api/v{apiVersion}/ServiceRegistration", Method.GET);
@@ -482,12 +497,13 @@ namespace OpenBots.Server.SDK.Api
             var deserializer = new JsonDeserializer();
             var output = deserializer.Deserialize<Dictionary<string, string>>(response);
             var items = output["items"];
-            return JsonConvert.DeserializeObject<List<ServiceRegistration>>(items).FirstOrDefault();
+            return JsonConvert.DeserializeObject<List<ServiceRegistration>>(items);
         }
 
-        public static string GetOrganizationId(string apiVersion, string organizationName, string serverUrl, List<OrganizationListing> orgList)
+        public static string GetOrganizationId(string token, string apiVersion, string organizationName, string serverUrl, List<OrganizationListing> orgList)
         {
             var apiInstance = new OrganizationsApi(serverUrl);
+            apiInstance.Configuration.AccessToken = token;
             try
             {
                 bool IsUserInOrg = false;
@@ -500,7 +516,7 @@ namespace OpenBots.Server.SDK.Api
                 if (!IsUserInOrg)
                     throw new Exception($"Organization {organizationName} does not match user's existing organizations");
 
-                string filter = $"$filter=Name eq '{organizationName}'";
+                string filter = $"Name eq '{organizationName}'";
                 var result = apiInstance.ApiVapiVersionOrganizationsGetAsyncWithHttpInfo(apiVersion, filter).Result.Data.Items.FirstOrDefault();
                 if (result == null)
                     throw new Exception($"Organization {organizationName} could not be found");
@@ -516,11 +532,11 @@ namespace OpenBots.Server.SDK.Api
         public static string GetAuthToken(string apiVersion, string serverType, string username, string password, string loginUrl)
         {
             string token;
+            var login = new Login(username, password);
 
             if (serverType == "Local") // get token from open source Server
             {
                 var apiInstance = new AuthApi(loginUrl);
-                var login = new Login(username, password);
 
                 try
                 {
@@ -536,31 +552,49 @@ namespace OpenBots.Server.SDK.Api
             }
             else // get token from cloud Server
             {
-                var httpClient = new HttpClient();
-                var identityServerResponse = httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
-                {
-                    Address = loginUrl,
-                    ClientId = "client",
-                    UserName = username,
-                    Password = password
-                }).Result;
+                //user authentication
+                //var httpClient = new HttpClient();
+                //var identityServerResponse = httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
+                //{
+                //    Address = loginUrl,
+                //    ClientId = "client",
+                //    UserName = username,
+                //    Password = password
+                //}).Result;
 
-                if (identityServerResponse.IsError) throw new Exception(identityServerResponse.Error);
+                //if (identityServerResponse.IsError) throw new Exception(identityServerResponse.Error);
 
-                token = identityServerResponse.AccessToken;
+                //token = identityServerResponse.AccessToken;
+
+                //agent authentication
+                var client = new RestClient(loginUrl);
+                var request = new RestRequest($"api/v{apiVersion}/Auth/machine/token", Method.POST);
+                request.RequestFormat = DataFormat.Json;
+                //request.AddJsonBody(login);
+                request.AddJsonBody($"{{ \"userName\": \"{username}\", \"password\": \"{password}\" }} ");
+
+                var response = client.Execute(request);
+
+                if (!response.IsSuccessful)
+                    throw new HttpRequestException($"Status Code: {response.StatusCode} - Error Message: {response.ErrorMessage}");
+
+                //var deserializer = new JsonDeserializer();
+                //var output = deserializer.Deserialize<Dictionary<string, string>>(response);
+                //var items = output["items"];
+                //return JsonConvert.DeserializeObject<List<ServiceRegistration>>(items);
+                token = "";
             }
             return token;
         }
 
-        public static ServerInfo GetServerInfo(string apiVersion, string serverUrl)
+        public static ServerInfo GetServerInfo(string apiVersion, string serverUrl, string token)
         {
             var apiInstance = new AuthApi(serverUrl);
 
             try
             {
-                var result = apiInstance.ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo(apiVersion).Result.Data;
-                string resultString = JsonConvert.SerializeObject(result);
-                var serverInfo = JsonConvert.DeserializeObject<ServerInfo>(resultString);
+                var result = apiInstance.ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo(token, apiVersion).Result.Data.ToString();
+                var serverInfo = JsonConvert.DeserializeObject<ServerInfo>(result);
                 return serverInfo;
             }
             catch (Exception ex)
@@ -638,9 +672,9 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task ApiVapiVersionAuthGetUserInfoGetAsync (string apiVersion)
+        public async System.Threading.Tasks.Task ApiVapiVersionAuthGetUserInfoGetAsync (string token, string apiVersion)
         {
-             await ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo(apiVersion);
+             await ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo(token, apiVersion);
 
         }
 
@@ -650,7 +684,7 @@ namespace OpenBots.Server.SDK.Api
         /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiVersion"></param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo (string apiVersion)
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo (string token, string apiVersion)
         {
             // verify the required parameter 'apiVersion' is set
             if (apiVersion == null)
@@ -678,6 +712,14 @@ namespace OpenBots.Server.SDK.Api
 
             if (apiVersion != null) localVarPathParams.Add("apiVersion", this.Configuration.ApiClient.ParameterToString(apiVersion)); // path parameter
 
+            Configuration.AccessToken = token;
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
@@ -693,7 +735,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
+                localVarResponse.Content);
         }
 
         /// <summary>

@@ -328,7 +328,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <returns>AutomationPaginatedList</returns>
-        AutomationPaginatedList GetAutomation (string id, string apiVersion);
+        AutomationPaginatedList GetAutomation (string id, string apiVersion, string organizationId);
 
         /// <summary>
         /// Get Automation by id
@@ -340,7 +340,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="id"></param>
         /// <param name="apiVersion"></param>
         /// <returns>ApiResponse of AutomationPaginatedList</returns>
-        ApiResponse<AutomationPaginatedList> GetAutomationWithHttpInfo (string id, string apiVersion);
+        ApiResponse<AutomationPaginatedList> GetAutomationWithHttpInfo (string id, string apiVersion, string organizationId);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>

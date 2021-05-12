@@ -2285,7 +2285,7 @@ namespace OpenBots.Server.SDK.Api
 
             var localVarPath = "/api/v{apiVersion}/Emails/send";
             if (!string.IsNullOrEmpty(organizationId))
-                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Emails/send";
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Emails/Send";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
