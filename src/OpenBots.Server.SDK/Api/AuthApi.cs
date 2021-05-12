@@ -17,7 +17,6 @@ using OpenBots.Server.SDK.Model;
 using Newtonsoft.Json;
 using RestSharp.Serialization.Json;
 using Newtonsoft.Json.Linq;
-using IdentityModel.Client;
 using System.Net.Http;
 
 namespace OpenBots.Server.SDK.Api
