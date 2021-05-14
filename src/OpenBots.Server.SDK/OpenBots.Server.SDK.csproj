@@ -99,8 +99,24 @@ OpenAPI spec version: v1
   <ItemGroup>
     <Compile Include="**\*.cs" Exclude="obj\**" />
     <Compile Include="Api\ConnectAgentViewModel.cs" />
-    <Compile Include="Api\DrivesApi.cs" />
+    <Compile Include="Model\AssignToRequest.cs" />
+    <Compile Include="Model\AuthenticateModel.cs" />
+    <Compile Include="Model\AuthenticateResultModel.cs" />
+    <Compile Include="Model\DocumentContentSaveView.cs" />
+    <Compile Include="Model\DocumentContentView.cs" />
+    <Compile Include="Model\ExternalAuthenticateModel.cs" />
+    <Compile Include="Model\ExternalAuthenticateResultModel.cs" />
+    <Compile Include="Model\ExternalLoginProviderInfoModel.cs" />
+    <Compile Include="Model\ExtractedDocument.cs" />
+    <Compile Include="Model\ExtractedDocumentPage.cs" />
+    <Compile Include="Model\ExtractedDocumentView.cs" />
+    <Compile Include="Model\ExtractedFile.cs" />
+    <Compile Include="Model\ExtractedSession.cs" />
+    <Compile Include="Model\FormDetails.cs" />
+    <Compile Include="Model\FormPageDetails.cs" />
+    <Compile Include="Model\ImpersonatedAuthenticateResultModel.cs" />
     <Compile Include="Model\NextJobViewModel.cs" />
+    <Compile Include="Model\PageNumber.cs" />
     <Compile Include="Model\ServerInfo.cs" />
     <Compile Include="Model\ServiceRegistration.cs" />
     <Compile Include="Model\StorageDrive.cs" />
