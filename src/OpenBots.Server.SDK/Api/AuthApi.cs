@@ -17,6 +17,7 @@ using OpenBots.Server.SDK.Model;
 using Newtonsoft.Json;
 using RestSharp.Serialization.Json;
 using Newtonsoft.Json.Linq;
+using IdentityModel.Client;
 using System.Net.Http;
 
 namespace OpenBots.Server.SDK.Api
@@ -425,12 +426,11 @@ namespace OpenBots.Server.SDK.Api
                 throw new Exception("Agent is not connected");
 
             string organizationId = string.Empty;
-            string loginUrl;
+            string loginUrl = string.Empty;
 
             if (serverType == "Cloud")
             {
-                //TODO: use live service registration URL: "https://members.openbots.io"??
-                string serviceRegistrationUrl = "https://dev-api.members.openbots.io";
+                string serviceRegistrationUrl = "https://api.members.openbots.io";
                 var serviceRegistrationList = GetServiceRegistration(apiVersion, serviceRegistrationUrl, environment);
 
                 if (serviceRegistrationList == null || serviceRegistrationList.Count() == 0)
@@ -441,17 +441,14 @@ namespace OpenBots.Server.SDK.Api
                     if (serviceRegistration.IsCurrentlyUnderMaintenance)
                         throw new Exception("Server is currently undergoing maintenance and cannot be accessed at this time");
 
-                    if (serviceRegistration.Name == "Auth" && serviceRegistration.Environment == environment)
+                    if (serviceRegistration.ServiceTag == "OpenBots") // Authentication
                         loginUrl = serviceRegistration.ServiceBaseUri.ToString();
 
-                    if (serviceRegistration.Name == "Cloud Orchestrator" && serviceRegistration.Environment == environment)
+                    if (serviceRegistration.ServiceTag == "OpenBots.CloudServer") // CloudServer Orchestration API
                         serverUrl = serviceRegistration.ServiceBaseUri.ToString();
                 }
 
-                //TODO: Remove these when service registration is working properly
-                serverUrl = "https://dev-api.cloudserver.openbots.io";
-                //loginUrl = "https://dev.login.openbots.io/connect/token";
-                loginUrl = "https://dev-api.members.openbots.io";
+                //loginUrl = "https://dev.login.openbots.io/connect/token"; // user authentication
             }
             else // serverType == "Local"
                 loginUrl = serverUrl;

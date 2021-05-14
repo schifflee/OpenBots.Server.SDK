@@ -38,6 +38,8 @@ namespace OpenBots.Server.SDK.Model
 
         public DateTime? MaintenanceEndsOnUTC { get; set; }
 
+        public string ServiceTag { get; set; }
+
         public enum ServiceProtocol : int
         {
             Unknown = 0,
