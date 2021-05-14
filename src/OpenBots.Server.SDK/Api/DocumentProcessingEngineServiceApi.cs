@@ -10,8 +10,17 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using OpenBots.DocumentsServer.SDK.Exceptions;
 using OpenBots.Server.SDK.Client;
+using OpenBots.Server.SDK.Exceptions;
 using OpenBots.Server.SDK.Model;
 using RestSharp;
 
@@ -387,6 +396,11 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="humanTaskId">ID (Guid) of the task for which the status is needed. (optional)</param>
         /// <returns>ApiResponse of string</returns>
         ApiResponse<string> ApiServicesAppDocumentprocessingengineserviceGetstatusGetWithHttpInfo (string humanTaskId = null);
+
+        DocumentStatus GetDocumentStatus(string humanTaskId = null);
+
+        bool IsDocumentCompleted(string status);
+
         /// <summary>
         /// 
         /// </summary>
@@ -520,6 +534,33 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="humanTaskId"> (optional)</param>
         /// <returns>ApiResponse of SubmitDocumentResponse</returns>
         ApiResponse<SubmitDocumentResponse> ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostWithHttpInfo (List<byte[]> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null);
+
+        DocumentResult SaveDocumentResults(Guid humanTaskId, bool awaitCompletion, bool savePageImages, bool savePageText, int timeout, string outputFolder, DataTable dataTable);
+
+        Dictionary<string, string> SubmitDocument(string fileToProcess, string taskQueueName = "", string name = "", string description = "", string caseNumber = "", string caseType = "", string assignedTo = "", string dueOn = "");
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns>Guid?</returns>
+        Guid? ApiServicesAppHumantasksCreateoreditPost(CreateOrEditHumanTaskDto body = null);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns>ApiResponse of Guid?</returns>
+        ApiResponse<Guid?> ApiServicesAppHumantasksCreateoreditPostWithHttpInfo(CreateOrEditHumanTaskDto body = null);
+
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -1019,6 +1060,29 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="humanTaskId"> (optional)</param>
         /// <returns>Task of ApiResponse (SubmitDocumentResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SubmitDocumentResponse>> ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostAsyncWithHttpInfo (List<byte[]> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns>Task of Guid?</returns>
+        System.Threading.Tasks.Task<Guid?> ApiServicesAppHumantasksCreateoreditPostAsync(CreateOrEditHumanTaskDto body = null);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns>Task of ApiResponse (Guid?)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Guid?>> ApiServicesAppHumantasksCreateoreditPostAsyncWithHttpInfo(CreateOrEditHumanTaskDto body = null);
+
         #endregion Asynchronous Operations
     }
 
@@ -1868,7 +1932,7 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<List<ExtractedDocumentView>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (List<ExtractedDocumentView>) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<ExtractedDocumentView>)));
+                JsonConvert.DeserializeObject<List<ExtractedDocumentView>>(localVarResponse.Content));
         }
 
         /// <summary>
@@ -3224,7 +3288,46 @@ namespace OpenBots.Server.SDK.Api
 
             return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
+                localVarResponse.Content);
+        }
+
+        public DocumentStatus GetDocumentStatus(string humanTaskId = null)
+        {
+            var documentStatus = new DocumentStatus();
+            documentStatus.Status = ApiServicesAppDocumentprocessingengineserviceGetstatusGetWithHttpInfo(humanTaskId).Data;
+
+            if (documentStatus.Status == "Processed")
+            {
+                documentStatus.IsDocumentCompleted = true;
+                documentStatus.HasError = false;
+                documentStatus.IsCurrentlyProcessing = false;
+                documentStatus.IsSuccessful = true;
+            }
+            else
+                documentStatus.IsSuccessful = false;
+
+            if (documentStatus.Status == "InProgress")
+            {
+                documentStatus.HasError = false;
+                documentStatus.IsCurrentlyProcessing = true;
+                documentStatus.IsDocumentCompleted = false;
+            }
+
+            if (documentStatus.Status == "CompletedWithError")
+            {
+                documentStatus.IsDocumentCompleted = true;
+                documentStatus.HasError = true;
+                documentStatus.IsCurrentlyProcessing = false;
+            }
+
+            return documentStatus;
+        }
+
+        public bool IsDocumentCompleted(string status)
+        {
+            if (status == "InProgress" || status == "Created")
+                return false;
+            else return true;
         }
 
         /// <summary>
@@ -3498,9 +3601,14 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
+            var content = localVarResponse.Content;
+            bool response = false;
+            if (content == "true")
+                response = true;
+
             return new ApiResponse<bool?>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (bool?) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(bool?)));
+                response);
         }
 
         /// <summary>
@@ -4045,5 +4153,486 @@ namespace OpenBots.Server.SDK.Api
                 (SubmitDocumentResponse) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(SubmitDocumentResponse)));
         }
 
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns>Guid?</returns>
+        public Guid? ApiServicesAppHumantasksCreateoreditPost(CreateOrEditHumanTaskDto body = null)
+        {
+            ApiResponse<Guid?> localVarResponse = ApiServicesAppHumantasksCreateoreditPostWithHttpInfo(body);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns>ApiResponse of Guid?</returns>
+        public ApiResponse<Guid?> ApiServicesAppHumantasksCreateoreditPostWithHttpInfo(CreateOrEditHumanTaskDto body = null)
+        {
+
+            var localVarPath = "/api/services/app/HumanTasks/CreateOrEdit";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json-patch+json",
+                "application/json",
+                "text/json",
+                "application/_*+json"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "text/plain",
+                "application/json",
+                "text/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (body != null && body.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = body; // byte array
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("ApiServicesAppHumantasksCreateoreditPost", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Guid?>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (Guid?)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Guid?)));
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns>Task of Guid?</returns>
+        public async System.Threading.Tasks.Task<Guid?> ApiServicesAppHumantasksCreateoreditPostAsync(CreateOrEditHumanTaskDto body = null)
+        {
+            ApiResponse<Guid?> localVarResponse = await ApiServicesAppHumantasksCreateoreditPostAsyncWithHttpInfo(body);
+            return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <exception cref="OpenBots.Server.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"> (optional)</param>
+        /// <returns>Task of ApiResponse (Guid?)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Guid?>> ApiServicesAppHumantasksCreateoreditPostAsyncWithHttpInfo(CreateOrEditHumanTaskDto body = null)
+        {
+
+            var localVarPath = "/api/services/app/HumanTasks/CreateOrEdit";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json-patch+json",
+                "application/json",
+                "text/json",
+                "application/_*+json"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "text/plain",
+                "application/json",
+                "text/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (body != null && body.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = body; // byte array
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("ApiServicesAppHumantasksCreateoreditPost", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Guid?>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (Guid?)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Guid?)));
+        }
+
+        public DocumentResult SaveDocumentResults(Guid humanTaskId, bool awaitCompletion, bool savePageImages, bool savePageText, int timeout, string outputFolder, DataTable dataTable)
+        {
+            bool hasFailed = true;
+            bool isCompleted = false;
+            string status = "";
+            string saveJson = "";
+            DocumentInfo docInfo = new DocumentInfo();
+            docInfo.TaskId = humanTaskId.ToString();
+            List<string> datacolumns = new List<string>();
+
+
+            // Prepare DataTable if it doesnt have default rows
+            if (dataTable == null)
+            {
+                dataTable = new DataTable("ExtractedData");
+            }
+            if (dataTable != null)
+            {
+                datacolumns = dataTable.Columns.Cast<DataColumn>()
+                                   .Select(x => x.ColumnName).ToList();
+
+                if (!datacolumns.Contains("FileName"))
+                    dataTable.Columns.Add(new DataColumn("FileName", typeof(string)));
+
+                //TaskId	DocumentId	Pages	Schema	IsUnstructured
+                if (!datacolumns.Contains("TaskId"))
+                    dataTable.Columns.Add(new DataColumn("TaskId", typeof(string)));
+
+                if (!datacolumns.Contains("DocumentId"))
+                    dataTable.Columns.Add(new DataColumn("DocumentId", typeof(string)));
+
+                if (!datacolumns.Contains("Pages"))
+                    dataTable.Columns.Add(new DataColumn("Pages", typeof(string)));
+
+                if (!datacolumns.Contains("Schema"))
+                    dataTable.Columns.Add(new DataColumn("Schema", typeof(string)));
+
+                if (!datacolumns.Contains("IsUnstructured"))
+                    dataTable.Columns.Add(new DataColumn("IsUnstructured", typeof(bool)));
+
+                datacolumns = dataTable.Columns.Cast<DataColumn>()
+                                 .Select(x => x.ColumnName).ToList();
+            }
+
+            status = ApiServicesAppDocumentprocessingengineserviceGetstatusGetWithHttpInfo(humanTaskId.ToString()).Data;
+
+            // Incase you dont want to wait for the processing, you can call GetStatus and check for status to be 'Processed'
+            //string status  = service.GetStatus(humanTaskId).Result;
+            if (string.IsNullOrEmpty(status))
+                Trace.WriteLine($"ERROR: Something went wrong. Status of a Task cannot be null.");
+
+            if (status == "Created" || status == "Creating" || status == "InProgress" || status == "CompletedWithError" || status == "Error")
+                Trace.WriteLine($"ERROR: Document is not processed yet. Most likely we timed out.");
+
+            // Once the document is processed, GetDocuments will retierve the Extracted Documents
+            var docs = ApiServicesAppDocumentprocessingengineserviceGetdocumentsGetWithHttpInfo(humanTaskId).Data;
+            if (docs == null)
+                Trace.WriteLine($"ERROR: No documents extracted.");
+
+            if (string.IsNullOrEmpty(outputFolder))
+                throw new ArgumentNullException($"OutputFolder Directory not found");
+
+
+            if (!Directory.Exists(outputFolder))
+                Directory.CreateDirectory(outputFolder);
+
+            if (!Directory.Exists(outputFolder))
+                throw new DirectoryNotFoundException($"Directory {outputFolder} not found");
+
+            DirectoryInfo targetFolder = new DirectoryInfo(outputFolder);
+
+            int dociterator = 1;
+            foreach (var doc in docs.OrderBy(d => d.Order))
+            {
+                DocumentContentView docData = null;
+
+                docData = ApiServicesAppDocumentprocessingengineserviceGetdocumentdataGetWithHttpInfo(humanTaskId, doc.DocumentId.Value).Data;
+                Task.Delay(TimeSpan.FromSeconds(1)).Wait();
+
+                DocumentView docSave = new DocumentView();
+                docSave.TaskID = humanTaskId;
+                docSave.Header = doc;
+                docSave.Content = docData;
+
+                string schemaName = doc.Schema.Replace(Path.DirectorySeparatorChar, '_').Replace("/", "_");
+
+                DirectoryInfo docFolder = targetFolder.CreateSubdirectory($"{dociterator} ({schemaName})");
+
+                docInfo.Add(dociterator, doc.Schema, doc.PageRangeLabel, docFolder.Name, doc.DocumentId.ToString());
+
+                DataRow currentRow = null;
+                if (dataTable != null)
+                {
+                    currentRow = dataTable.NewRow();
+                    //  if (!datacolumns.Contains("FileName"))
+                    currentRow["FileName"] = doc.Name;
+                    currentRow["TaskId"] = humanTaskId.ToString();
+                    currentRow["DocumentId"] = doc.DocumentId.ToString();
+
+                    currentRow["Pages"] = doc.PageRangeLabel;
+                    currentRow["Schema"] = doc.Schema;
+                    currentRow["IsUnstructured"] = true;
+                }
+
+                if (!schemaName.ToLowerInvariant().Equals("unstructured", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    if (!string.IsNullOrEmpty(docData.Content))
+                    {
+                        try
+                        {
+                            dynamic json = JsonConvert.DeserializeObject(docData.Content);
+                            string jsonString = JsonConvert.SerializeObject(json, Formatting.Indented);
+                            string dataFile = Path.Combine(docFolder.FullName, "data.json");
+                            File.WriteAllText(dataFile, jsonString);
+                            docSave.Content.Content = "";
+
+                            if (dataTable != null)
+                            {
+
+                                var exData = ExtractedContentField.Parse(jsonString);
+                                if (exData != null)
+                                {
+                                    foreach (string key in exData.Keys)
+                                    {
+                                        if (!datacolumns.Contains(key))
+                                        {
+                                            dataTable.Columns.Add(new DataColumn(key, typeof(string)));
+                                        }
+                                    }
+                                }
+
+                                datacolumns = dataTable.Columns.Cast<DataColumn>()
+                               .Select(x => x.ColumnName).ToList();
+
+                                if (dataTable != null)
+                                {
+                                    currentRow = dataTable.NewRow();
+                                    currentRow["FileName"] = doc.Name;
+                                    currentRow["TaskId"] = humanTaskId.ToString();
+                                    currentRow["DocumentId"] = doc.DocumentId.ToString();
+
+                                    currentRow["Pages"] = doc.PageRangeLabel;
+                                    currentRow["Schema"] = doc.Schema;
+                                    currentRow["IsUnstructured"] = false;
+                                    foreach (string key in exData.Keys)
+                                    {
+                                        currentRow[key] = exData[key].value;
+                                    }
+                                }
+                            }
+                        }
+                        catch { }
+                    }
+                }
+
+                if (savePageText || savePageImages)
+                {
+                    foreach (var page in doc.Pages)
+                    {
+
+                        if (savePageImages)
+                        {
+                            Image pageImage = null;
+                            try
+                            {
+                                string pageDetails = ApiServicesAppDocumentprocessingengineserviceGetpageimageGetWithHttpInfo(humanTaskId, doc.DocumentId.Value, page.File.Value).Data;
+                                var imageData = Convert.FromBase64String(pageDetails);
+                                Bitmap bmp;
+
+                                using (var ms = new System.IO.MemoryStream(imageData))
+                                {
+                                    pageImage = Image.FromStream(ms);
+                                    //bmp = new Bitmap(ms);
+                                }
+
+                                Task.Delay(TimeSpan.FromSeconds(1)).Wait();
+                            }
+                            catch { }
+
+                            if (pageImage != null)
+                            {
+                                string imagePath = Path.Combine(docFolder.FullName, $"Page_{page.File.Value}.jpg");
+                                var i2 = new Bitmap(pageImage);
+                                i2.Save(imagePath, ImageFormat.Jpeg);
+
+                            }
+                        }
+
+                        if (savePageText)
+                        {
+                            string pageText = "";
+
+                            try
+                            {
+                                pageText = ApiServicesAppDocumentprocessingengineserviceGetpagetextGetWithHttpInfo(humanTaskId, doc.DocumentId.Value, page.File.Value).Data;
+                                Task.Delay(TimeSpan.FromSeconds(1)).Wait();
+                            }
+                            catch { }
+
+                            if (!string.IsNullOrEmpty(pageText))
+                            {
+                                File.WriteAllText(Path.Combine(docFolder.FullName, $"{page.File.Value}.txt"), pageText);
+                                docSave.Content.Content = "";
+                            }
+                        }
+                    }
+                }
+                if (docSave != null)
+                {
+                    var docJsonContent = JsonConvert.SerializeObject(docSave, Formatting.Indented);
+                    string docFile = Path.Combine(docFolder.FullName, "document.json");
+                    File.WriteAllText(docFile, docJsonContent);
+                }
+
+                if (currentRow != null)
+                    dataTable.Rows.Add(currentRow);
+
+                dociterator++;
+            }
+
+            if (docInfo != null)
+            {
+                string docInfoFile = Path.Combine(targetFolder.FullName, "documents.json");
+                var docInfoContent = docInfo.SerializeJSON();
+                File.WriteAllText(docInfoFile, docInfoContent);
+                saveJson = docInfoContent;
+            }
+
+            hasFailed = false;
+            isCompleted = true;
+
+            var documentResult = new DocumentResult()
+            {
+                OutputAsJSON = docInfo.SerializeJSON(),
+                OutputAsTable = docInfo.CreateDataTable(),
+                DataAsTable = dataTable,
+                Status = status,
+                IsCompleted = isCompleted,
+                HasFailedOrError = hasFailed
+            };
+
+            return documentResult;
+        }
+
+        public Dictionary<string, string> SubmitDocument(string fileToProcess, string taskQueueName = "", string name = "", string description = "", string caseNumber = "", string caseType = "", string assignedTo = "", string dueOn = "")
+        {
+            Guid? taskQueueId;
+
+            //Trace.WriteLine($"Processing File {fileToProcess}");
+
+            if (!File.Exists(fileToProcess))
+                throw new FileNotFoundException($"ERROR: File not found.{fileToProcess}");
+
+            //// Submits the document to the server for processing
+
+            if (string.IsNullOrEmpty(taskQueueName))
+                taskQueueName = "Common";
+
+            Dictionary<string, string> allQueues = null;
+            allQueues = ApiServicesAppDocumentprocessingengineserviceGetqueuesGetWithHttpInfo().Data;
+
+            if (allQueues == null)
+                throw new CannotRetrieveQueuesException();
+
+            if (!allQueues.Where(q => q.Value == taskQueueName).Any())
+                throw new UnableToFindQueueException($"Unable to find queue {taskQueueName} ");
+
+            var queueItem = allQueues.Where(kp => kp.Value == taskQueueName).FirstOrDefault();
+            taskQueueId = new Guid(queueItem.Key);
+
+            //// Submits the document to the server for processing
+            CreateOrEditHumanTaskDto taskR = new CreateOrEditHumanTaskDto();
+
+            if (taskQueueId != null && taskQueueId.HasValue)
+                taskR.TaskQueueId = taskQueueId.Value;
+
+            if (!string.IsNullOrEmpty(name))
+                taskR.Name = name;
+
+            if (!string.IsNullOrEmpty(description))
+                taskR.Description = description;
+
+            if (!string.IsNullOrEmpty(caseNumber))
+                taskR.CaseNumber = caseNumber;
+
+            if (!string.IsNullOrEmpty(caseType))
+                taskR.CaseType = caseType;
+
+            if (!string.IsNullOrEmpty(assignedTo))
+                taskR.AssignedTo = assignedTo;
+
+            //if (!string.IsNullOrEmpty(dueOn))
+            //    taskR.DueOn = dueOn;
+
+            //taskR.Status = "Creating";
+
+            //Guid docId = ApiServicesAppHumantasksCreateoreditPostWithHttpInfo(taskR).Data;
+
+            //string contentType = MimeTypeMap.GetMimeType(Path.GetExtension(filePath));
+
+            //var client = createClient();
+            //var request = createRequest(SubmitUrlSegment);
+
+            ////request.AddHeader("Content-Type", "multipart/form-data");
+            ////request.AlwaysMultipartFormData = true;
+            //request.AddQueryParameter("humanTaskId", docId.ToString());
+            //request.AddFile("files", filePath, contentType);
+
+            //var res = client.Post<ApiResponse<SubmitDocumentResponse>>(request);
+
+            //validateRespose<SubmitDocumentResponse>(res, "Submit");
+
+            //if (docResponse == null)
+            //    throw new CannotSubmitDocumentException();
+
+            //if (docResponse.HumanTaskID == null || docResponse.)
+            //    throw new InvalidDataException("ERROR: Service did not return any TaskID.");
+
+            ////// Retrieve the ID of the submitted document for further querying and retrieval.
+            //var humanTaskId = docResponse.HumanTaskID; // new Guid("00ea6030-40ce-4495-8ef2-418eb0845e62");// 
+
+            //string status = ApiServicesAppDocumentprocessingengineserviceGetstatusGetWithHttpInfo(humanTaskId.ToString()).Data;
+
+            //return new Dictionary<string, string>()
+            //{
+            //    { "TaskID", humanTaskId.ToString() },
+            //    { "Status", status }
+            //};
+            return null;
+        }
     }
 }
