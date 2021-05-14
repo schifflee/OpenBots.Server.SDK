@@ -64,10 +64,6 @@ OpenAPI spec version: v1
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Drawing.Common.5.0.2\lib\net461\System.Drawing.Common.dll</HintPath>
-    </Reference>
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
@@ -103,25 +99,14 @@ OpenAPI spec version: v1
   <ItemGroup>
     <Compile Include="**\*.cs" Exclude="obj\**" />
     <Compile Include="Api\ConnectAgentViewModel.cs" />
-    <Compile Include="Exceptions\CannotRetrieveQueuesException.cs" />
-    <Compile Include="Exceptions\CannotSubmitDocumentException.cs" />
-    <Compile Include="Exceptions\UnableToFindQueueException.cs" />
     <Compile Include="Model\AssignToRequest.cs" />
     <Compile Include="Model\AuthenticateModel.cs" />
     <Compile Include="Model\AuthenticateResultModel.cs" />
-    <Compile Include="Model\CreateOrEditHumanTaskDto.cs" />
-    <Compile Include="Model\CreateTaskRequest.cs" />
     <Compile Include="Model\DocumentContentSaveView.cs" />
     <Compile Include="Model\DocumentContentView.cs" />
-    <Compile Include="Model\DocumentHeader.cs" />
-    <Compile Include="Model\DocumentInfo.cs" />
-    <Compile Include="Model\DocumentResult.cs" />
-    <Compile Include="Model\DocumentStatus.cs" />
-    <Compile Include="Model\DocumentView.cs" />
     <Compile Include="Model\ExternalAuthenticateModel.cs" />
     <Compile Include="Model\ExternalAuthenticateResultModel.cs" />
     <Compile Include="Model\ExternalLoginProviderInfoModel.cs" />
-    <Compile Include="Model\ExtractedContentField.cs" />
     <Compile Include="Model\ExtractedDocument.cs" />
     <Compile Include="Model\ExtractedDocumentPage.cs" />
     <Compile Include="Model\ExtractedDocumentView.cs" />
@@ -142,7 +127,6 @@ OpenAPI spec version: v1
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MsBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>nuget pack $(ProjectPath) -Properties Configuration=$(ConfigurationName) -IncludeReferencedProjects -OutputDirectory $(ProjectDir)..\..\OpenBots.Packages</PostBuildEvent>
