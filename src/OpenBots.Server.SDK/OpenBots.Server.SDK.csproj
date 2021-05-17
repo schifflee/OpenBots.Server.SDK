@@ -136,6 +136,7 @@ OpenAPI spec version: v1
     <Compile Include="Model\ServiceRegistration.cs" />
     <Compile Include="Model\StorageDrive.cs" />
     <Compile Include="Model\StorageDrivePaginatedList.cs" />
+    <Compile Include="Model\TableComparisonManager.cs" />
     <Compile Include="Model\UserInfo.cs" />
   </ItemGroup>
   <ItemGroup>

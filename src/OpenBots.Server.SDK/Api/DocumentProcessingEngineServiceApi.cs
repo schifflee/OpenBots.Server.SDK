@@ -537,7 +537,7 @@ namespace OpenBots.Server.SDK.Api
 
         DocumentResult SaveDocumentResults(Guid humanTaskId, bool awaitCompletion, bool savePageImages, bool savePageText, int timeout, string outputFolder, DataTable dataTable);
 
-        Dictionary<string, string> SubmitDocument(string fileToProcess, string taskQueueName = "", string name = "", string description = "", string caseNumber = "", string caseType = "", string assignedTo = "", string dueOn = "");
+        Dictionary<string, string> SubmitDocument(string fileToProcess, string taskQueueName = "", string name = "", string description = "", string caseNumber = "", string caseType = "", string assignedTo = "", DateTime? dueOn = null);
 
         /// <summary>
         /// 
@@ -3031,9 +3031,11 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
+            var response = JsonConvert.DeserializeObject<Dictionary<string, string>>(localVarResponse.Content);
+
             return new ApiResponse<Dictionary<string, string>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Dictionary<string, string>) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Dictionary<string, string>)));
+                response);
         }
 
         /// <summary>
@@ -4058,9 +4060,11 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
+            var response = JsonConvert.DeserializeObject<SubmitDocumentResponse>(localVarResponse.Content);
+
             return new ApiResponse<SubmitDocumentResponse>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (SubmitDocumentResponse) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(SubmitDocumentResponse)));
+                response);
         }
 
         /// <summary>
@@ -4223,9 +4227,11 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
+            var response = Guid.Parse(localVarResponse.Content);
+
             return new ApiResponse<Guid?>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Guid?)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Guid?)));
+                response);
         }
 
         /// <summary>
@@ -4548,7 +4554,7 @@ namespace OpenBots.Server.SDK.Api
             return documentResult;
         }
 
-        public Dictionary<string, string> SubmitDocument(string fileToProcess, string taskQueueName = "", string name = "", string description = "", string caseNumber = "", string caseType = "", string assignedTo = "", string dueOn = "")
+        public Dictionary<string, string> SubmitDocument(string fileToProcess, string taskQueueName = "", string name = "", string description = "", string caseNumber = "", string caseType = "", string assignedTo = "", DateTime? dueOn = null)
         {
             Guid? taskQueueId;
 
@@ -4595,44 +4601,83 @@ namespace OpenBots.Server.SDK.Api
             if (!string.IsNullOrEmpty(assignedTo))
                 taskR.AssignedTo = assignedTo;
 
-            //if (!string.IsNullOrEmpty(dueOn))
-            //    taskR.DueOn = dueOn;
+            if (dueOn != null)
+                taskR.DueOn = dueOn;
 
-            //taskR.Status = "Creating";
+            taskR.Status = "Creating";
 
-            //Guid docId = ApiServicesAppHumantasksCreateoreditPostWithHttpInfo(taskR).Data;
+            Guid? docId = ApiServicesAppHumantasksCreateoreditPostWithHttpInfo(taskR).Data;
 
-            //string contentType = MimeTypeMap.GetMimeType(Path.GetExtension(filePath));
+            System.IO.FileStream fs = new System.IO.FileStream(fileToProcess, FileMode.Open, FileAccess.Read);
 
-            //var client = createClient();
-            //var request = createRequest(SubmitUrlSegment);
+            // Create a byte array of file stream length
+            byte[] imageData = new byte[fs.Length];
 
-            ////request.AddHeader("Content-Type", "multipart/form-data");
-            ////request.AlwaysMultipartFormData = true;
-            //request.AddQueryParameter("humanTaskId", docId.ToString());
-            //request.AddFile("files", filePath, contentType);
+            //Read block of bytes from stream into the byte array
+            fs.Read(imageData, 0, Convert.ToInt32(fs.Length));
 
-            //var res = client.Post<ApiResponse<SubmitDocumentResponse>>(request);
+            //Close the File Stream
+            fs.Close();
 
-            //validateRespose<SubmitDocumentResponse>(res, "Submit");
+            List<byte[]> files = new List<byte[]>()
+            { imageData };
 
-            //if (docResponse == null)
-            //    throw new CannotSubmitDocumentException();
+            var response = ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostWithHttpInfo(files, taskQueueId, name, description, caseNumber, caseType, assignedTo, dueOn.ToString(), docId);
 
-            //if (docResponse.HumanTaskID == null || docResponse.)
-            //    throw new InvalidDataException("ERROR: Service did not return any TaskID.");
+            string method = "Submit";
+            if (response == null)
+                throw new InvalidOperationException($"{method}:Url didnt return a valid response");
 
-            ////// Retrieve the ID of the submitted document for further querying and retrieval.
-            //var humanTaskId = docResponse.HumanTaskID; // new Guid("00ea6030-40ce-4495-8ef2-418eb0845e62");// 
+            //if (response.StatusCode != HttpStatusCode.OK)
+            //    throw new InvalidOperationException($"{method}:Url didnt return a HTTP 200");
 
-            //string status = ApiServicesAppDocumentprocessingengineserviceGetstatusGetWithHttpInfo(humanTaskId.ToString()).Data;
+            if (response.Data == null)
+                throw new InvalidCastException($"{method}:Url didnt return JSON with correct body");
 
-            //return new Dictionary<string, string>()
-            //{
-            //    { "TaskID", humanTaskId.ToString() },
-            //    { "Status", status }
-            //};
-            return null;
+            //if (!response.Data.Success)
+            //    throw new InvalidOperationException($"{method}:Url didnt return success from server");
+
+            //if (response.Data.UnAuthorizedRequest)
+            //    throw new UnauthorizedAccessException();
+
+            var docResponse = response.Data;
+
+            if (docResponse == null)
+                throw new CannotSubmitDocumentException();
+
+            if (docResponse.HumanTaskID == null || docResponse.HumanTaskID == Guid.Empty)
+                throw new InvalidDataException("ERROR: Service did not return any TaskID.");
+
+            //// Retrieve the ID of the submitted document for further querying and retrieval.
+            var humanTaskId = docResponse.HumanTaskID; // new Guid("00ea6030-40ce-4495-8ef2-418eb0845e62");// 
+
+            string status = ApiServicesAppDocumentprocessingengineserviceGetstatusGetWithHttpInfo(humanTaskId.ToString()).Data;
+
+            return new Dictionary<string, string>()
+            {
+                { "TaskID", humanTaskId.ToString() },
+                { "Status", status }
+            };
+        }
+
+        public DataTable CompareTable(string ignoreColumns, string lookupColumns, DataTable expected, DataTable actual)
+        {
+            if (expected == null)
+                throw new ArgumentNullException("Expected table cannot be null");
+            if (actual == null)
+                throw new ArgumentNullException("Actual table cannot be null");
+            if (string.IsNullOrEmpty(lookupColumns))
+                throw new ArgumentNullException("Lookup columns cannot be empty");
+
+            TableComparisonManager tcm = new TableComparisonManager()
+            {
+                IgnoreColumns = ignoreColumns,
+                LookupColumns = lookupColumns
+            };
+
+            tcm.Compare(expected, actual);
+            DataTable diff = tcm.Differences;
+            return diff;
         }
     }
 }
