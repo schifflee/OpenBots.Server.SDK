@@ -1390,6 +1390,13 @@ namespace OpenBots.Server.SDK.Api
             if (humanTaskId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "humanTaskId", humanTaskId)); // query parameter
             if (newStatus != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "newStatus", newStatus)); // query parameter
 
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
@@ -1785,6 +1792,13 @@ namespace OpenBots.Server.SDK.Api
             if (humanTaskId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "humanTaskId", humanTaskId)); // query parameter
             if (documentId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "documentId", documentId)); // query parameter
 
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
@@ -1798,9 +1812,12 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
+            var response = JsonConvert.DeserializeObject<GetDocumentDataResult>(localVarResponse.Content);
+            var result = response.Result;
+
             return new ApiResponse<DocumentContentView>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (DocumentContentView) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(DocumentContentView)));
+                result);
         }
 
         /// <summary>
@@ -1917,6 +1934,13 @@ namespace OpenBots.Server.SDK.Api
 
             if (humanTaskId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "humanTaskId", humanTaskId)); // query parameter
 
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
@@ -1930,9 +1954,12 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
+            var response = JsonConvert.DeserializeObject<GetDocumentsResult>(localVarResponse.Content);
+            var result = response.Result;
+
             return new ApiResponse<List<ExtractedDocumentView>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                JsonConvert.DeserializeObject<List<ExtractedDocumentView>>(localVarResponse.Content));
+                result);
         }
 
         /// <summary>
@@ -2445,6 +2472,13 @@ namespace OpenBots.Server.SDK.Api
             if (documentId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "documentId", documentId)); // query parameter
             if (pageNumber != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "pageNumber", pageNumber)); // query parameter
 
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
@@ -2458,9 +2492,12 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
+            var response = JsonConvert.DeserializeObject<GetStringResult>(localVarResponse.Content);
+            var result = response.Result;
+
             return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
+                result);
         }
 
         /// <summary>
@@ -2721,6 +2758,13 @@ namespace OpenBots.Server.SDK.Api
             if (documentId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "documentId", documentId)); // query parameter
             if (pageNumber != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "pageNumber", pageNumber)); // query parameter
 
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
@@ -2734,9 +2778,12 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
+            var response = JsonConvert.DeserializeObject<GetStringResult>(localVarResponse.Content);
+            var result = response.Result;
+
             return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
+                result);
         }
 
         /// <summary>
@@ -3017,6 +3064,12 @@ namespace OpenBots.Server.SDK.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
@@ -3031,11 +3084,12 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
-            var response = JsonConvert.DeserializeObject<Dictionary<string, string>>(localVarResponse.Content);
+            var response = JsonConvert.DeserializeObject<GetQueuesResult>(localVarResponse.Content);
+            var result = response.Result;
 
             return new ApiResponse<Dictionary<string, string>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                response);
+                result);
         }
 
         /// <summary>
@@ -3275,6 +3329,13 @@ namespace OpenBots.Server.SDK.Api
 
             if (humanTaskId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "humanTaskId", humanTaskId)); // query parameter
 
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
@@ -3288,9 +3349,12 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
+            var response = JsonConvert.DeserializeObject<GetStringResult>(localVarResponse.Content);
+            var result = response.Result;
+
             return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                localVarResponse.Content);
+                result);
         }
 
         public DocumentStatus GetDocumentStatus(string humanTaskId = null)
@@ -3590,6 +3654,13 @@ namespace OpenBots.Server.SDK.Api
             if (documentId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "documentId", documentId)); // query parameter
             if (isVerified != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "isVerified", isVerified)); // query parameter
 
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
@@ -3603,14 +3674,12 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
-            var content = localVarResponse.Content;
-            bool response = false;
-            if (content == "true")
-                response = true;
+            var response = JsonConvert.DeserializeObject<GetBoolResult>(localVarResponse.Content);
+            bool result = response.Result;
 
             return new ApiResponse<bool?>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                response);
+                result);
         }
 
         /// <summary>
@@ -4047,6 +4116,13 @@ namespace OpenBots.Server.SDK.Api
             if (assignedTo != null) localVarFormParams.Add("assignedTo", this.Configuration.ApiClient.ParameterToString(assignedTo)); // form parameter
             if (dueOn != null) localVarFormParams.Add("dueOn", this.Configuration.ApiClient.ParameterToString(dueOn)); // form parameter
 
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
@@ -4060,11 +4136,12 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
-            var response = JsonConvert.DeserializeObject<SubmitDocumentResponse>(localVarResponse.Content);
+            var response = JsonConvert.DeserializeObject<SubmitDocumentResponseResult>(localVarResponse.Content);
+            var result = response.Result;
 
             return new ApiResponse<SubmitDocumentResponse>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                response);
+                result);
         }
 
         /// <summary>
@@ -4214,6 +4291,13 @@ namespace OpenBots.Server.SDK.Api
                 localVarPostBody = body; // byte array
             }
 
+            // authentication (oauth2) required
+            // bearer required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
@@ -4227,11 +4311,12 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
-            var response = Guid.Parse(localVarResponse.Content);
+            var response = JsonConvert.DeserializeObject<CreateOrEditResult>(localVarResponse.Content);
+            var result = response.Result;
 
             return new ApiResponse<Guid?>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                response);
+                result);
         }
 
         /// <summary>
@@ -4354,9 +4439,10 @@ namespace OpenBots.Server.SDK.Api
                                  .Select(x => x.ColumnName).ToList();
             }
 
+            //get status
             status = ApiServicesAppDocumentprocessingengineserviceGetstatusGetWithHttpInfo(humanTaskId.ToString()).Data;
 
-            // Incase you dont want to wait for the processing, you can call GetStatus and check for status to be 'Processed'
+            // In case you dont want to wait for the processing, you can call GetStatus and check for status to be 'Processed'
             //string status  = service.GetStatus(humanTaskId).Result;
             if (string.IsNullOrEmpty(status))
                 Trace.WriteLine($"ERROR: Something went wrong. Status of a Task cannot be null.");
@@ -4364,14 +4450,13 @@ namespace OpenBots.Server.SDK.Api
             if (status == "Created" || status == "Creating" || status == "InProgress" || status == "CompletedWithError" || status == "Error")
                 Trace.WriteLine($"ERROR: Document is not processed yet. Most likely we timed out.");
 
-            // Once the document is processed, GetDocuments will retierve the Extracted Documents
+            // Once the document is processed, GetDocuments will retrieve the Extracted Documents
             var docs = ApiServicesAppDocumentprocessingengineserviceGetdocumentsGetWithHttpInfo(humanTaskId).Data;
             if (docs == null)
                 Trace.WriteLine($"ERROR: No documents extracted.");
 
             if (string.IsNullOrEmpty(outputFolder))
                 throw new ArgumentNullException($"OutputFolder Directory not found");
-
 
             if (!Directory.Exists(outputFolder))
                 Directory.CreateDirectory(outputFolder);
@@ -4385,7 +4470,7 @@ namespace OpenBots.Server.SDK.Api
             foreach (var doc in docs.OrderBy(d => d.Order))
             {
                 DocumentContentView docData = null;
-
+                //get document data for each document
                 docData = ApiServicesAppDocumentprocessingengineserviceGetdocumentdataGetWithHttpInfo(humanTaskId, doc.DocumentId.Value).Data;
                 Task.Delay(TimeSpan.FromSeconds(1)).Wait();
 
@@ -4475,6 +4560,7 @@ namespace OpenBots.Server.SDK.Api
                             Image pageImage = null;
                             try
                             {
+                                //get page image
                                 string pageDetails = ApiServicesAppDocumentprocessingengineserviceGetpageimageGetWithHttpInfo(humanTaskId, doc.DocumentId.Value, page.File.Value).Data;
                                 var imageData = Convert.FromBase64String(pageDetails);
                                 Bitmap bmp;
@@ -4504,6 +4590,7 @@ namespace OpenBots.Server.SDK.Api
 
                             try
                             {
+                                //get page text
                                 pageText = ApiServicesAppDocumentprocessingengineserviceGetpagetextGetWithHttpInfo(humanTaskId, doc.DocumentId.Value, page.File.Value).Data;
                                 Task.Delay(TimeSpan.FromSeconds(1)).Wait();
                             }
@@ -4543,7 +4630,7 @@ namespace OpenBots.Server.SDK.Api
 
             var documentResult = new DocumentResult()
             {
-                OutputAsJSON = docInfo.SerializeJSON(),
+                OutputAsJSON = saveJson,
                 OutputAsTable = docInfo.CreateDataTable(),
                 DataAsTable = dataTable,
                 Status = status,
@@ -4569,6 +4656,7 @@ namespace OpenBots.Server.SDK.Api
                 taskQueueName = "Common";
 
             Dictionary<string, string> allQueues = null;
+            //get queues
             allQueues = ApiServicesAppDocumentprocessingengineserviceGetqueuesGetWithHttpInfo().Data;
 
             if (allQueues == null)

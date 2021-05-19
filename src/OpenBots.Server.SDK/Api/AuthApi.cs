@@ -427,8 +427,9 @@ namespace OpenBots.Server.SDK.Api
 
             string organizationId = string.Empty;
             string loginUrl = string.Empty;
+            string documentsUrl = string.Empty;
 
-            if (serverType == "Cloud")
+            if (serverType == "Cloud" || serverType == "Documents")
             {
                 string serviceRegistrationUrl = "https://api.members.openbots.io";
                 var serviceRegistrationList = GetServiceRegistration(apiVersion, serviceRegistrationUrl, environment);
@@ -438,19 +439,31 @@ namespace OpenBots.Server.SDK.Api
 
                 foreach (var serviceRegistration in serviceRegistrationList)
                 {
-                    if (serviceRegistration.IsCurrentlyUnderMaintenance)
-                        throw new Exception("Server is currently undergoing maintenance and cannot be accessed at this time");
-
                     if (serviceRegistration.ServiceTag == "OpenBots") // Authentication
-                        loginUrl = serviceRegistration.ServiceBaseUri.ToString();
+                    {
+                        if (serviceRegistration.IsCurrentlyUnderMaintenance)
+                            throw new Exception($"Server {serviceRegistration.Name} is currently undergoing maintenance and cannot be accessed at this time");
+                        else loginUrl = serviceRegistration.ServiceBaseUri.ToString() + "connect/token";
+                    }
 
-                    if (serviceRegistration.ServiceTag == "OpenBots.CloudServer") // CloudServer Orchestration API
-                        serverUrl = serviceRegistration.ServiceBaseUri.ToString();
+                    if (serviceRegistration.ServiceTag == "OpenBots.CloudServer" && serverType == "Cloud") // CloudServer Orchestration API
+                    {
+                        if (serviceRegistration.IsCurrentlyUnderMaintenance)
+                            throw new Exception($"Server {serviceRegistration.Name} is currently undergoing maintenance and cannot be accessed at this time");
+                        else serverUrl = serviceRegistration.ServiceBaseUri.ToString();
+                    }
+                    if (serviceRegistration.ServiceTag == "OpenBots.Documents" && serverType == "Documents")
+                    {
+                        if (serviceRegistration.IsCurrentlyUnderMaintenance)
+                            throw new Exception($"Server {serviceRegistration.Name} is currently undergoing maintenance and cannot be accessed at this time");
+                        else documentsUrl = serviceRegistration.ServiceBaseUri.ToString();
+                    }
                 }
 
-                //loginUrl = "https://dev.login.openbots.io/connect/token"; // user authentication
+                //loginUrl = "https://dev.login.openbots.io/" + "connect/token"; // user authentication
+                loginUrl = "https://test.login.openbots.io/" + "connect/token";
             }
-            else // serverType == "Local"
+            else //serverType == "Local"
                 loginUrl = serverUrl;
 
             if (string.IsNullOrEmpty(serverUrl))
@@ -461,10 +474,11 @@ namespace OpenBots.Server.SDK.Api
 
             string token = GetAuthToken(apiVersion, serverType, username, password, loginUrl);
 
-            ServerInfo serverInfo = GetServerInfo(apiVersion, serverUrl, token);
-
             if (serverType == "Cloud")
+            {
+                var serverInfo = GetServerInfo(apiVersion, serverUrl, token);
                 organizationId = GetOrganizationId(token, apiVersion, organizationName, serverUrl, serverInfo.MyOrganizations);
+            }
 
             var userInfo = new UserInfo()
             {
@@ -472,7 +486,8 @@ namespace OpenBots.Server.SDK.Api
                 ServerType = serverType,
                 Token = token,
                 ServerUrl = serverUrl,
-                LoginUrl = loginUrl
+                LoginUrl = loginUrl,
+                DocumentsUrl = documentsUrl
             };
 
             return userInfo;
@@ -530,7 +545,7 @@ namespace OpenBots.Server.SDK.Api
             string token;
             var login = new Login(username, password);
 
-            if (serverType == "Local") // get token from open source Server
+            if (serverType == "Local") //get token from open source Server
             {
                 var apiInstance = new AuthApi(loginUrl);
 
@@ -546,7 +561,7 @@ namespace OpenBots.Server.SDK.Api
                     throw new InvalidOperationException("Exception when calling AuthApi.ApiVapiVersionAuthTokenPostWithHttpInfo: " + ex.Message);
                 }
             }
-            else // get token from cloud Server
+            else if (serverType == "Cloud") //get machine token for cloud Server
             {
                 //user authentication
                 //var httpClient = new HttpClient();
@@ -579,6 +594,22 @@ namespace OpenBots.Server.SDK.Api
                 //var items = output["items"];
                 //return JsonConvert.DeserializeObject<List<ServiceRegistration>>(items);
                 token = "";
+            }
+            else // (serverType == "Documents") get user token for Documents
+            {
+                //user authentication
+                var httpClient = new HttpClient();
+                var identityServerResponse = httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
+                {
+                    Address = loginUrl,
+                    ClientId = "client",
+                    UserName = username,
+                    Password = password
+                }).Result;
+
+                if (identityServerResponse.IsError) throw new Exception(identityServerResponse.Error);
+
+                token = identityServerResponse.AccessToken;
             }
             return token;
         }
