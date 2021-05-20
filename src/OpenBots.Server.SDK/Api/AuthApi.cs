@@ -439,11 +439,11 @@ namespace OpenBots.Server.SDK.Api
 
                 foreach (var serviceRegistration in serviceRegistrationList)
                 {
-                    if (serviceRegistration.ServiceTag == "OpenBots") // Authentication
+                    if (serviceRegistration.ServiceTag == "OpenBots" && serverType == "Cloud") // Authentication
                     {
                         if (serviceRegistration.IsCurrentlyUnderMaintenance)
                             throw new Exception($"Server {serviceRegistration.Name} is currently undergoing maintenance and cannot be accessed at this time");
-                        else loginUrl = serviceRegistration.ServiceBaseUri.ToString() + "connect/token";
+                        else loginUrl = serviceRegistration.ServiceBaseUri.ToString();
                     }
 
                     if (serviceRegistration.ServiceTag == "OpenBots.CloudServer" && serverType == "Cloud") // CloudServer Orchestration API
@@ -458,7 +458,14 @@ namespace OpenBots.Server.SDK.Api
                             throw new Exception($"Server {serviceRegistration.Name} is currently undergoing maintenance and cannot be accessed at this time");
                         else documentsUrl = serviceRegistration.ServiceBaseUri.ToString();
 
-                        loginUrl = "https://login.openbots.io"; //"https://test.login.openbots.io/";
+                        if (environment == "LIVE")
+                            loginUrl = "https://login.openbots.io/";
+                        if (environment == "DEV")
+                            loginUrl = "https://dev.login.openbots.io/";
+                        if (environment == "TEST")
+                            loginUrl = "https://test.login.openbots.io/";
+                        if (environment == "DEMO")
+                            loginUrl = "https://demo.login.openbots.io/";
                     }
                 }
 
