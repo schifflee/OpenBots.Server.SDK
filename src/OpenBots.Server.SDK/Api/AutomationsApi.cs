@@ -856,7 +856,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionAutomationsAutomationIdUpdateParametersPost", localVarResponse);
+                Exception exception = ExceptionFactory("UpdateParameters", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -2230,7 +2230,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionAutomationsPost", localVarResponse);
+                Exception exception = ExceptionFactory("UploadAutomation", localVarResponse);
                 if (exception != null) throw exception;
             }
 

@@ -427,8 +427,9 @@ namespace OpenBots.Server.SDK.Api
 
             string organizationId = string.Empty;
             string loginUrl = string.Empty;
+            string documentsUrl = string.Empty;
 
-            if (serverType == "Cloud")
+            if (serverType == "Cloud" || serverType == "Documents")
             {
                 string serviceRegistrationUrl = "https://api.members.openbots.io";
                 var serviceRegistrationList = GetServiceRegistration(apiVersion, serviceRegistrationUrl, environment);
@@ -438,33 +439,58 @@ namespace OpenBots.Server.SDK.Api
 
                 foreach (var serviceRegistration in serviceRegistrationList)
                 {
-                    if (serviceRegistration.IsCurrentlyUnderMaintenance)
-                        throw new Exception("Server is currently undergoing maintenance and cannot be accessed at this time");
+                    if (serviceRegistration.ServiceTag == "OpenBots" && serverType == "Cloud") // Authentication
+                    {
+                        if (serviceRegistration.IsCurrentlyUnderMaintenance)
+                            throw new Exception($"Server {serviceRegistration.Name} is currently undergoing maintenance and cannot be accessed at this time");
+                        else loginUrl = serviceRegistration.ServiceBaseUri.ToString();
+                    }
 
-                    if (serviceRegistration.ServiceTag == "OpenBots") // Authentication
-                        loginUrl = serviceRegistration.ServiceBaseUri.ToString();
+                    if (serviceRegistration.ServiceTag == "OpenBots.CloudServer" && serverType == "Cloud") // CloudServer Orchestration API
+                    {
+                        if (serviceRegistration.IsCurrentlyUnderMaintenance)
+                            throw new Exception($"Server {serviceRegistration.Name} is currently undergoing maintenance and cannot be accessed at this time");
+                        else serverUrl = serviceRegistration.ServiceBaseUri.ToString();
+                    }
+                    if (serviceRegistration.ServiceTag == "OpenBots.Documents" && serverType == "Documents")
+                    {
+                        if (serviceRegistration.IsCurrentlyUnderMaintenance)
+                            throw new Exception($"Server {serviceRegistration.Name} is currently undergoing maintenance and cannot be accessed at this time");
+                        else documentsUrl = serviceRegistration.ServiceBaseUri.ToString();
 
-                    if (serviceRegistration.ServiceTag == "OpenBots.CloudServer") // CloudServer Orchestration API
-                        serverUrl = serviceRegistration.ServiceBaseUri.ToString();
+                        if (environment == "LIVE")
+                            loginUrl = "https://login.openbots.io/";
+                        if (environment == "DEV")
+                            loginUrl = "https://dev.login.openbots.io/";
+                        if (environment == "TEST")
+                            loginUrl = "https://test.login.openbots.io/";
+                        if (environment == "DEMO")
+                            loginUrl = "https://demo.login.openbots.io/";
+                    }
                 }
 
-                //loginUrl = "https://dev.login.openbots.io/connect/token"; // user authentication
+                if (serverType == "Cloud")
+                    loginUrl = "https://dev.login.openbots.io/"; // user authentication
             }
-            else // serverType == "Local"
+            else //serverType == "Local"
                 loginUrl = serverUrl;
 
             if (string.IsNullOrEmpty(serverUrl))
                 throw new Exception("Server URL not found");
 
-            if (username == null || password == null)
+            if ((serverType == "Cloud" || serverType == "Local") && (username == null || password == null))
                 throw new Exception("Agent credentials not found in registry");
+            else if (serverType == "Documents" && (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)))
+                throw new Exception("Credential values are null or an empty string");
+
 
             string token = GetAuthToken(apiVersion, serverType, username, password, loginUrl);
 
-            ServerInfo serverInfo = GetServerInfo(apiVersion, serverUrl, token);
-
             if (serverType == "Cloud")
+            {
+                var serverInfo = GetServerInfo(apiVersion, serverUrl, token);
                 organizationId = GetOrganizationId(token, apiVersion, organizationName, serverUrl, serverInfo.MyOrganizations);
+            }
 
             var userInfo = new UserInfo()
             {
@@ -472,7 +498,8 @@ namespace OpenBots.Server.SDK.Api
                 ServerType = serverType,
                 Token = token,
                 ServerUrl = serverUrl,
-                LoginUrl = loginUrl
+                LoginUrl = loginUrl,
+                DocumentsUrl = documentsUrl
             };
 
             return userInfo;
@@ -489,7 +516,6 @@ namespace OpenBots.Server.SDK.Api
 
             if (!response.IsSuccessful)
                 throw new HttpRequestException($"Status Code: {response.StatusCode} - Error Message: {response.ErrorMessage}");
-
             var deserializer = new JsonDeserializer();
             var output = deserializer.Deserialize<Dictionary<string, string>>(response);
             var items = output["items"];
@@ -530,7 +556,7 @@ namespace OpenBots.Server.SDK.Api
             string token;
             var login = new Login(username, password);
 
-            if (serverType == "Local") // get token from open source Server
+            if (serverType == "Local") //get token from open source Server
             {
                 var apiInstance = new AuthApi(loginUrl);
 
@@ -546,39 +572,56 @@ namespace OpenBots.Server.SDK.Api
                     throw new InvalidOperationException("Exception when calling AuthApi.ApiVapiVersionAuthTokenPostWithHttpInfo: " + ex.Message);
                 }
             }
-            else // get token from cloud Server
+            else if (serverType == "Cloud") //get machine token for cloud Server
             {
                 //user authentication
-                //var httpClient = new HttpClient();
-                //var identityServerResponse = httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
-                //{
-                //    Address = loginUrl,
-                //    ClientId = "client",
-                //    UserName = username,
-                //    Password = password
-                //}).Result;
+                var httpClient = new HttpClient();
+                var identityServerResponse = httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
+                {
+                    Address = loginUrl + "connect/token",
+                    ClientId = "client",
+                    UserName = username,
+                    Password = password
+                }).Result;
 
-                //if (identityServerResponse.IsError) throw new Exception(identityServerResponse.Error);
+                if (identityServerResponse.IsError) throw new Exception(identityServerResponse.ErrorDescription);
 
-                //token = identityServerResponse.AccessToken;
+                token = identityServerResponse.AccessToken;
 
-                //agent authentication
-                var client = new RestClient(loginUrl);
-                var request = new RestRequest($"api/v{apiVersion}/Auth/machine/token", Method.POST);
-                request.RequestFormat = DataFormat.Json;
-                //request.AddJsonBody(login);
-                request.AddJsonBody($"{{ \"userName\": \"{username}\", \"password\": \"{password}\" }} ");
+                ////agent authentication
+                //var client = new RestClient(loginUrl);
+                //var request = new RestRequest($"api/v{apiVersion}/Auth/machine/token", Method.POST);
+                //request.RequestFormat = DataFormat.Json;
+                ////request.AddJsonBody(login);
+                //request.AddJsonBody($"{{ \"userName\": \"{username}\", \"password\": \"{password}\" }} ");
 
-                var response = client.Execute(request);
+                //var response = client.Execute(request);
 
-                if (!response.IsSuccessful)
-                    throw new HttpRequestException($"Status Code: {response.StatusCode} - Error Message: {response.ErrorMessage}");
+                //if (!response.IsSuccessful)
+                //    throw new HttpRequestException($"Status Code: {response.StatusCode} - Error Message: {response.ErrorMessage}");
 
                 //var deserializer = new JsonDeserializer();
                 //var output = deserializer.Deserialize<Dictionary<string, string>>(response);
                 //var items = output["items"];
                 //return JsonConvert.DeserializeObject<List<ServiceRegistration>>(items);
-                token = "";
+                //token = "";
+            }
+            else // (serverType == "Documents") get user token for Documents
+            {
+                //TODO: Switch this to the same logic to authenticate machine/agent
+                //user authentication
+                var httpClient = new HttpClient();
+                var identityServerResponse = httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
+                {
+                    Address = loginUrl + "connect/token",
+                    ClientId = "client",
+                    UserName = username,
+                    Password = password
+                }).Result;
+
+                if (identityServerResponse.IsError) throw new Exception(identityServerResponse.ErrorDescription);
+
+                token = identityServerResponse.AccessToken;
             }
             return token;
         }
@@ -595,7 +638,10 @@ namespace OpenBots.Server.SDK.Api
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("Exception when calling AuthApi.ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo: " + ex.Message);
+                if (ex.Message != "One or more errors occurred.")
+                    throw new InvalidOperationException("Exception when calling AuthApi.ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo: " + ex.Message);
+                else
+                    throw new InvalidOperationException(ex.InnerException.Message);
             }
         }
 

@@ -787,7 +787,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueuesGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetQueues", localVarResponse);
                 if (exception != null) throw exception;
             }
 

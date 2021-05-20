@@ -1646,7 +1646,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionAssetsGetAssetByNameAssetNameGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetAssetByName", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -1809,7 +1809,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionAssetsIdAddPut", localVarResponse);
+                Exception exception = ExceptionFactory("AddAsset", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -1974,7 +1974,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionAssetsIdAppendPut", localVarResponse);
+                Exception exception = ExceptionFactory("AppendAsset", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -2133,7 +2133,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionAssetsIdDecrementPut", localVarResponse);
+                Exception exception = ExceptionFactory("DecrementAsset", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -2453,7 +2453,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionAssetsIdIncrementPut", localVarResponse);
+                Exception exception = ExceptionFactory("IncrementAsset", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -2823,7 +2823,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionAssetsIdPut", localVarResponse);
+                Exception exception = ExceptionFactory("UpdateAsset", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -2987,7 +2987,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionAssetsIdSubtractPut", localVarResponse);
+                Exception exception = ExceptionFactory("SubtractAsset", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -3169,7 +3169,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionAssetsIdUpdatePut", localVarResponse);
+                Exception exception = ExceptionFactory("UpdateFileAsset", localVarResponse);
                 if (exception != null) throw exception;
             }
 

@@ -1001,7 +1001,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueueItemsCommitPut", localVarResponse);
+                Exception exception = ExceptionFactory("CommitQueueItem", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -1306,7 +1306,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueueItemsDequeueGet", localVarResponse);
+                Exception exception = ExceptionFactory("DequeueQueueItem", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -1480,7 +1480,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueueItemsEnqueuePost", localVarResponse);
+                Exception exception = ExceptionFactory("EnqueueQueueItem", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -1632,7 +1632,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueueItemsExtendPut", localVarResponse);
+                Exception exception = ExceptionFactory("ExtendQueueItem", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -1802,7 +1802,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueueItemsGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetQueueItems", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -2684,7 +2684,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueueItemsRollbackPut", localVarResponse);
+                Exception exception = ExceptionFactory("RollbackQueueItem", localVarResponse);
                 if (exception != null) throw exception;
             }
 

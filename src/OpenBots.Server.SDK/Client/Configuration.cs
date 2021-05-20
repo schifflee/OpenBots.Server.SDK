@@ -53,7 +53,7 @@ namespace OpenBots.Server.SDK.Client
             if (status >= 400)
             {
                 return new ApiException(status,
-                    string.Format("Error calling {0}: {1}", methodName, response.Content),
+                    string.Format("Error calling {0}: {1}", methodName, response.StatusCode),
                     response.Content);
             }
             if (status == 0)

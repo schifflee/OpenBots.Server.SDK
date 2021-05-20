@@ -829,7 +829,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionStorageDrivesGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetStorageDrives", localVarResponse);
                 if (exception != null) throw exception;
             }
 

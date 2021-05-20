@@ -8,5 +8,6 @@
         public string ServerUrl { get; set; }
 
         public string LoginUrl { get; set; }
+        public string DocumentsUrl { get; set; }
     }
 }

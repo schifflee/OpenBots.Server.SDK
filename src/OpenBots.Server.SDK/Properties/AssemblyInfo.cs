@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("OpenBots.Server.SDK")]
-[assembly: AssemblyDescription("OpenBots library generated from a Swagger document to utilize API requests from OpenBots Server")]
+[assembly: AssemblyDescription("OpenBots library generated from a Swagger document to utilize API requests from OpenBots Server and Documents")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("OpenBots Inc")]
 [assembly: AssemblyProduct("OpenBots.Server.SDK")]
@@ -28,6 +28,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.5.0.0")]
-[assembly: AssemblyFileVersion("1.5.0.0")]
+[assembly: AssemblyVersion("1.5.1.0")]
+[assembly: AssemblyFileVersion("1.5.1.0")]
 [assembly: Guid("f0e66e78-7ff7-484c-8316-7baa02bceb99")]

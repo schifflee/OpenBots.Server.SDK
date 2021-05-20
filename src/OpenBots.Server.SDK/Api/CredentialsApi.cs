@@ -1123,7 +1123,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionCredentialsGetCredentialByNameCredentialNameGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetCredentialByName", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -1790,7 +1790,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionCredentialsIdPut", localVarResponse);
+                Exception exception = ExceptionFactory("UpdateCredential", localVarResponse);
                 if (exception != null) throw exception;
             }
 
