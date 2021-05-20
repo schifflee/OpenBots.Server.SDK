@@ -2333,7 +2333,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionEmailsSendPost", localVarResponse);
+                Exception exception = ExceptionFactory("SendEmail", localVarResponse);
                 if (exception != null) throw exception;
             }
 

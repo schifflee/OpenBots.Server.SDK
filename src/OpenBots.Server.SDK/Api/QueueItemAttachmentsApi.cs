@@ -1417,7 +1417,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetQueueItemAttachments", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -2146,7 +2146,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionQueueItemsQueueItemIdQueueItemAttachmentsPost", localVarResponse);
+                Exception exception = ExceptionFactory("AttachFiles", localVarResponse);
                 if (exception != null) throw exception;
             }
 

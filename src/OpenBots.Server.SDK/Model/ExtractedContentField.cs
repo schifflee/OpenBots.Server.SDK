@@ -36,16 +36,16 @@ namespace OpenBots.Server.SDK.Model
             return fields;
         }
 
-        public decimal confidence { get; set; }
-        public double top { get; set; }
+        public decimal? confidence { get; set; }
+        public double? top { get; set; }
 
-        public double left { get; set; }
+        public double? left { get; set; }
 
-        public double width { get; set; }
+        public double? width { get; set; }
 
-        public double height { get; set; }
+        public double? height { get; set; }
 
-        public int page { get; set; }
+        public int? page { get; set; }
 
         public string value { get; set; }
     }

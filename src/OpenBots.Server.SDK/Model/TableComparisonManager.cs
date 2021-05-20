@@ -130,7 +130,6 @@ namespace OpenBots.Server.SDK.Model
                 DiffRow["Result"] = "Passed";
 
             Differences.Rows.Add(DiffRow);
-
         }
 
         private bool AreLookupColumnsAvailableInBothTables(List<string> lookupColumns, DataTable expected, DataTable actual)

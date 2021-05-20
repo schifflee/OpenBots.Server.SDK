@@ -457,11 +457,13 @@ namespace OpenBots.Server.SDK.Api
                         if (serviceRegistration.IsCurrentlyUnderMaintenance)
                             throw new Exception($"Server {serviceRegistration.Name} is currently undergoing maintenance and cannot be accessed at this time");
                         else documentsUrl = serviceRegistration.ServiceBaseUri.ToString();
+
+                        loginUrl = "https://login.openbots.io"; //"https://test.login.openbots.io/";
                     }
                 }
 
-                //loginUrl = "https://dev.login.openbots.io/" + "connect/token"; // user authentication
-                loginUrl = "https://test.login.openbots.io/" + "connect/token";
+                if (serverType == "Cloud")
+                    loginUrl = "https://dev.login.openbots.io/"; // user authentication
             }
             else //serverType == "Local"
                 loginUrl = serverUrl;
@@ -469,8 +471,11 @@ namespace OpenBots.Server.SDK.Api
             if (string.IsNullOrEmpty(serverUrl))
                 throw new Exception("Server URL not found");
 
-            if (username == null || password == null)
+            if ((serverType == "Cloud" || serverType == "Local") && (username == null || password == null))
                 throw new Exception("Agent credentials not found in registry");
+            else if (serverType == "Documents" && (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)))
+                throw new Exception("Credential values are null or an empty string");
+
 
             string token = GetAuthToken(apiVersion, serverType, username, password, loginUrl);
 
@@ -504,7 +509,6 @@ namespace OpenBots.Server.SDK.Api
 
             if (!response.IsSuccessful)
                 throw new HttpRequestException($"Status Code: {response.StatusCode} - Error Message: {response.ErrorMessage}");
-
             var deserializer = new JsonDeserializer();
             var output = deserializer.Deserialize<Dictionary<string, string>>(response);
             var items = output["items"];
@@ -564,50 +568,51 @@ namespace OpenBots.Server.SDK.Api
             else if (serverType == "Cloud") //get machine token for cloud Server
             {
                 //user authentication
-                //var httpClient = new HttpClient();
-                //var identityServerResponse = httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
-                //{
-                //    Address = loginUrl,
-                //    ClientId = "client",
-                //    UserName = username,
-                //    Password = password
-                //}).Result;
-
-                //if (identityServerResponse.IsError) throw new Exception(identityServerResponse.Error);
-
-                //token = identityServerResponse.AccessToken;
-
-                //agent authentication
-                var client = new RestClient(loginUrl);
-                var request = new RestRequest($"api/v{apiVersion}/Auth/machine/token", Method.POST);
-                request.RequestFormat = DataFormat.Json;
-                //request.AddJsonBody(login);
-                request.AddJsonBody($"{{ \"userName\": \"{username}\", \"password\": \"{password}\" }} ");
-
-                var response = client.Execute(request);
-
-                if (!response.IsSuccessful)
-                    throw new HttpRequestException($"Status Code: {response.StatusCode} - Error Message: {response.ErrorMessage}");
-
-                //var deserializer = new JsonDeserializer();
-                //var output = deserializer.Deserialize<Dictionary<string, string>>(response);
-                //var items = output["items"];
-                //return JsonConvert.DeserializeObject<List<ServiceRegistration>>(items);
-                token = "";
-            }
-            else // (serverType == "Documents") get user token for Documents
-            {
-                //user authentication
                 var httpClient = new HttpClient();
                 var identityServerResponse = httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
                 {
-                    Address = loginUrl,
+                    Address = loginUrl + "connect/token",
                     ClientId = "client",
                     UserName = username,
                     Password = password
                 }).Result;
 
-                if (identityServerResponse.IsError) throw new Exception(identityServerResponse.Error);
+                if (identityServerResponse.IsError) throw new Exception(identityServerResponse.ErrorDescription);
+
+                token = identityServerResponse.AccessToken;
+
+                ////agent authentication
+                //var client = new RestClient(loginUrl);
+                //var request = new RestRequest($"api/v{apiVersion}/Auth/machine/token", Method.POST);
+                //request.RequestFormat = DataFormat.Json;
+                ////request.AddJsonBody(login);
+                //request.AddJsonBody($"{{ \"userName\": \"{username}\", \"password\": \"{password}\" }} ");
+
+                //var response = client.Execute(request);
+
+                //if (!response.IsSuccessful)
+                //    throw new HttpRequestException($"Status Code: {response.StatusCode} - Error Message: {response.ErrorMessage}");
+
+                //var deserializer = new JsonDeserializer();
+                //var output = deserializer.Deserialize<Dictionary<string, string>>(response);
+                //var items = output["items"];
+                //return JsonConvert.DeserializeObject<List<ServiceRegistration>>(items);
+                //token = "";
+            }
+            else // (serverType == "Documents") get user token for Documents
+            {
+                //TODO: Switch this to the same logic to authenticate machine/agent
+                //user authentication
+                var httpClient = new HttpClient();
+                var identityServerResponse = httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
+                {
+                    Address = loginUrl + "connect/token",
+                    ClientId = "client",
+                    UserName = username,
+                    Password = password
+                }).Result;
+
+                if (identityServerResponse.IsError) throw new Exception(identityServerResponse.ErrorDescription);
 
                 token = identityServerResponse.AccessToken;
             }
@@ -626,7 +631,10 @@ namespace OpenBots.Server.SDK.Api
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("Exception when calling AuthApi.ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo: " + ex.Message);
+                if (ex.Message != "One or more errors occurred.")
+                    throw new InvalidOperationException("Exception when calling AuthApi.ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo: " + ex.Message);
+                else
+                    throw new InvalidOperationException(ex.InnerException.Message);
             }
         }
 

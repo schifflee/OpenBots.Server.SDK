@@ -514,7 +514,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="dueOn"> (optional)</param>
         /// <param name="humanTaskId"> (optional)</param>
         /// <returns>SubmitDocumentResponse</returns>
-        SubmitDocumentResponse ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPost (List<byte[]> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null);
+        SubmitDocumentResponse ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPost (List<System.IO.FileStream> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null);
 
         /// <summary>
         /// 
@@ -533,7 +533,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="dueOn"> (optional)</param>
         /// <param name="humanTaskId"> (optional)</param>
         /// <returns>ApiResponse of SubmitDocumentResponse</returns>
-        ApiResponse<SubmitDocumentResponse> ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostWithHttpInfo (List<byte[]> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null);
+        ApiResponse<SubmitDocumentResponse> ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostWithHttpInfo (List<System.IO.FileStream> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null);
 
         DocumentResult SaveDocumentResults(Guid humanTaskId, bool awaitCompletion, bool savePageImages, bool savePageText, int timeout, string outputFolder, DataTable dataTable);
 
@@ -1040,7 +1040,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="dueOn"> (optional)</param>
         /// <param name="humanTaskId"> (optional)</param>
         /// <returns>Task of SubmitDocumentResponse</returns>
-        System.Threading.Tasks.Task<SubmitDocumentResponse> ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostAsync (List<byte[]> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null);
+        System.Threading.Tasks.Task<SubmitDocumentResponse> ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostAsync (List<System.IO.FileStream> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null);
 
         /// <summary>
         /// 
@@ -1059,7 +1059,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="dueOn"> (optional)</param>
         /// <param name="humanTaskId"> (optional)</param>
         /// <returns>Task of ApiResponse (SubmitDocumentResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SubmitDocumentResponse>> ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostAsyncWithHttpInfo (List<byte[]> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null);
+        System.Threading.Tasks.Task<ApiResponse<SubmitDocumentResponse>> ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostAsyncWithHttpInfo (List<System.IO.FileStream> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null);
 
         /// <summary>
         /// 
@@ -1406,7 +1406,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiServicesAppDocumentprocessingengineserviceChangestatusPost", localVarResponse);
+                Exception exception = ExceptionFactory("ChangeStatus", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -1808,7 +1808,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiServicesAppDocumentprocessingengineserviceGetdocumentdataGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetDocumentData", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -1950,7 +1950,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiServicesAppDocumentprocessingengineserviceGetdocumentsGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetDocuments", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -2488,7 +2488,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiServicesAppDocumentprocessingengineserviceGetpageimageGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetPageImage", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -2774,7 +2774,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiServicesAppDocumentprocessingengineserviceGetpagetextGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetPageText", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -3080,7 +3080,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiServicesAppDocumentprocessingengineserviceGetqueuesGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetQueues", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -3345,7 +3345,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiServicesAppDocumentprocessingengineserviceGetstatusGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetStatus", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -3670,7 +3670,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiServicesAppDocumentprocessingengineserviceMarkdocumentasverifiedPost", localVarResponse);
+                Exception exception = ExceptionFactory("MarkDocumentAsVerified", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -4059,7 +4059,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="dueOn"> (optional)</param>
         /// <param name="humanTaskId"> (optional)</param>
         /// <returns>SubmitDocumentResponse</returns>
-        public SubmitDocumentResponse ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPost (List<byte[]> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null)
+        public SubmitDocumentResponse ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPost (List<System.IO.FileStream> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null)
         {
              ApiResponse<SubmitDocumentResponse> localVarResponse = ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostWithHttpInfo(files, taskQueueId, name, description, caseNumber, caseType, assignedTo, dueOn, humanTaskId);
              return localVarResponse.Data;
@@ -4079,7 +4079,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="dueOn"> (optional)</param>
         /// <param name="humanTaskId"> (optional)</param>
         /// <returns>ApiResponse of SubmitDocumentResponse</returns>
-        public ApiResponse< SubmitDocumentResponse > ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostWithHttpInfo (List<byte[]> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null)
+        public ApiResponse< SubmitDocumentResponse > ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostWithHttpInfo (List<System.IO.FileStream> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null)
         {
 
             var localVarPath = "/api/services/app/DocumentProcessingEngineService/SubmitDocumentsWithDetails";
@@ -4107,7 +4107,11 @@ namespace OpenBots.Server.SDK.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (humanTaskId != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "humanTaskId", humanTaskId)); // query parameter
-            if (files != null) localVarFormParams.Add("files", this.Configuration.ApiClient.ParameterToString(files)); // form parameter
+            if (files != null)
+            {
+                foreach (var _file in files)
+                    localVarFileParams.Add(_file.Name, this.Configuration.ApiClient.ParameterToFile("files", _file));
+            }
             if (taskQueueId != null) localVarFormParams.Add("taskQueueId", this.Configuration.ApiClient.ParameterToString(taskQueueId)); // form parameter
             if (name != null) localVarFormParams.Add("name", this.Configuration.ApiClient.ParameterToString(name)); // form parameter
             if (description != null) localVarFormParams.Add("description", this.Configuration.ApiClient.ParameterToString(description)); // form parameter
@@ -4132,7 +4136,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPost", localVarResponse);
+                Exception exception = ExceptionFactory("SubmitDocumentsWithDetails", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -4158,7 +4162,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="dueOn"> (optional)</param>
         /// <param name="humanTaskId"> (optional)</param>
         /// <returns>Task of SubmitDocumentResponse</returns>
-        public async System.Threading.Tasks.Task<SubmitDocumentResponse> ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostAsync (List<byte[]> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null)
+        public async System.Threading.Tasks.Task<SubmitDocumentResponse> ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostAsync (List<System.IO.FileStream> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null)
         {
              ApiResponse<SubmitDocumentResponse> localVarResponse = await ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostAsyncWithHttpInfo(files, taskQueueId, name, description, caseNumber, caseType, assignedTo, dueOn, humanTaskId);
              return localVarResponse.Data;
@@ -4179,7 +4183,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="dueOn"> (optional)</param>
         /// <param name="humanTaskId"> (optional)</param>
         /// <returns>Task of ApiResponse (SubmitDocumentResponse)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<SubmitDocumentResponse>> ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostAsyncWithHttpInfo (List<byte[]> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null)
+        public async System.Threading.Tasks.Task<ApiResponse<SubmitDocumentResponse>> ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostAsyncWithHttpInfo (List<System.IO.FileStream> files = null, Guid? taskQueueId = null, string name = null, string description = null, string caseNumber = null, string caseType = null, string assignedTo = null, string dueOn = null, Guid? humanTaskId = null)
         {
 
             var localVarPath = "/api/services/app/DocumentProcessingEngineService/SubmitDocumentsWithDetails";
@@ -4307,7 +4311,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiServicesAppHumantasksCreateoreditPost", localVarResponse);
+                Exception exception = ExceptionFactory("HumanTasks.CreateOrEdit", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -4405,7 +4409,6 @@ namespace OpenBots.Server.SDK.Api
             docInfo.TaskId = humanTaskId.ToString();
             List<string> datacolumns = new List<string>();
 
-
             // Prepare DataTable if it doesnt have default rows
             if (dataTable == null)
             {
@@ -4443,12 +4446,11 @@ namespace OpenBots.Server.SDK.Api
             status = ApiServicesAppDocumentprocessingengineserviceGetstatusGetWithHttpInfo(humanTaskId.ToString()).Data;
 
             // In case you dont want to wait for the processing, you can call GetStatus and check for status to be 'Processed'
-            //string status  = service.GetStatus(humanTaskId).Result;
             if (string.IsNullOrEmpty(status))
                 Trace.WriteLine($"ERROR: Something went wrong. Status of a Task cannot be null.");
 
             if (status == "Created" || status == "Creating" || status == "InProgress" || status == "CompletedWithError" || status == "Error")
-                Trace.WriteLine($"ERROR: Document is not processed yet. Most likely we timed out.");
+                Trace.WriteLine($"ERROR: Document is not processed yet. Most likely it timed out.");
 
             // Once the document is processed, GetDocuments will retrieve the Extracted Documents
             var docs = ApiServicesAppDocumentprocessingengineserviceGetdocumentsGetWithHttpInfo(humanTaskId).Data;
@@ -4513,7 +4515,6 @@ namespace OpenBots.Server.SDK.Api
 
                             if (dataTable != null)
                             {
-
                                 var exData = ExtractedContentField.Parse(jsonString);
                                 if (exData != null)
                                 {
@@ -4546,7 +4547,10 @@ namespace OpenBots.Server.SDK.Api
                                 }
                             }
                         }
-                        catch { }
+                        catch (Exception ex) 
+                        {
+                            throw new Exception(ex.Message);
+                        }
                     }
                 }
 
@@ -4554,7 +4558,6 @@ namespace OpenBots.Server.SDK.Api
                 {
                     foreach (var page in doc.Pages)
                     {
-
                         if (savePageImages)
                         {
                             Image pageImage = null;
@@ -4580,7 +4583,6 @@ namespace OpenBots.Server.SDK.Api
                                 string imagePath = Path.Combine(docFolder.FullName, $"Page_{page.File.Value}.jpg");
                                 var i2 = new Bitmap(pageImage);
                                 i2.Save(imagePath, ImageFormat.Jpeg);
-
                             }
                         }
 
@@ -4650,12 +4652,13 @@ namespace OpenBots.Server.SDK.Api
             if (!File.Exists(fileToProcess))
                 throw new FileNotFoundException($"ERROR: File not found.{fileToProcess}");
 
-            //// Submits the document to the server for processing
+            //Submits the document to the server for processing
 
             if (string.IsNullOrEmpty(taskQueueName))
-                taskQueueName = "Common";
+                taskQueueName = "Default";
 
             Dictionary<string, string> allQueues = null;
+
             //get queues
             allQueues = ApiServicesAppDocumentprocessingengineserviceGetqueuesGetWithHttpInfo().Data;
 
@@ -4696,37 +4699,19 @@ namespace OpenBots.Server.SDK.Api
 
             Guid? docId = ApiServicesAppHumantasksCreateoreditPostWithHttpInfo(taskR).Data;
 
-            System.IO.FileStream fs = new System.IO.FileStream(fileToProcess, FileMode.Open, FileAccess.Read);
-
-            // Create a byte array of file stream length
-            byte[] imageData = new byte[fs.Length];
-
-            //Read block of bytes from stream into the byte array
-            fs.Read(imageData, 0, Convert.ToInt32(fs.Length));
-
-            //Close the File Stream
-            fs.Close();
-
-            List<byte[]> files = new List<byte[]>()
-            { imageData };
-
-            var response = ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostWithHttpInfo(files, taskQueueId, name, description, caseNumber, caseType, assignedTo, dueOn.ToString(), docId);
+            ApiResponse<SubmitDocumentResponse> response;
+            using (System.IO.FileStream fs = new System.IO.FileStream(fileToProcess, FileMode.Open, FileAccess.Read))
+            {
+                var files = new List<System.IO.FileStream>() { fs };
+                response = ApiServicesAppDocumentprocessingengineserviceSubmitdocumentswithdetailsPostWithHttpInfo(files, taskQueueId, name, description, caseNumber, caseType, assignedTo, dueOn.ToString(), docId);
+            }
 
             string method = "Submit";
             if (response == null)
-                throw new InvalidOperationException($"{method}:Url didnt return a valid response");
-
-            //if (response.StatusCode != HttpStatusCode.OK)
-            //    throw new InvalidOperationException($"{method}:Url didnt return a HTTP 200");
+                throw new InvalidOperationException($"{method}:Url didn't return a valid response");
 
             if (response.Data == null)
-                throw new InvalidCastException($"{method}:Url didnt return JSON with correct body");
-
-            //if (!response.Data.Success)
-            //    throw new InvalidOperationException($"{method}:Url didnt return success from server");
-
-            //if (response.Data.UnAuthorizedRequest)
-            //    throw new UnauthorizedAccessException();
+                throw new InvalidCastException($"{method}:Url didn't return JSON with correct body");
 
             var docResponse = response.Data;
 
