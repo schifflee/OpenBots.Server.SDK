@@ -426,13 +426,12 @@ namespace OpenBots.Server.SDK.Api
                 throw new Exception("Agent is not connected");
 
             string organizationId = string.Empty;
-            string loginUrl = string.Empty;
+            string loginUrl = serverUrl;
             string documentsUrl = string.Empty;
 
             if (serverType == "Cloud" || serverType == "Documents")
             {
-                string serviceRegistrationUrl = "https://api.members.openbots.io";
-                var serviceRegistrationList = GetServiceRegistration(apiVersion, serviceRegistrationUrl, environment);
+                var serviceRegistrationList = GetServiceRegistration(apiVersion, environment);
 
                 if (serviceRegistrationList == null || serviceRegistrationList.Count() == 0)
                     throw new Exception("Service registration could not be found");
@@ -472,8 +471,6 @@ namespace OpenBots.Server.SDK.Api
                 if (serverType == "Cloud")
                     loginUrl = "https://dev.login.openbots.io/"; // user authentication
             }
-            else //serverType == "Local"
-                loginUrl = serverUrl;
 
             if (string.IsNullOrEmpty(serverUrl))
                 throw new Exception("Server URL not found");
@@ -505,8 +502,9 @@ namespace OpenBots.Server.SDK.Api
             return userInfo;
         }
 
-        public static List<ServiceRegistration> GetServiceRegistration(string apiVersion, string serviceUrl, string environment)
+        public static List<ServiceRegistration> GetServiceRegistration(string apiVersion, string environment)
         {
+            string serviceUrl = "https://api.members.openbots.io";
             var client = new RestClient(serviceUrl);
             var request = new RestRequest($"api/v{apiVersion}/ServiceRegistration", Method.GET);
             request.AddParameter("$filter", $"environment eq '{environment}'");
