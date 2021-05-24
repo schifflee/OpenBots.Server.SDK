@@ -56,24 +56,8 @@ namespace OpenBots.Server.SDK.Model
             {
                 this.Name = name;
             }
-            // to ensure "dataType" is required (not null)
-            if (dataType == null)
-            {
-                throw new InvalidDataException("dataType is a required property for AutomationParameter and cannot be null");
-            }
-            else
-            {
-                this.DataType = dataType;
-            }
-            // to ensure "value" is required (not null)
-            if (value == null)
-            {
-                throw new InvalidDataException("value is a required property for AutomationParameter and cannot be null");
-            }
-            else
-            {
-                this.Value = value;
-            }
+            this.DataType = dataType;
+            this.Value = value;
             this.Id = id;
             // use default value if no "isDeleted" provided
             if (isDeleted == null)
