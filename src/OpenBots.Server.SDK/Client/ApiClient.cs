@@ -157,7 +157,7 @@ namespace OpenBots.Server.SDK.Client
         /// <param name="pathParams">Path parameters.</param>
         /// <param name="contentType">Content Type of the request</param>
         /// <returns>Object</returns>
-        public Object CallApi(
+        public object CallApi(
             String path, RestSharp.Method method, List<KeyValuePair<String, String>> queryParams, Object postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
             Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams,
@@ -202,7 +202,7 @@ namespace OpenBots.Server.SDK.Client
                 path, method, queryParams, postBody, headerParams, formParams, fileParams,
                 pathParams, contentType);
             InterceptRequest(request);
-            var response = await RestClient.ExecuteTaskAsync(request);
+            var response = RestClient.ExecuteTaskAsync(request).Result;
             InterceptResponse(request, response);
             return (Object)response;
         }

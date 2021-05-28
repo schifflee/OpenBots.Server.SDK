@@ -4119,6 +4119,7 @@ namespace OpenBots.Server.SDK.Api
             if (caseType != null) localVarFormParams.Add("caseType", this.Configuration.ApiClient.ParameterToString(caseType)); // form parameter
             if (assignedTo != null) localVarFormParams.Add("assignedTo", this.Configuration.ApiClient.ParameterToString(assignedTo)); // form parameter
             if (dueOn != null) localVarFormParams.Add("dueOn", this.Configuration.ApiClient.ParameterToString(dueOn)); // form parameter
+            localVarFormParams.Add("tenantId", this.Configuration.ApiClient.ParameterToString(0)); // form parameter
 
             // authentication (oauth2) required
             // bearer required

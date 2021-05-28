@@ -545,7 +545,10 @@ namespace OpenBots.Server.SDK.Api
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("Exception when calling AuthApi.ApiVapiVersionAuthTokenPostWithHttpInfo: " + ex.Message);
+                if (ex.Message != "One or more errors occurred.")
+                    throw new InvalidOperationException("Exception when calling OrganizationsApi.GetOrganizations: " + ex.Message);
+                else
+                    throw new InvalidOperationException(ex.InnerException.Message);
             }
         }
 
@@ -560,14 +563,17 @@ namespace OpenBots.Server.SDK.Api
 
                 try
                 {
-                    var result = apiInstance.ApiVapiVersionAuthTokenPostWithHttpInfo(apiVersion, login).Data.ToString();
+                    var result = apiInstance.ApiVapiVersionAuthTokenPostAsyncWithHttpInfo(apiVersion, login).Result.Data.ToString();
                     JObject jsonObj = JObject.Parse(result.Replace("[]", "null"));
                     Dictionary<string, string> resultDict = jsonObj.ToObject<Dictionary<string, string>>();
                     token = resultDict["token"].ToString();
                 }
                 catch (Exception ex)
                 {
-                    throw new InvalidOperationException("Exception when calling AuthApi.ApiVapiVersionAuthTokenPostWithHttpInfo: " + ex.Message);
+                    if (ex.Message != "One or more errors occurred.")
+                        throw new InvalidOperationException("Exception when calling AuthApi.GetAuthToken: " + ex.Message);
+                    else
+                        throw new InvalidOperationException(ex.InnerException.Message);
                 }
             }
             else if (serverType == "Cloud") //get machine token for cloud Server
@@ -637,7 +643,7 @@ namespace OpenBots.Server.SDK.Api
             catch (Exception ex)
             {
                 if (ex.Message != "One or more errors occurred.")
-                    throw new InvalidOperationException("Exception when calling AuthApi.ApiVapiVersionAuthGetUserInfoGetAsyncWithHttpInfo: " + ex.Message);
+                    throw new InvalidOperationException("Exception when calling AuthApi.GetUserInfo: " + ex.Message);
                 else
                     throw new InvalidOperationException(ex.InnerException.Message);
             }
@@ -769,7 +775,7 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthGetUserInfoGet", localVarResponse);
+                Exception exception = ExceptionFactory("GetUserInfo", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -924,13 +930,13 @@ namespace OpenBots.Server.SDK.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("ApiVapiVersionAuthTokenPost", localVarResponse);
+                Exception exception = ExceptionFactory("GetAuthToken", localVarResponse);
                 if (exception != null) throw exception;
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
+                localVarResponse.Content);
         }
      }
 }

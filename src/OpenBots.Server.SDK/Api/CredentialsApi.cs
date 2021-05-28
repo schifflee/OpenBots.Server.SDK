@@ -1127,9 +1127,11 @@ namespace OpenBots.Server.SDK.Api
                 if (exception != null) throw exception;
             }
 
+            var credential = JsonConvert.DeserializeObject<Credential>(localVarResponse.Content);
+
             return new ApiResponse<Credential>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Credential)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Credential)));
+                credential);
         }
 
         /// <summary>
