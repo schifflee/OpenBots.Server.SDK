@@ -17,7 +17,6 @@ using OpenBots.Server.SDK.Model;
 using Newtonsoft.Json;
 using RestSharp.Serialization.Json;
 using Newtonsoft.Json.Linq;
-using IdentityModel.Client;
 using System.Net.Http;
 
 namespace OpenBots.Server.SDK.Api
@@ -60,7 +59,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        UserInfo GetUserInfo(string apiVersion, string agentId, string serverType, string organizationName, string environment, string serverUrl, string username, string password);
+        UserInfo GetUserInfo(string apiVersion, string serverType, string organizationName, string environment, string serverUrl, string username, string password);
         /// <summary>
         /// Get user info for logged in authenticated user
         /// </summary>
@@ -420,12 +419,10 @@ namespace OpenBots.Server.SDK.Api
                 (string)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
         }
 
-        public UserInfo GetUserInfo(string apiVersion, string agentId, string serverType, string organizationName, string environment, string serverUrl, string username, string password)
+        public UserInfo GetUserInfo(string apiVersion, string serverType, string organizationName, string environment, string serverUrl, string username, string password)
         {
-            if (string.IsNullOrEmpty(agentId))
-                throw new Exception("Agent is not connected");
-
-            string organizationId = string.Empty;
+            ServerInfo serverInfo = new ServerInfo(); 
+            OrganizationListing organization = new OrganizationListing();
             string loginUrl = serverUrl;
             string documentsUrl = string.Empty;
 
@@ -456,20 +453,8 @@ namespace OpenBots.Server.SDK.Api
                         if (serviceRegistration.IsCurrentlyUnderMaintenance)
                             throw new Exception($"Server {serviceRegistration.Name} is currently undergoing maintenance and cannot be accessed at this time");
                         else documentsUrl = serviceRegistration.ServiceBaseUri.ToString();
-
-                        if (environment == "LIVE")
-                            loginUrl = "https://login.openbots.io/";
-                        if (environment == "DEV")
-                            loginUrl = "https://dev.login.openbots.io/";
-                        if (environment == "TEST")
-                            loginUrl = "https://test.login.openbots.io/";
-                        if (environment == "DEMO")
-                            loginUrl = "https://demo.login.openbots.io/";
                     }
                 }
-
-                if (serverType == "Cloud")
-                    loginUrl = "https://dev.login.openbots.io/"; // user authentication
             }
 
             if (string.IsNullOrEmpty(serverUrl))
@@ -485,18 +470,22 @@ namespace OpenBots.Server.SDK.Api
 
             if (serverType == "Cloud")
             {
-                var serverInfo = GetServerInfo(apiVersion, serverUrl, token);
-                organizationId = GetOrganizationId(token, apiVersion, organizationName, serverUrl, serverInfo.MyOrganizations);
+                serverInfo = GetServerInfo(apiVersion, serverUrl, token);
+                organization = GetOrganization(token, apiVersion, organizationName, serverUrl, serverInfo.MyOrganizations);
             }
 
             var userInfo = new UserInfo()
             {
-                OrganizationId = organizationId,
+                OrganizationId = organization?.Id.ToString(),
+                OrganizationName = organization?.Name,
                 ServerType = serverType,
                 Token = token,
                 ServerUrl = serverUrl,
                 LoginUrl = loginUrl,
-                DocumentsUrl = documentsUrl
+                DocumentsUrl = documentsUrl,
+                ApiVersion = apiVersion,
+                Environment = environment,
+                UserId = serverInfo?.PersonId.ToString()
             };
 
             return userInfo;
@@ -520,28 +509,42 @@ namespace OpenBots.Server.SDK.Api
             return JsonConvert.DeserializeObject<List<ServiceRegistration>>(items);
         }
 
-        public static string GetOrganizationId(string token, string apiVersion, string organizationName, string serverUrl, List<OrganizationListing> orgList)
+        public static OrganizationListing GetOrganization(string token, string apiVersion, string organizationName, string serverUrl, List<OrganizationListing> orgList)
         {
             var apiInstance = new OrganizationsApi(serverUrl);
             apiInstance.Configuration.AccessToken = token;
+            OrganizationListing organization = null;
+
             try
             {
-                bool IsUserInOrg = false;
-                foreach (var org in orgList)
+                if (string.IsNullOrEmpty(organizationName))
                 {
-                    if (org.Name == organizationName)
-                        IsUserInOrg = true;
+                    if (orgList.Count == 1)
+                    {
+                        organization = orgList.FirstOrDefault();
+                    }
+
+                    if (orgList.Count == 0) throw new Exception("No Organizations were found for the current user");
+                    if (orgList.Count > 1) throw new Exception("Multiple Organizations exist for the current user, please specify an Organization name");
+                }
+                else
+                {
+                    bool IsUserInOrg = false;
+                    foreach (var org in orgList)
+                    {
+                        if (org.Name == organizationName)
+                        {
+                            IsUserInOrg = true;
+                            organization = org;
+                            break;
+                        }
+                    }
+
+                    if (!IsUserInOrg)
+                        throw new Exception($"Organization {organizationName} does not match user's existing organizations");
                 }
 
-                if (!IsUserInOrg)
-                    throw new Exception($"Organization {organizationName} does not match user's existing organizations");
-
-                string filter = $"Name eq '{organizationName}'";
-                var result = apiInstance.ApiVapiVersionOrganizationsGetAsyncWithHttpInfo(apiVersion, filter).Result.Data.Items.FirstOrDefault();
-                if (result == null)
-                    throw new Exception($"Organization {organizationName} could not be found");
-
-                return result.Id.ToString();
+                return organization;
             }
             catch (Exception ex)
             {
@@ -556,11 +559,10 @@ namespace OpenBots.Server.SDK.Api
         {
             string token;
             var login = new Login(username, password);
+            var apiInstance = new AuthApi(loginUrl);
 
             if (serverType == "Local") //get token from open source Server
             {
-                var apiInstance = new AuthApi(loginUrl);
-
                 try
                 {
                     var result = apiInstance.ApiVapiVersionAuthTokenPostAsyncWithHttpInfo(apiVersion, login).Result.Data.ToString();
@@ -576,57 +578,9 @@ namespace OpenBots.Server.SDK.Api
                         throw new InvalidOperationException(ex.InnerException.Message);
                 }
             }
-            else if (serverType == "Cloud") //get machine token for cloud Server
-            {
-                //user authentication
-                var httpClient = new HttpClient();
-                var identityServerResponse = httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
-                {
-                    Address = loginUrl + "connect/token",
-                    ClientId = "client",
-                    UserName = username,
-                    Password = password
-                }).Result;
+            else //if (serverType == "Cloud" || serverType == "Documents") //get machine token for cloud Server
+                token = apiInstance.GetCloudToken(loginUrl, apiVersion, username, password);
 
-                if (identityServerResponse.IsError) throw new Exception(identityServerResponse.ErrorDescription);
-
-                token = identityServerResponse.AccessToken;
-
-                ////agent authentication
-                //var client = new RestClient(loginUrl);
-                //var request = new RestRequest($"api/v{apiVersion}/Auth/machine/token", Method.POST);
-                //request.RequestFormat = DataFormat.Json;
-                ////request.AddJsonBody(login);
-                //request.AddJsonBody($"{{ \"userName\": \"{username}\", \"password\": \"{password}\" }} ");
-
-                //var response = client.Execute(request);
-
-                //if (!response.IsSuccessful)
-                //    throw new HttpRequestException($"Status Code: {response.StatusCode} - Error Message: {response.ErrorMessage}");
-
-                //var deserializer = new JsonDeserializer();
-                //var output = deserializer.Deserialize<Dictionary<string, string>>(response);
-                //var items = output["items"];
-                //return JsonConvert.DeserializeObject<List<ServiceRegistration>>(items);
-                //token = "";
-            }
-            else // (serverType == "Documents") get user token for Documents
-            {
-                //TODO: Switch this to the same logic to authenticate machine/agent
-                //user authentication
-                var httpClient = new HttpClient();
-                var identityServerResponse = httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
-                {
-                    Address = loginUrl + "connect/token",
-                    ClientId = "client",
-                    UserName = username,
-                    Password = password
-                }).Result;
-
-                if (identityServerResponse.IsError) throw new Exception(identityServerResponse.ErrorDescription);
-
-                token = identityServerResponse.AccessToken;
-            }
             return token;
         }
 
@@ -647,6 +601,25 @@ namespace OpenBots.Server.SDK.Api
                 else
                     throw new InvalidOperationException(ex.InnerException.Message);
             }
+        }
+
+        public string GetCloudToken(string loginUrl, string apiVersion, string username, string password)
+        {
+            var client = new RestClient(loginUrl);
+            var request = new RestRequest($"api/v{apiVersion}/Auth/machine/token", Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            //request.AddJsonBody(login);
+            request.AddJsonBody($"{{ \"userName\": \"{username}\", \"password\": \"{password}\" }}");
+
+            var response = client.Execute(request);
+
+            if (!response.IsSuccessful)
+                throw new HttpRequestException($"Status Code: {response.StatusCode} - Error Message: {response.ErrorMessage}");
+
+            var deserializer = new JsonDeserializer();
+            var output = deserializer.Deserialize<Dictionary<string, string>>(response);
+            string token = output["accessToken"];
+            return token;
         }
 
         /// <summary>

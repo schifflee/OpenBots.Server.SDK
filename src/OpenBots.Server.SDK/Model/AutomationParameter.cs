@@ -48,14 +48,7 @@ namespace OpenBots.Server.SDK.Model
         public AutomationParameter(Guid? id = default(Guid?), bool? isDeleted = false, string createdBy = default(string), DateTime? createdOn = default(DateTime?), string deletedBy = default(string), DateTime? deleteOn = default(DateTime?), byte[] timestamp = default(byte[]), DateTime? updatedOn = default(DateTime?), string updatedBy = default(string), string name = default(string), string dataType = default(string), string value = default(string), Guid? automationId = default(Guid?))
         {
             // to ensure "name" is required (not null)
-            if (name == null)
-            {
-                throw new InvalidDataException("name is a required property for AutomationParameter and cannot be null");
-            }
-            else
-            {
-                this.Name = name;
-            }
+            this.Name = name;
             this.DataType = dataType;
             this.Value = value;
             this.Id = id;

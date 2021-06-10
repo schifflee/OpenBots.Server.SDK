@@ -1,6 +1,6 @@
 ﻿namespace OpenBots.Server.SDK.Model
 {
-    public class UserInfo
+    public class AgentInfo
     {
         public string ServerType { get; set; }
         public string OrganizationId { get; set; }
