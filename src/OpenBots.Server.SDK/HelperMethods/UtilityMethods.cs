@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using OpenBots.Server.SDK.Model;
 using System;
 using System.IO;
 using System.Security.Principal;
@@ -26,6 +27,30 @@ namespace OpenBots.Server.SDK.HelperMethods
             catch (Exception)
             {
                 return string.Empty;
+            }
+        }
+
+        public static void RefreshToken(UserInfo userInfo)
+        {
+            var authMethods = new AuthMethods();
+            authMethods.Initialize(userInfo.ServerType, userInfo.OrganizationName, userInfo.ServerUrl, userInfo.Username, userInfo.Password);
+            authMethods.RefreshToken(userInfo);
+        }
+
+        public static string GetErrorCode(Exception ex)
+        {
+            try
+            {
+                string errorCode = ex.GetType()?.GetProperty("ErrorCode")?.GetValue(ex, null)?.ToString();
+
+                if (string.IsNullOrEmpty(errorCode))
+                    errorCode = ex.InnerException.Message.Contains("401: Unauthorized") ? "401" : "";
+
+                return errorCode;
+            }
+            catch (Exception exception)
+            {
+                throw exception;
             }
         }
     }

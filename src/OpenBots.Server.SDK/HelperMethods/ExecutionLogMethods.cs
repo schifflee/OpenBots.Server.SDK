@@ -1,17 +1,12 @@
 ﻿using OpenBots.Server.SDK.Api;
-using OpenBots.Server.SDK.Client;
 using OpenBots.Server.SDK.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenBots.Server.SDK.HelperMethods
 {
     public class ExecutionLogMethods
     {
-        public static AutomationExecutionLog CreateExecutionLog(UserInfo userInfo, AutomationExecutionLog body)
+        public static AutomationExecutionLog CreateExecutionLog(UserInfo userInfo, AutomationExecutionLog body, int count = 0)
         {
             var executionLogsApi = GetApiInstance(userInfo.Token, userInfo.ServerUrl);
 
@@ -21,14 +16,20 @@ namespace OpenBots.Server.SDK.HelperMethods
             }
             catch (Exception ex)
             {
-                if (ex.Message != "One or more errors occurred.")
+                if (UtilityMethods.GetErrorCode(ex) == "401" && count < 2)
+                {
+                    UtilityMethods.RefreshToken(userInfo);
+                    count++;
+                    return CreateExecutionLog(userInfo, body, count);
+                }
+                else if (ex.Message != "One or more errors occurred.")
                     throw new InvalidOperationException("Exception when calling AutomationExecutionLogsApi.CreateExecutionLog: " + ex.Message);
                 else
                     throw new InvalidOperationException(ex.InnerException.Message);
             }
         }
 
-        public static int UpdateExecutionLog(UserInfo userInfo, AutomationExecutionLog body)
+        public static int UpdateExecutionLog(UserInfo userInfo, AutomationExecutionLog body, int count = 0)
         {
             var executionLogsApi = GetApiInstance(userInfo.Token, userInfo.ServerUrl);
 
@@ -38,7 +39,13 @@ namespace OpenBots.Server.SDK.HelperMethods
             }
             catch (Exception ex)
             {
-                if (ex.Message != "One or more errors occurred.")
+                if (UtilityMethods.GetErrorCode(ex) == "401" && count < 2)
+                {
+                    UtilityMethods.RefreshToken(userInfo);
+                    count++;
+                    return UpdateExecutionLog(userInfo, body, count);
+                }
+                else if (ex.Message != "One or more errors occurred.")
                     throw new InvalidOperationException("Exception when calling AutomationExecutionLogsApi.UpdateExecutionLog: " + ex.Message);
                 else
                     throw new InvalidOperationException(ex.InnerException.Message);

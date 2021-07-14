@@ -27,7 +27,7 @@ namespace OpenBots.Server.SDK.Model
     /// CreateJobViewModel
     /// </summary>
     [DataContract]
-        public partial class CreateJobViewModel :  IEquatable<CreateJobViewModel>, IValidatableObject
+    public partial class CreateJobViewModel : IEquatable<CreateJobViewModel>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateJobViewModel" /> class.
@@ -73,71 +73,71 @@ namespace OpenBots.Server.SDK.Model
             this.IsSuccessful = isSuccessful;
             this.JobParameters = jobParameters;
         }
-        
+
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="id", EmitDefaultValue=false)]
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets AgentId
         /// </summary>
-        [DataMember(Name="agentId", EmitDefaultValue=false)]
+        [DataMember(Name = "agentId", EmitDefaultValue = false)]
         public Guid? AgentId { get; set; }
 
         /// <summary>
         /// Gets or Sets StartTime
         /// </summary>
-        [DataMember(Name="startTime", EmitDefaultValue=false)]
+        [DataMember(Name = "startTime", EmitDefaultValue = false)]
         public DateTime? StartTime { get; set; }
 
         /// <summary>
         /// Gets or Sets EndTime
         /// </summary>
-        [DataMember(Name="endTime", EmitDefaultValue=false)]
+        [DataMember(Name = "endTime", EmitDefaultValue = false)]
         public DateTime? EndTime { get; set; }
 
         /// <summary>
         /// Gets or Sets EnqueueTime
         /// </summary>
-        [DataMember(Name="enqueueTime", EmitDefaultValue=false)]
+        [DataMember(Name = "enqueueTime", EmitDefaultValue = false)]
         public DateTime? EnqueueTime { get; set; }
 
         /// <summary>
         /// Gets or Sets DequeueTime
         /// </summary>
-        [DataMember(Name="dequeueTime", EmitDefaultValue=false)]
+        [DataMember(Name = "dequeueTime", EmitDefaultValue = false)]
         public DateTime? DequeueTime { get; set; }
 
         /// <summary>
         /// Gets or Sets AutomationId
         /// </summary>
-        [DataMember(Name="automationId", EmitDefaultValue=false)]
+        [DataMember(Name = "automationId", EmitDefaultValue = false)]
         public Guid? AutomationId { get; set; }
 
         /// <summary>
         /// Gets or Sets JobStatus
         /// </summary>
-        [DataMember(Name="jobStatus", EmitDefaultValue=false)]
+        [DataMember(Name = "jobStatus", EmitDefaultValue = false)]
         public JobStatusType JobStatus { get; set; }
 
         /// <summary>
         /// Gets or Sets Message
         /// </summary>
-        [DataMember(Name="message", EmitDefaultValue=false)]
+        [DataMember(Name = "message", EmitDefaultValue = false)]
         public string Message { get; set; }
 
         /// <summary>
         /// Gets or Sets IsSuccessful
         /// </summary>
-        [DataMember(Name="isSuccessful", EmitDefaultValue=false)]
+        [DataMember(Name = "isSuccessful", EmitDefaultValue = false)]
         public bool? IsSuccessful { get; set; }
 
         /// <summary>
         /// Gets or Sets JobParameters
         /// </summary>
-        [DataMember(Name="jobParameters", EmitDefaultValue=false)]
+        [DataMember(Name = "jobParameters", EmitDefaultValue = false)]
         public List<JobParameter> JobParameters { get; set; }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace OpenBots.Server.SDK.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -192,57 +192,57 @@ namespace OpenBots.Server.SDK.Model
             if (input == null)
                 return false;
 
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.AgentId == input.AgentId ||
                     (this.AgentId != null &&
                     this.AgentId.Equals(input.AgentId))
-                ) && 
+                ) &&
                 (
                     this.StartTime == input.StartTime ||
                     (this.StartTime != null &&
                     this.StartTime.Equals(input.StartTime))
-                ) && 
+                ) &&
                 (
                     this.EndTime == input.EndTime ||
                     (this.EndTime != null &&
                     this.EndTime.Equals(input.EndTime))
-                ) && 
+                ) &&
                 (
                     this.EnqueueTime == input.EnqueueTime ||
                     (this.EnqueueTime != null &&
                     this.EnqueueTime.Equals(input.EnqueueTime))
-                ) && 
+                ) &&
                 (
                     this.DequeueTime == input.DequeueTime ||
                     (this.DequeueTime != null &&
                     this.DequeueTime.Equals(input.DequeueTime))
-                ) && 
+                ) &&
                 (
                     this.AutomationId == input.AutomationId ||
                     (this.AutomationId != null &&
                     this.AutomationId.Equals(input.AutomationId))
-                ) && 
+                ) &&
                 (
                     this.JobStatus == input.JobStatus ||
                     (this.JobStatus != null &&
                     this.JobStatus.Equals(input.JobStatus))
-                ) && 
+                ) &&
                 (
                     this.Message == input.Message ||
                     (this.Message != null &&
                     this.Message.Equals(input.Message))
-                ) && 
+                ) &&
                 (
                     this.IsSuccessful == input.IsSuccessful ||
                     (this.IsSuccessful != null &&
                     this.IsSuccessful.Equals(input.IsSuccessful))
-                ) && 
+                ) &&
                 (
                     this.JobParameters == input.JobParameters ||
                     this.JobParameters != null &&
