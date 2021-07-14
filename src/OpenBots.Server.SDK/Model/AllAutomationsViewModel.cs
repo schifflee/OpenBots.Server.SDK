@@ -27,7 +27,7 @@ namespace OpenBots.Server.SDK.Model
     /// AllAutomationsViewModel
     /// </summary>
     [DataContract]
-        public partial class AllAutomationsViewModel :  IEquatable<AllAutomationsViewModel>, IValidatableObject
+    public partial class AllAutomationsViewModel : IEquatable<AllAutomationsViewModel>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AllAutomationsViewModel" /> class.
@@ -38,7 +38,7 @@ namespace OpenBots.Server.SDK.Model
         /// <param name="createdBy">createdBy.</param>
         /// <param name="status">status.</param>
         /// <param name="versionNumber">versionNumber.</param>
-        public AllAutomationsViewModel(DateTime? createdOn = default(DateTime?), Guid? id = default(Guid?), string name = default(string), string createdBy = default(string), string status = default(string), int? versionNumber = default(int?))
+        public AllAutomationsViewModel(DateTime? createdOn = default(DateTime?), Guid? id = default(Guid?), string name = default(string), string createdBy = default(string), string status = default(string), string versionNumber = default(string))
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -55,42 +55,42 @@ namespace OpenBots.Server.SDK.Model
             this.Status = status;
             this.VersionNumber = versionNumber;
         }
-        
+
         /// <summary>
         /// Gets or Sets CreatedOn
         /// </summary>
-        [DataMember(Name="createdOn", EmitDefaultValue=false)]
+        [DataMember(Name = "createdOn", EmitDefaultValue = false)]
         public DateTime? CreatedOn { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="id", EmitDefaultValue=false)]
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
+        [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets CreatedBy
         /// </summary>
-        [DataMember(Name="createdBy", EmitDefaultValue=false)]
+        [DataMember(Name = "createdBy", EmitDefaultValue = false)]
         public string CreatedBy { get; set; }
 
         /// <summary>
         /// Gets or Sets Status
         /// </summary>
-        [DataMember(Name="status", EmitDefaultValue=false)]
+        [DataMember(Name = "status", EmitDefaultValue = false)]
         public string Status { get; set; }
 
         /// <summary>
         /// Gets or Sets VersionNumber
         /// </summary>
-        [DataMember(Name="versionNumber", EmitDefaultValue=false)]
-        public int? VersionNumber { get; set; }
+        [DataMember(Name = "versionNumber", EmitDefaultValue = false)]
+        public string VersionNumber { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -109,7 +109,7 @@ namespace OpenBots.Server.SDK.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -139,32 +139,32 @@ namespace OpenBots.Server.SDK.Model
             if (input == null)
                 return false;
 
-            return 
+            return
                 (
                     this.CreatedOn == input.CreatedOn ||
                     (this.CreatedOn != null &&
                     this.CreatedOn.Equals(input.CreatedOn))
-                ) && 
+                ) &&
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.Name == input.Name ||
                     (this.Name != null &&
                     this.Name.Equals(input.Name))
-                ) && 
+                ) &&
                 (
                     this.CreatedBy == input.CreatedBy ||
                     (this.CreatedBy != null &&
                     this.CreatedBy.Equals(input.CreatedBy))
-                ) && 
+                ) &&
                 (
                     this.Status == input.Status ||
                     (this.Status != null &&
                     this.Status.Equals(input.Status))
-                ) && 
+                ) &&
                 (
                     this.VersionNumber == input.VersionNumber ||
                     (this.VersionNumber != null &&

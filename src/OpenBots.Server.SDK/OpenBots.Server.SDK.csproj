@@ -226,8 +226,6 @@ OpenAPI spec version: v1
     <Compile Include="Model\Body13.cs" />
     <Compile Include="Model\Body14.cs" />
     <Compile Include="Model\Body2.cs" />
-    <Compile Include="Model\Body3.cs" />
-    <Compile Include="Model\Body4.cs" />
     <Compile Include="Model\Body5.cs" />
     <Compile Include="Model\Body6.cs" />
     <Compile Include="Model\Body7.cs" />

@@ -27,7 +27,7 @@ namespace OpenBots.Server.SDK.Model
     /// AutomationViewModel
     /// </summary>
     [DataContract]
-        public partial class AutomationViewModel :  IEquatable<AutomationViewModel>, IValidatableObject
+    public partial class AutomationViewModel : IEquatable<AutomationViewModel>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AutomationViewModel" /> class.
@@ -45,15 +45,17 @@ namespace OpenBots.Server.SDK.Model
         /// <param name="versionNumber">versionNumber.</param>
         /// <param name="versionId">versionId.</param>
         /// <param name="status">status.</param>
-        /// <param name="_file">_file.</param>
+        /// <param name="file">file.</param>
         /// <param name="fileId">fileId.</param>
         /// <param name="originalPackageName">originalPackageName.</param>
         /// <param name="publishedBy">publishedBy.</param>
         /// <param name="publishedOnUTC">publishedOnUTC.</param>
         /// <param name="automationEngine">automationEngine.</param>
-        /// <param name="driveName">driveName.</param>
-        /// <param name="automtationParameters">automtationParameters.</param>
-        public AutomationViewModel(Guid? id = default(Guid?), bool? isDeleted = false, string createdBy = default(string), DateTime? createdOn = default(DateTime?), string deletedBy = default(string), DateTime? deleteOn = default(DateTime?), byte[] timestamp = default(byte[]), DateTime? updatedOn = default(DateTime?), string updatedBy = default(string), string name = default(string), int? versionNumber = default(int?), Guid? versionId = default(Guid?), string status = default(string), byte[] _file = default(byte[]), Guid? fileId = default(Guid?), string originalPackageName = default(string), string publishedBy = default(string), DateTime? publishedOnUTC = default(DateTime?), string automationEngine = default(string), string driveName = default(string), List<AutomationParameter> automtationParameters = default(List<AutomationParameter>))
+        /// <param name="driveId">driveId.</param>
+        /// <param name="averageSuccessfulExecutionInMinutes">averageSuccessfulExecutionInMinutes.</param>
+        /// <param name="averageUnSuccessfulExecutionInMinutes">averageUnSuccessfulExecutionInMinutes.</param>
+        /// <param name="automationParameters">automationParameters.</param>
+        public AutomationViewModel(Guid? id = default(Guid?), bool? isDeleted = false, string createdBy = default(string), DateTime? createdOn = default(DateTime?), string deletedBy = default(string), DateTime? deleteOn = default(DateTime?), byte[] timestamp = default(byte[]), DateTime? updatedOn = default(DateTime?), string updatedBy = default(string), string name = default(string), string versionNumber = default(string), Guid? versionId = default(Guid?), string status = default(string), byte[] file = default(byte[]), Guid? fileId = default(Guid?), string originalPackageName = default(string), string publishedBy = default(string), DateTime? publishedOnUTC = default(DateTime?), string automationEngine = default(string), string driveId = default(string), long? averageSuccessfulExecutionInMinutes = default(long?), long? averageUnSuccessfulExecutionInMinutes = default(long?), List<AutomationParameter> automationParameters = default(List<AutomationParameter>))
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -84,141 +86,155 @@ namespace OpenBots.Server.SDK.Model
             this.VersionNumber = versionNumber;
             this.VersionId = versionId;
             this.Status = status;
-            this.File = _file;
+            this.File = file;
             this.FileId = fileId;
             this.OriginalPackageName = originalPackageName;
             this.PublishedBy = publishedBy;
             this.PublishedOnUTC = publishedOnUTC;
             this.AutomationEngine = automationEngine;
-            this.DriveName = driveName;
-            this.AutomtationParameters = automtationParameters;
+            this.DriveId = driveId;
+            this.AverageSuccessfulExecutionInMinutes = averageSuccessfulExecutionInMinutes;
+            this.AverageUnSuccessfulExecutionInMinutes = averageUnSuccessfulExecutionInMinutes;
+            this.AutomationParameters = automationParameters;
         }
-        
+
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="id", EmitDefaultValue=false)]
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets IsDeleted
         /// </summary>
-        [DataMember(Name="isDeleted", EmitDefaultValue=false)]
+        [DataMember(Name = "isDeleted", EmitDefaultValue = false)]
         public bool? IsDeleted { get; set; }
 
         /// <summary>
         /// Gets or Sets CreatedBy
         /// </summary>
-        [DataMember(Name="createdBy", EmitDefaultValue=false)]
+        [DataMember(Name = "createdBy", EmitDefaultValue = false)]
         public string CreatedBy { get; set; }
 
         /// <summary>
         /// Gets or Sets CreatedOn
         /// </summary>
-        [DataMember(Name="createdOn", EmitDefaultValue=false)]
+        [DataMember(Name = "createdOn", EmitDefaultValue = false)]
         public DateTime? CreatedOn { get; set; }
 
         /// <summary>
         /// Gets or Sets DeletedBy
         /// </summary>
-        [DataMember(Name="deletedBy", EmitDefaultValue=false)]
+        [DataMember(Name = "deletedBy", EmitDefaultValue = false)]
         public string DeletedBy { get; set; }
 
         /// <summary>
         /// Gets or Sets DeleteOn
         /// </summary>
-        [DataMember(Name="deleteOn", EmitDefaultValue=false)]
+        [DataMember(Name = "deleteOn", EmitDefaultValue = false)]
         public DateTime? DeleteOn { get; set; }
 
         /// <summary>
         /// Gets or Sets Timestamp
         /// </summary>
-        [DataMember(Name="timestamp", EmitDefaultValue=false)]
+        [DataMember(Name = "timestamp", EmitDefaultValue = false)]
         public byte[] Timestamp { get; set; }
 
         /// <summary>
         /// Gets or Sets UpdatedOn
         /// </summary>
-        [DataMember(Name="updatedOn", EmitDefaultValue=false)]
+        [DataMember(Name = "updatedOn", EmitDefaultValue = false)]
         public DateTime? UpdatedOn { get; set; }
 
         /// <summary>
         /// Gets or Sets UpdatedBy
         /// </summary>
-        [DataMember(Name="updatedBy", EmitDefaultValue=false)]
+        [DataMember(Name = "updatedBy", EmitDefaultValue = false)]
         public string UpdatedBy { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
+        [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets VersionNumber
         /// </summary>
-        [DataMember(Name="versionNumber", EmitDefaultValue=false)]
-        public int? VersionNumber { get; set; }
+        [DataMember(Name = "versionNumber", EmitDefaultValue = false)]
+        public string VersionNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets VersionId
         /// </summary>
-        [DataMember(Name="versionId", EmitDefaultValue=false)]
+        [DataMember(Name = "versionId", EmitDefaultValue = false)]
         public Guid? VersionId { get; set; }
 
         /// <summary>
         /// Gets or Sets Status
         /// </summary>
-        [DataMember(Name="status", EmitDefaultValue=false)]
+        [DataMember(Name = "status", EmitDefaultValue = false)]
         public string Status { get; set; }
 
         /// <summary>
         /// Gets or Sets File
         /// </summary>
-        [DataMember(Name="file", EmitDefaultValue=false)]
+        [DataMember(Name = "file", EmitDefaultValue = false)]
         public byte[] File { get; set; }
 
         /// <summary>
         /// Gets or Sets FileId
         /// </summary>
-        [DataMember(Name="fileId", EmitDefaultValue=false)]
+        [DataMember(Name = "fileId", EmitDefaultValue = false)]
         public Guid? FileId { get; set; }
 
         /// <summary>
         /// Gets or Sets OriginalPackageName
         /// </summary>
-        [DataMember(Name="originalPackageName", EmitDefaultValue=false)]
+        [DataMember(Name = "originalPackageName", EmitDefaultValue = false)]
         public string OriginalPackageName { get; set; }
 
         /// <summary>
         /// Gets or Sets PublishedBy
         /// </summary>
-        [DataMember(Name="publishedBy", EmitDefaultValue=false)]
+        [DataMember(Name = "publishedBy", EmitDefaultValue = false)]
         public string PublishedBy { get; set; }
 
         /// <summary>
         /// Gets or Sets PublishedOnUTC
         /// </summary>
-        [DataMember(Name="publishedOnUTC", EmitDefaultValue=false)]
+        [DataMember(Name = "publishedOnUTC", EmitDefaultValue = false)]
         public DateTime? PublishedOnUTC { get; set; }
 
         /// <summary>
         /// Gets or Sets AutomationEngine
         /// </summary>
-        [DataMember(Name="automationEngine", EmitDefaultValue=false)]
+        [DataMember(Name = "automationEngine", EmitDefaultValue = false)]
         public string AutomationEngine { get; set; }
 
         /// <summary>
-        /// Gets or Sets DriveName
+        /// Gets or Sets DriveId
         /// </summary>
-        [DataMember(Name="driveName", EmitDefaultValue=false)]
-        public string DriveName { get; set; }
+        [DataMember(Name = "driveId", EmitDefaultValue = false)]
+        public string DriveId { get; set; }
 
         /// <summary>
-        /// Gets or Sets AutomtationParameters
+        /// Gets or Sets AverageSuccessfulExecutionInMinutes
         /// </summary>
-        [DataMember(Name="automtationParameters", EmitDefaultValue=false)]
-        public List<AutomationParameter> AutomtationParameters { get; set; }
+        [DataMember(Name = "averageSuccessfulExecutionInMinutes", EmitDefaultValue = false)]
+        public long? AverageSuccessfulExecutionInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or Sets AverageUnSuccessfulExecutionInMinutes
+        /// </summary>
+        [DataMember(Name = "averageUnSuccessfulExecutionInMinutes", EmitDefaultValue = false)]
+        public long? AverageUnSuccessfulExecutionInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or Sets AutomationParameters
+        /// </summary>
+        [DataMember(Name = "automationParameters", EmitDefaultValue = false)]
+        public List<AutomationParameter> AutomationParameters { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -247,12 +263,14 @@ namespace OpenBots.Server.SDK.Model
             sb.Append("  PublishedBy: ").Append(PublishedBy).Append("\n");
             sb.Append("  PublishedOnUTC: ").Append(PublishedOnUTC).Append("\n");
             sb.Append("  AutomationEngine: ").Append(AutomationEngine).Append("\n");
-            sb.Append("  DriveName: ").Append(DriveName).Append("\n");
-            sb.Append("  AutomtationParameters: ").Append(AutomtationParameters).Append("\n");
+            sb.Append("  DriveId: ").Append(DriveId).Append("\n");
+            sb.Append("  AverageSuccessfulExecutionInMinutes: ").Append(AverageSuccessfulExecutionInMinutes).Append("\n");
+            sb.Append("  AverageUnSuccessfulExecutionInMinutes: ").Append(AverageUnSuccessfulExecutionInMinutes).Append("\n");
+            sb.Append("  AutomationParameters: ").Append(AutomationParameters).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -282,112 +300,122 @@ namespace OpenBots.Server.SDK.Model
             if (input == null)
                 return false;
 
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.IsDeleted == input.IsDeleted ||
                     (this.IsDeleted != null &&
                     this.IsDeleted.Equals(input.IsDeleted))
-                ) && 
+                ) &&
                 (
                     this.CreatedBy == input.CreatedBy ||
                     (this.CreatedBy != null &&
                     this.CreatedBy.Equals(input.CreatedBy))
-                ) && 
+                ) &&
                 (
                     this.CreatedOn == input.CreatedOn ||
                     (this.CreatedOn != null &&
                     this.CreatedOn.Equals(input.CreatedOn))
-                ) && 
+                ) &&
                 (
                     this.DeletedBy == input.DeletedBy ||
                     (this.DeletedBy != null &&
                     this.DeletedBy.Equals(input.DeletedBy))
-                ) && 
+                ) &&
                 (
                     this.DeleteOn == input.DeleteOn ||
                     (this.DeleteOn != null &&
                     this.DeleteOn.Equals(input.DeleteOn))
-                ) && 
+                ) &&
                 (
                     this.Timestamp == input.Timestamp ||
                     (this.Timestamp != null &&
                     this.Timestamp.Equals(input.Timestamp))
-                ) && 
+                ) &&
                 (
                     this.UpdatedOn == input.UpdatedOn ||
                     (this.UpdatedOn != null &&
                     this.UpdatedOn.Equals(input.UpdatedOn))
-                ) && 
+                ) &&
                 (
                     this.UpdatedBy == input.UpdatedBy ||
                     (this.UpdatedBy != null &&
                     this.UpdatedBy.Equals(input.UpdatedBy))
-                ) && 
+                ) &&
                 (
                     this.Name == input.Name ||
                     (this.Name != null &&
                     this.Name.Equals(input.Name))
-                ) && 
+                ) &&
                 (
                     this.VersionNumber == input.VersionNumber ||
                     (this.VersionNumber != null &&
                     this.VersionNumber.Equals(input.VersionNumber))
-                ) && 
+                ) &&
                 (
                     this.VersionId == input.VersionId ||
                     (this.VersionId != null &&
                     this.VersionId.Equals(input.VersionId))
-                ) && 
+                ) &&
                 (
                     this.Status == input.Status ||
                     (this.Status != null &&
                     this.Status.Equals(input.Status))
-                ) && 
+                ) &&
                 (
                     this.File == input.File ||
                     (this.File != null &&
                     this.File.Equals(input.File))
-                ) && 
+                ) &&
                 (
                     this.FileId == input.FileId ||
                     (this.FileId != null &&
                     this.FileId.Equals(input.FileId))
-                ) && 
+                ) &&
                 (
                     this.OriginalPackageName == input.OriginalPackageName ||
                     (this.OriginalPackageName != null &&
                     this.OriginalPackageName.Equals(input.OriginalPackageName))
-                ) && 
+                ) &&
                 (
                     this.PublishedBy == input.PublishedBy ||
                     (this.PublishedBy != null &&
                     this.PublishedBy.Equals(input.PublishedBy))
-                ) && 
+                ) &&
                 (
                     this.PublishedOnUTC == input.PublishedOnUTC ||
                     (this.PublishedOnUTC != null &&
                     this.PublishedOnUTC.Equals(input.PublishedOnUTC))
-                ) && 
+                ) &&
                 (
                     this.AutomationEngine == input.AutomationEngine ||
                     (this.AutomationEngine != null &&
                     this.AutomationEngine.Equals(input.AutomationEngine))
-                ) && 
+                ) &&
                 (
-                    this.DriveName == input.DriveName ||
-                    (this.DriveName != null &&
-                    this.DriveName.Equals(input.DriveName))
-                ) && 
+                    this.DriveId == input.DriveId ||
+                    (this.DriveId != null &&
+                    this.DriveId.Equals(input.DriveId))
+                ) &&
                 (
-                    this.AutomtationParameters == input.AutomtationParameters ||
-                    this.AutomtationParameters != null &&
-                    input.AutomtationParameters != null &&
-                    this.AutomtationParameters.SequenceEqual(input.AutomtationParameters)
+                    this.AverageSuccessfulExecutionInMinutes == input.AverageSuccessfulExecutionInMinutes ||
+                    (this.AverageSuccessfulExecutionInMinutes != null &&
+                    this.AverageSuccessfulExecutionInMinutes.Equals(input.AverageSuccessfulExecutionInMinutes))
+                ) &&
+                (
+                    this.AverageUnSuccessfulExecutionInMinutes == input.AverageUnSuccessfulExecutionInMinutes ||
+                    (this.AverageUnSuccessfulExecutionInMinutes != null &&
+                    this.AverageUnSuccessfulExecutionInMinutes.Equals(input.AverageUnSuccessfulExecutionInMinutes))
+                ) &&
+                (
+                    this.AutomationParameters == input.AutomationParameters ||
+                    this.AutomationParameters != null &&
+                    input.AutomationParameters != null &&
+                    this.AutomationParameters.SequenceEqual(input.AutomationParameters)
                 );
         }
 
@@ -438,10 +466,14 @@ namespace OpenBots.Server.SDK.Model
                     hashCode = hashCode * 59 + this.PublishedOnUTC.GetHashCode();
                 if (this.AutomationEngine != null)
                     hashCode = hashCode * 59 + this.AutomationEngine.GetHashCode();
-                if (this.DriveName != null)
-                    hashCode = hashCode * 59 + this.DriveName.GetHashCode();
-                if (this.AutomtationParameters != null)
-                    hashCode = hashCode * 59 + this.AutomtationParameters.GetHashCode();
+                if (this.DriveId != null)
+                    hashCode = hashCode * 59 + this.DriveId.GetHashCode();
+                if (this.AverageSuccessfulExecutionInMinutes != null)
+                    hashCode = hashCode * 59 + this.AverageSuccessfulExecutionInMinutes.GetHashCode();
+                if (this.AverageUnSuccessfulExecutionInMinutes != null)
+                    hashCode = hashCode * 59 + this.AverageUnSuccessfulExecutionInMinutes.GetHashCode();
+                if (this.AutomationParameters != null)
+                    hashCode = hashCode * 59 + this.AutomationParameters.GetHashCode();
                 return hashCode;
             }
         }

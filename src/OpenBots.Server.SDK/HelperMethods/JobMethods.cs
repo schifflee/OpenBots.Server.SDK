@@ -76,6 +76,29 @@ namespace OpenBots.Server.SDK.HelperMethods
             }
         }
 
+        public static int UpdateJobViewModel(UserInfo userInfo, string jobId, CreateJobViewModel body, int count = 0)
+        {
+            var jobsApi = GetApiInstance(userInfo.Token, userInfo.ServerUrl);
+
+            try
+            {
+                return jobsApi.ApiVapiVersionJobsIdPutWithHttpInfo(jobId, userInfo.ApiVersion, userInfo.OrganizationId, body).StatusCode;
+            }
+            catch (Exception ex)
+            {
+                if (UtilityMethods.GetErrorCode(ex) == "401" && count < 2)
+                {
+                    UtilityMethods.RefreshToken(userInfo);
+                    count++;
+                    return UpdateJobViewModel(userInfo, jobId, body, count);
+                }
+                else if (ex.Message != "One or more errors occurred.")
+                    throw new InvalidOperationException("Exception when calling JobsApi.UpdateJobViewModel: " + ex.Message);
+                else
+                    throw new InvalidOperationException(ex.InnerException.Message);
+            }
+        }
+
         public static string GetJobStatus(UserInfo userInfo, string jobId)
         {
             var job = GetJobViewModel(userInfo, jobId);

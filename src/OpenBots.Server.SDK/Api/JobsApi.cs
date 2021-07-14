@@ -189,7 +189,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Job details to be updated (optional)</param>
         /// <returns>IActionResult</returns>
-        IActionResult ApiVapiVersionJobsIdPut (string id, string apiVersion, CreateJobViewModel body = null);
+        IActionResult ApiVapiVersionJobsIdPut(string id, string apiVersion, string organizationId, CreateJobViewModel body = null);
 
         /// <summary>
         /// Updates a job
@@ -202,7 +202,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Job details to be updated (optional)</param>
         /// <returns>ApiResponse of IActionResult</returns>
-        ApiResponse<IActionResult> ApiVapiVersionJobsIdPutWithHttpInfo (string id, string apiVersion, CreateJobViewModel body = null);
+        ApiResponse<IActionResult> ApiVapiVersionJobsIdPutWithHttpInfo (string id, string apiVersion, string organizationId, CreateJobViewModel body = null);
         /// <summary>
         /// Updates a job with the specified status
         /// </summary>
@@ -1898,9 +1898,9 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Job details to be updated (optional)</param>
         /// <returns>IActionResult</returns>
-        public IActionResult ApiVapiVersionJobsIdPut (string id, string apiVersion, CreateJobViewModel body = null)
+        public IActionResult ApiVapiVersionJobsIdPut (string id, string apiVersion, string organizationId, CreateJobViewModel body = null)
         {
-             ApiResponse<IActionResult> localVarResponse = ApiVapiVersionJobsIdPutWithHttpInfo(id, apiVersion, body);
+             ApiResponse<IActionResult> localVarResponse = ApiVapiVersionJobsIdPutWithHttpInfo(id, organizationId, apiVersion, body);
              return localVarResponse.Data;
         }
 
@@ -1912,7 +1912,7 @@ namespace OpenBots.Server.SDK.Api
         /// <param name="apiVersion"></param>
         /// <param name="body">Job details to be updated (optional)</param>
         /// <returns>ApiResponse of IActionResult</returns>
-        public ApiResponse< IActionResult > ApiVapiVersionJobsIdPutWithHttpInfo (string id, string apiVersion, CreateJobViewModel body = null)
+        public ApiResponse<IActionResult> ApiVapiVersionJobsIdPutWithHttpInfo(string id, string apiVersion, string organizationId, CreateJobViewModel body = null)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1922,6 +1922,8 @@ namespace OpenBots.Server.SDK.Api
                 throw new ApiException(400, "Missing required parameter 'apiVersion' when calling JobsApi->ApiVapiVersionJobsIdPut");
 
             var localVarPath = "/api/v{apiVersion}/Jobs/{id}";
+            if (!string.IsNullOrEmpty(organizationId))
+                localVarPath = "/api/v{apiVersion}/Organizations/{organizationId}/Jobs/{id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
